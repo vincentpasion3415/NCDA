@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5F5"
     tools:context=".ChatbotActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="?attr/actionBarTheme"
+        app:title="NCDA Chatbot"
+        app:titleTextColor="@android:color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/chatRecyclerView"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintBottom_toTopOf="@+id/inputLayout"
-    app:layout_constraintVertical_weight="1"
-    android:padding="8dp"
-    android:clipToPadding="false"
-    tools:listitem="@layout/item_message_bot" />
+        android:id="@+id/chatRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@+id/messageInputLayout"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_chat_user" />
 
     <LinearLayout
-        android:id="@+id/inputLayout"
-        android:layout_width="0dp"
+        android:id="@+id/messageInputLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:background="?attr/colorSurface"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:background="@android:color/white"
+        android:elevation="4dp">
 
         <EditText
             android:id="@+id/messageEditText"
@@ -38,31 +44,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Type your message..."
-            android:inputType="textCapSentences"
-            android:maxLines="5"
-            android:background="@drawable/rounded_edittext_background"
             android:padding="12dp"
-            android:layout_marginEnd="8dp"/>
+            android:background="@drawable/bg_edittext_rounded"
+            android:maxLines="5"
+            android:inputType="textMultiLine"
+            android:imeOptions="actionSend" />
 
+        <!-- Send Button - Now the only button in the input layout -->
         <ImageButton
             android:id="@+id/sendButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_send"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:contentDescription="Send message" />
-
-        <ImageButton
-            android:id="@+id/micButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="8dp"
-
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:contentDescription="Voice input" />
+            android:background="@drawable/bg_send_button_rounded"
+            android:src="@drawable/ic_send"
+            android:contentDescription="Send Message"
+            app:tint="@color/background_color"
+            android:scaleType="centerInside" />
 
     </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

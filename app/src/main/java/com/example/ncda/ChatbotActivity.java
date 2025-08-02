@@ -1,23 +1,13 @@
-// ChatbotActivity.java
 package com.example.ncda; // IMPORTANT: Ensure this matches your actual package name
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
 import android.util.Log; // Keep for logging
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,38 +30,44 @@ public class ChatbotActivity extends AppCompatActivity {
     private List<ChatMessage> messageList;
     private EditText messageEditText;
     private ImageButton sendButton;
-    private ImageButton micButton;
+    // Removed: private ImageButton micButton; // No longer needed
 
     private NCDABot ncdaBot;
     private ExecutorService executorService;
 
-    private final int SPEECH_REQUEST_CODE = 100;
-    private final int RECORD_AUDIO_PERMISSION_CODE = 101;
+    // Removed: private final int SPEECH_REQUEST_CODE = 100; // No longer needed
+    // Removed: private final int RECORD_AUDIO_PERMISSION_CODE = 101; // No longer needed
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatbot);
 
+        // Initialize Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Enable back button
+            getSupportActionBar().setTitle("NCDA Chatbot");
+        }
+        toolbar.setNavigationOnClickListener(v -> onBackPressed()); // Handle back button click
 
         chatRecyclerView = findViewById(R.id.chatRecyclerView);
         messageEditText = findViewById(R.id.messageEditText);
         sendButton = findViewById(R.id.sendButton);
-        micButton = findViewById(R.id.micButton);
-
+        // Removed: micButton = findViewById(R.id.micButton); // No longer needed
 
         messageList = new ArrayList<>();
         chatAdapter = new ChatAdapter(messageList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setStackFromEnd(true);
+        layoutManager.setStackFromEnd(true); // Keep messages at the bottom
         chatRecyclerView.setLayoutManager(layoutManager);
         chatRecyclerView.setAdapter(chatAdapter);
-
 
         ncdaBot = new NCDABot();
         executorService = Executors.newSingleThreadExecutor();
 
-
+        // Load FAQs in a background thread
         executorService.execute(new Runnable() {
             @Override
             public void run() {
@@ -101,7 +97,7 @@ public class ChatbotActivity extends AppCompatActivity {
             }
         });
 
-
+        // Set up send button click listener
         sendButton.setOnClickListener(v -> {
             String message = messageEditText.getText().toString().trim();
             if (!message.isEmpty()) {
@@ -110,10 +106,9 @@ public class ChatbotActivity extends AppCompatActivity {
             }
         });
 
-
-        micButton.setOnClickListener(v -> {
-            checkAudioPermissionAndStartSpeechRecognition();
-        });
+        // Removed: micButton.setOnClickListener(v -> { // No longer needed
+        // Removed:     checkAudioPermissionAndStartSpeechRecognition(); // No longer needed
+        // Removed: }); // No longer needed
     }
 
     /**
@@ -122,9 +117,7 @@ public class ChatbotActivity extends AppCompatActivity {
      * @param text The message content submitted by the user.
      */
     private void sendMessage(String text) {
-
         addUserMessage(text);
-
 
         executorService.execute(new Runnable() {
             @Override
@@ -151,66 +144,16 @@ public class ChatbotActivity extends AppCompatActivity {
         chatRecyclerView.scrollToPosition(messageList.size() - 1);
     }
 
-
-
-    private void checkAudioPermissionAndStartSpeechRecognition() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String[]{Manifest.permission.RECORD_AUDIO},
-                    RECORD_AUDIO_PERMISSION_CODE
-            );
-        } else {
-            startSpeechToText();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == RECORD_AUDIO_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startSpeechToText();
-            } else {
-                Toast.makeText(this, "Audio recording permission denied.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void startSpeechToText() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak your NCDA question...");
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().getLanguage());
-
-        try {
-            startActivityForResult(intent, SPEECH_REQUEST_CODE);
-        } catch (Exception e) {
-            Toast.makeText(this, "Speech recognition not available on this device.", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SPEECH_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            ArrayList<String> results = data != null ? data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS) : null;
-            String spokenText = (results != null && !results.isEmpty()) ? results.get(0) : null;
-
-            if (spokenText != null) {
-                messageEditText.setText(spokenText);
-
-                sendMessage(spokenText);
-            }
-        }
-    }
+    // Removed: All speech recognition and permission methods:
+    // Removed: private void checkAudioPermissionAndStartSpeechRecognition() { ... }
+    // Removed: @Override public void onRequestPermissionsResult(...) { ... }
+    // Removed: private void startSpeechToText() { ... }
+    // Removed: @Override protected void onActivityResult(...) { ... }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       
+        // Ensure the executor service is shut down to prevent memory leaks
         if (executorService != null && !executorService.isShutdown()) {
             executorService.shutdown();
         }

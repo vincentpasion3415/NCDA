@@ -9,7 +9,15 @@
       "client_info": {
         "mobilesdk_app_id": "1:185621455468:android:a98e4aefa54ec8893aee49",
         "android_client_info": {
-          "package_name": "com.example.ncda"
+          "package_name": "com.example.ncda",
+          "certificate_hash": [
+            {
+              "sha1_cert": "35:02:AB:CD:36:E1:71:35:22:F3:B5:FC:97:7A:43:38:84:EF:4B:A6"
+            },
+            {
+              "sha256_cert": "34:82:17:81:88:cc:db:b9:f5:f8:45:e4:8f:ac:a9:a6:06:8f:2f:97:86:82:bf:5d:00:29:cb:aa:7a:16:fb:78"
+            }
+          ]
         }
       },
       "oauth_client": [],

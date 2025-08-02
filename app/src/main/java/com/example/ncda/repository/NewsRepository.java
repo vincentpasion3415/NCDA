@@ -1,8 +1,8 @@
-package com.example.ncda.repository;
+package com.example.ncda.repository; // Updated package name
 
 import android.util.Log;
 import com.example.ncda.model.NewsArticle;
-import com.google.firebase.Timestamp; // <--- Make sure to import Timestamp
+import com.google.firebase.Timestamp; // Imported Timestamp
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class NewsRepository {
 
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance(); // Initialized db directly
 
     public interface NewsCallback {
         void onNewsLoaded(List<NewsArticle> newsArticles);
@@ -23,15 +23,15 @@ public class NewsRepository {
 
         db.collection("userPreferences").document(userId).get()
                 .addOnSuccessListener(documentSnapshot -> {
-                    Query query = db.collection("announcements"); // <--- Changed from "newsArticles" to "announcements" based on Firestore usage in HomeFragment
+                    Query query = db.collection("announcements"); // Changed from "newsArticles" to "announcements"
 
-                    List<String> preferredCategories = documentSnapshot.get("preferredCategories", List.class);
+                    List<String> preferredCategories = (List<String>) documentSnapshot.get("preferredCategories"); // Corrected cast
                     if (preferredCategories != null && !preferredCategories.isEmpty()) {
                         Log.d("NewsRepository", "User's preferred categories: " + preferredCategories);
                         query = query.whereIn("category", preferredCategories);
                     }
-                    // Order by publishedOn for consistent results, similar to HomeFragment's direct fetch
-                    query = query.orderBy("publishedOn", Query.Direction.DESCENDING); // <--- Added ordering
+                    // Order by publishedOn for consistent results
+                    query = query.orderBy("publishedOn", Query.Direction.DESCENDING); // Added ordering
 
                     query.get().addOnCompleteListener(task -> {
                         if (task.isSuccessful() && task.getResult() != null) {
@@ -42,12 +42,8 @@ public class NewsRepository {
                                 String id = document.getId(); // Get the Firestore document ID
                                 String title = document.getString("title");
                                 String description = document.getString("description");
-                                String imageUrl = document.getString("imageUrl"); // <--- Ensure this is the correct field name for image URL
-                                Timestamp publishedOn = document.getTimestamp("publishedOn"); // <--- Get as Timestamp
-
-                                // You had 'articleUrl' and 'category' here.
-                                // If 'articleUrl' is part of your NewsArticle, you need to add it to the model.
-                                // If 'category' is used for filtering but not displayed, it doesn't belong in NewsArticle.
+                                String imageUrl = document.getString("imageUrl");
+                                Timestamp publishedOn = document.getTimestamp("publishedOn"); // Get as Timestamp
 
                                 // Basic validation for required fields
                                 if (id != null && title != null && description != null && imageUrl != null && publishedOn != null) {

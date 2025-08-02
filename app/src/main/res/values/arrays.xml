@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="appointment_purposes">
+        <item>Select Purpose of Appointment</item>
+        <item>Document Review</item>
+        <item>Consultation</item>
+        <item>Assessment</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="preferred_time_slots">
+        <item>Select Preferred Time Slot</item>
+        <item>9:00 AM - 10:00 AM</item>
+        <item>10:00 AM - 11:00 AM</item>
+        <item>11:00 AM - 12:00 PM</item>
+        <item>1:00 PM - 2:00 PM</item>
+        <item>2:00 PM - 3:00 PM</item>
+        <item>3:00 PM - 4:00 PM</item>
+    </string-array>
+
+    <string-array name="ncda_regions">
+        <item>Select Region</item>
+        <item>National Capital Region (NCR)</item>
+        <item>Region I (Ilocos Region)</item>
+        <item>Region II (Cagayan Valley)</item>
+        <item>Region III (Central Luzon)</item>
+        <item>Region IV-A (CALABARZON)</item>
+        <item>Region IV-B (MIMAROPA)</item>
+        <item>Region V (Bicol Region)</item>
+        <item>Region VI (Western Visayas)</item>
+        <item>Region VII (Central Visayas)</item>
+        <item>Region VIII (Eastern Visayas)</item>
+        <item>Region IX (Zamboanga Peninsula)</item>
+        <item>Region X (Northern Mindanao)</item>
+        <item>Region XI (Davao Region)</item>
+        <item>Region XII (SOCCSKSARGEN)</item>
+        <item>Region XIII (Caraga)</item>
+        <item>Cordillera Administrative Region (CAR)</item>
+        <item>BARMM (Bangsamoro Autonomous Region in Muslim Mindanao)</item>
+    </string-array>
+
+    <string-array name="default_offices">
+        <item>Select Office</item>
+        <item>NCDA Main Office</item>
+    </string-array>
+
+    <string-array name="ncr_offices">
+        <item>Select Office</item>
+        <item>NCDA Central Office</item>
+        <item>NCR Satellite Office - Quezon City</item>
+        <item>NCR Satellite Office - Manila</item>
+    </string-array>
+
+    <string-array name="ilocos_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office I - San Fernando, La Union</item>
+        <item>Satellite Office - Vigan City, Ilocos Sur</item>
+    </string-array>
+
+    <string-array name="cagayan_valley_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office II - Tuguegarao City</item>
+        <item>Satellite Office - Cauayan City, Isabela</item>
+    </string-array>
+
+    <string-array name="central_luzon_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office III - San Fernando, Pampanga</item>
+        <item>Satellite Office - Balanga City, Bataan</item>
+    </string-array>
+
+    <string-array name="calabarzon_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office IV-A - Calamba City, Laguna</item>
+        <item>Satellite Office - Batangas City, Batangas</item>
+    </string-array>
+
+    <string-array name="mimaropa_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office IV-B - Calapan City, Oriental Mindoro</item>
+        <item>Satellite Office - Puerto Princesa City, Palawan</item>
+    </string-array>
+
+    <string-array name="bicol_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office V - Legazpi City, Albay</item>
+        <item>Satellite Office - Naga City, Camarines Sur</item>
+    </string-array>
+
+    <string-array name="western_visayas_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office VI - Iloilo City</item>
+        <item>Satellite Office - Bacolod City, Negros Occidental</item>
+    </string-array>
+
+    <string-array name="central_visayas_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office VII - Cebu City</item>
+        <item>Satellite Office - Dumaguete City, Negros Oriental</item>
+    </string-array>
+
+    <string-array name="eastern_visayas_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office VIII - Tacloban City</item>
+        <item>Satellite Office - Catbalogan City, Samar</item>
+    </string-array>
+
+    <string-array name="zamboanga_peninsula_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office IX - Zamboanga City</item>
+        <item>Satellite Office - Dipolog City, Zamboanga del Norte</item>
+    </string-array>
+
+    <string-array name="northern_mindanao_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office X - Cagayan de Oro City</item>
+        <item>Satellite Office - Iligan City, Lanao del Norte</item>
+    </string-array>
+
+    <string-array name="davao_region_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office XI - Davao City</item>
+        <item>Satellite Office - Tagum City, Davao del Norte</item>
+    </string-array>
+
+    <string-array name="soccsksargen_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office XII - Koronadal City, South Cotabato</item>
+        <item>Satellite Office - General Santos City</item>
+    </string-array>
+
+    <string-array name="caraga_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office XIII - Butuan City, Agusan del Norte</item>
+        <item>Satellite Office - Surigao City, Surigao del Norte</item>
+    </string-array>
+
+    <string-array name="car_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office CAR - Baguio City</item>
+        <item>Satellite Office - La Trinidad, Benguet</item>
+    </string-array>
+
+    <string-array name="barmm_offices">
+        <item>Select Office</item>
+        <item>NCDA Regional Office BARMM - Cotabato City</item>
+        <item>Satellite Office - Marawi City, Lanao del Sur</item>
+    </string-array>
+</resources>

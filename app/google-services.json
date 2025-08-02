@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "185621455468",
+    "project_id": "ncda-8dc71",
+    "storage_bucket": "ncda-8dc71.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185621455468:android:a98e4aefa54ec8893aee49",
+        "android_client_info": {
+          "package_name": "com.example.ncda"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl9IygYoC0OhQhqNB9O_89J2_pcdfqa_M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

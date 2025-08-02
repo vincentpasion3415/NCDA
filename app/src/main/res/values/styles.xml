@@ -1,0 +1,10 @@
+<resources>
+    <style name="CircularImageViewStyle" parent="">
+        <item name="android:shape">oval</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+    <style name="RatingBarYellow" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressTint">#FFD700</item> <!-- Gold/Yellow color -->
+        <item name="android:progressBackgroundTint">#E0E0E0</item> <!-- Grey background for unrated stars -->
+    </style>
+</resources>

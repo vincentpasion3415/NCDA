@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">NCDA</string>
+
+    <string name="about_ncda_title">Tungkol sa NCDA</string>
+    <string name="about_ncda_text">
+        Ang National Council on Disability Affairs (NCDA) ay ang tagapagbuo ng mga polisiya, tagapag-ugnay, at tagapag-monitor ng gobyerno ng Pilipinas para sa mga isyung may kaugnayan sa kapansanan.\n
+        Nilalayon nitong isulong ang mga karapatan at kapakanan ng mga taong may kapansanan sa Pilipinas.\n
+        Maaari kang makahanap ng karagdagang impormasyon sa opisyal na website: https://ncda.gov.ph/.
+    </string>
+
+    <string name="ncda_mission_title">Misyon</string>
+    <string name="ncda_mission_text">
+        Magbigay ng direksyon sa lahat ng mga stakeholder sa pamamagitan ng pagbuo ng mga polisiya, koordinasyon, pagsubaybay, at pagsusuri ng lahat ng mga aktibidad upang "ISAKATUPARAN ANG MGA KARAPATAN" para sa lahat.
+    </string>
+
+    <string name="ncda_vision_title">Pananaw</string>
+    <string name="ncda_vision_text">
+        Lahat ng taong may kapansanan ay makakamit ang kanilang buong potensyal at maging aktibong kalahok sa pagbuo ng bansa.
+    </string>
+
+    <string name="ncda_core_values_title">Mga Halagang Pangunahing ng NCDA</string>
+    <string name="ncda_core_values_text">
+        Komunidad: Isang halagang tumutulong sa NCDA na maging pangkulturang tagapag-ugnay.\n
+        Propesyonalismo: Isang halagang tumutulong sa NCDA na maisakatuparan ang misyon nito.\n
+        Pagkakaiba-iba at pagsasama: Isang halagang tumutulong sa NCDA na maisakatuparan ang misyon nito.\n
+        Kakayahan: Isang halagang tumutulong sa NCDA na maisakatuparan ang misyon nito.\n
+        Integridad: Isang halagang tumutulong sa NCDA na panatilihin ang katapatan at etikal na pag-uugali.\n
+        Inspirasyon: Isang halagang tumutulong sa NCDA na maisakatuparan ang misyon nito.\n
+        Inobasyon: Isang pangarap na halagang tumutulong sa NCDA na maisakatuparan ang misyon nito.\n
+        Pananagutan: Isang pangarap na halagang tumutulong sa NCDA na maisakatuparan ang misyon nito.
+    </string>
+
+    <string name="ncda_services_title">Mga Serbisyo ng NCDA</string>
+    <string name="ncda_services_text">
+        Pagbuo ng mga polisiya: Lumilikha ang NCDA ng mga polisiya ukol sa pagpigil ng kapansanan, rehabilitasyon, at pantay na oportunidad para sa mga taong may kapansanan.\n
+        Pagsusulong: Ipinagtatanggol ng NCDA ang mga karapatan ng mga taong may kapansanan at nagmumungkahi ng mga batas.\n
+        Impormasyon sa publiko: Gumagawa ang NCDA ng mga pampublikong programa ng impormasyon ukol sa pagpigil ng kapansanan, rehabilitasyon, at pantay na oportunidad.\n
+        Kredensyal: Nagbibigay ang NCDA ng mga kredensyal na batay sa kakayahan para sa mga nasa larangan ng pag-unlad ng karera.\n
+        Pagsusuri ng programa: Sinusuri at sinusubaybayan ng NCDA ang mga programang may kaugnayan sa pagpigil ng kapansanan at rehabilitasyon.
+    </string>
+
+    <string-array name="genders_array">
+        <item>Lalaki</item>
+        <item>Babae</item>
+    </string-array>
+
+    <string name="latest_news_placeholder">Ang mga pinakabagong balita na may kaugnayan sa PWD ay ipapakita rito.</string>
+    <string name="voice_command">Utos ng Boses</string>
+</resources>

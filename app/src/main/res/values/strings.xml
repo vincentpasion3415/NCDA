@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">NCDA</string>
+
+    <string name="about_ncda_title">About NCDA</string>
+    <string name="about_ncda_text">
+        The National Council on Disability Affairs (NCDA) is the Philippine government\'s policy-making, coordinating, and monitoring body for disability issues.\n
+        It aims to promote the rights and well-being of persons with disabilities in the Philippines.\n
+        You can find more information on the official website: https://ncda.gov.ph/.
+    </string>
+
+    <string name="ncda_mission_title">Mission</string>
+    <string name="ncda_mission_text">
+        To provide direction to all stakeholders through policy formulation, coordination, monitoring, and evaluation of all activities to “MAKE THE RIGHTS REAL” for all.
+    </string>
+
+    <string name="ncda_vision_title">Vision</string>
+    <string name="ncda_vision_text">
+        All persons with disabilities are able to attain their fullest potential and to become active contributors and participants in nation-building.
+    </string>
+
+    <string name="ncda_core_values_title">NCDA Core Values</string>
+    <string name="ncda_core_values_text">
+        Community: A value that helps the NCDA be culturally unifying.\n
+        Professionalism: A value that helps the NCDA fulfill its mission.\n
+        Diversity and inclusion: A value that helps the NCDA fulfill its mission.\n
+        Competency: A value that helps the NCDA fulfill its mission.\n
+        Integrity: A value that helps the NCDA uphold honesty and ethical behavior.\n
+        Inspiration: A value that helps the NCDA fulfill its mission.\n
+        Innovation: An aspirational value that helps the NCDA fulfill its mission.\n
+        Accountability: An aspirational value that helps the NCDA fulfill its mission.
+    </string>
+
+    <string name="ncda_services_title">NCDA Services</string>
+    <string name="ncda_services_text">
+        Policy development: The NCDA creates policies on disability prevention, rehabilitation, and equal opportunities for people with disabilities.\n
+        Advocacy: The NCDA advocates for the rights of people with disabilities and proposes legislation.\n
+        Public information: The NCDA develops public information programs on disability prevention, rehabilitation, and equal opportunities.\n
+        Credentialing: The NCDA offers competency-based credentials for people in the field of career development.\n
+        Program evaluation: The NCDA evaluates and monitors programs related to disability prevention and rehabilitation.
+    </string>
+    <string-array name="genders_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string name="latest_news_placeholder">Latest PWD-related news will be displayed here.</string>
+    <string name="voice_command">Voice Command</string>
+
+
+    <string name="approval_pending_icon" translatable="false">Application Pending</string>
+</resources>

@@ -1,0 +1,64 @@
+# libs.versions.toml
+
+[versions]
+agp = "8.10.1"
+kotlin = "1.9.24"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.7.0"
+material = "1.12.0"
+coreKtx = "1.15.0"
+activity = "1.10.0"
+constraintlayout = "2.2.0"
+cameraX = "1.3.3"
+
+# --- REMOVED: Dialogflow + gRPC client library versions (no longer needed for REST API) ---
+# dialogflow = "2.27.0"
+# grpcOkhttp = "1.50.2"
+# grpcGoogleCommonProtos = "2.0.0"
+
+# --- REMAINING AUTHENTICATION LIB VERSION (still needed for token generation) ---
+googleAuthLibrary = "1.20.0"
+playServicesAuth = "21.2.0"
+
+# --- NEW: OkHttp and Gson versions for REST API ---
+okhttp = "4.12.0"   # Latest stable version for OkHttp
+gson = "2.10.1"     # Latest stable version for Gson
+# --- END NEW VERSIONS ---
+
+
+[libraries]
+# Core AndroidX
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+
+# CameraX
+androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "cameraX" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraX" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "cameraX" }
+
+# --- REMOVED: Dialogflow + gRPC client libraries ---
+# google-cloud-dialogflow = { group = "com.google.cloud", name = "google-cloud-dialogflow", version.ref = "dialogflow" }
+# grpc-okhttp = { group = "io.grpc", name = "grpc-okhttp", version.ref = "grpcOkhttp" }
+# grpc-google-common-protos = { group = "com.google.api.grpc", name = "grpc-google-common-protos", version.ref = "grpcGoogleCommonProtos" }
+
+# --- REMAINING AUTHENTICATION LIB (still needed for token generation) ---
+google-auth-library-oauth2-http = { group = "com.google.auth", name = "google-auth-library-oauth2-http", version.ref = "googleAuthLibrary" }
+play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
+
+# --- NEW: OkHttp and Gson libraries for REST API ---
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+# --- END NEW LIBRARIES ---
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

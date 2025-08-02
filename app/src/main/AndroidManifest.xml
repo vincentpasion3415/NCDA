@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Permissions here (already present) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Duplicate INTERNET permission, one is enough but doesn't cause harm -->
+    <!-- <uses-permission android:name="android.permission.INTERNET"/> --> <!-- Removed the duplicate here for clarity, but keeping it wouldn't break anything -->
+
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label=""
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.NCDA"
+        tools:targetApi="31">
+        <activity
+            android:name=".NewsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true">
+            <meta-data
+                android:name="com.google.mlkit.vision.DEPENDENCIES"
+                android:value="face" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity android:name=".HelpActivity" />
+        <!-- Your existing FeedbackActivity -->
+        <activity
+            android:name=".FeedbackActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AppointmentSchedulingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PendingApprovalActivity"
+            android:exported="false"
+            android:label="Pending Approval"/>
+
+
+        <!-- NEW: Declaration for your ChatbotActivity -->
+        <activity
+            android:name=".ChatbotActivity"
+            android:exported="false"
+            android:label="NCDA Chatbot"
+            android:parentActivityName=".HelpActivity"> <!-- Suggesting HelpActivity as parent for back navigation -->
+            <!-- If you want the chatbot to be directly launchable from the app launcher (like HomeActivity),
+                 change android:exported="true" and add an <intent-filter> like HomeActivity has.
+                 Otherwise, keep android:exported="false" and launch it from another activity. -->
+        </activity>
+
+    </application>
+
+</manifest>

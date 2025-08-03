@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true" tools:context=".AppointmentDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:titleTextColor="?attr/colorOnPrimary"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:title="Appointment Information" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_detail_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status: "
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:id="@+id/tv_detail_applicant_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Applicant Name: "
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tv_detail_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Number: "
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tv_detail_pwd_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PWD ID: "
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tv_detail_purpose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Purpose: "
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tv_detail_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preferred Date: "
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tv_detail_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preferred Time: "
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tv_detail_special_requests"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Note for your request: "
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tv_detail_timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submitted On: "
+                android:layout_marginBottom="8dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

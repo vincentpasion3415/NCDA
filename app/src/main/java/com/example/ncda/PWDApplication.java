@@ -3,8 +3,9 @@ package com.example.ncda;
 
 import com.google.firebase.firestore.ServerTimestamp;
 import java.util.Date; // Use java.util.Date for Firestore Timestamp field
+import java.io.Serializable;
 
-public class PWDApplication implements SubmissionItem {
+public class PWDApplication implements SubmissionItem,  Serializable {
     private String id; // Document ID from Firestore
     private String address;
     private String applicationType; // "New Application" or "Renewal"

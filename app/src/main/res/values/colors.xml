@@ -10,7 +10,6 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-    <!-- CHANGED: Set background_color and surface_color to absolute white -->
     <color name="background_color">#FFFFFF</color>
     <color name="surface_color">#FFFFFF</color>
 
@@ -25,7 +24,11 @@
     <color name="dark_gray_light">#BDBDBD</color>
     <color name="dark_gray_dark">#616161</color>
     <color name="green">#00FF00</color>
+
     <color name="color_status_pending">#FFA500</color>
     <color name="color_status_approved">#4CAF50</color>
     <color name="color_status_declined">#F44336</color>
+
+    <color name="green_primary">#4CAF50</color>
+    <color name="gray_primary">#9E9E9E</color>
 </resources>

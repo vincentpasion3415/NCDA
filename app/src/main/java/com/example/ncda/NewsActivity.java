@@ -6,8 +6,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.text.method.LinkMovementMethod; // Import the LinkMovementMethod class
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,7 +29,18 @@ public class NewsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news); // Layout for detailed view
+        setContentView(R.layout.activity_news);
+
+        // Find the Toolbar and set it as the activity's action bar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Add the back button to the Toolbar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false); // Hide the default title
+        }
 
         db = FirebaseFirestore.getInstance();
 
@@ -48,6 +61,13 @@ public class NewsActivity extends AppCompatActivity {
         }
     }
 
+    // Override this method to handle the back button click
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     private void loadAnnouncementDetails(String announcementId) {
         db.collection("announcements").document(announcementId)
                 .get()
@@ -57,6 +77,9 @@ public class NewsActivity extends AppCompatActivity {
                         if (announcement != null) {
                             newsTitle.setText(announcement.getTitle());
                             newsDescription.setText(announcement.getDescription());
+
+                            // This is the key line to make links clickable
+                            newsDescription.setMovementMethod(LinkMovementMethod.getInstance());
 
                             // Load image with Glide
                             if (announcement.getImageUrl() != null && !announcement.getImageUrl().isEmpty()) {

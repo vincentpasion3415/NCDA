@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"  tools:context=".AppointmentSchedulingActivity">
+    android:fitsSystemWindows="true"
+    tools:context=".AppointmentSchedulingActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -17,15 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="PWD Appointment"
-                android:textColor="?attr/colorOnPrimary"
-                android:textSize="25sp"
-                android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/voiceCommandButton"
@@ -48,8 +40,8 @@
             android:textColor="?attr/colorOnPrimary"
             android:padding="8dp"
             android:gravity="center"
-            android:visibility="gone"  android:background="?attr/colorPrimaryVariant"
-            />
+            android:visibility="gone"
+            android:background="?attr/colorPrimaryVariant" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -79,23 +71,22 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/fullNameTextInputLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Full Name">
+                    android:hint="First Name">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextFullName"
+                        android:id="@+id/editTextFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <ImageButton
-                    android:id="@+id/fullNameSpeechButton"
+                    android:id="@+id/firstNameSpeechButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:contentDescription="Speak for full name"
+                    android:contentDescription="Speak for first name"
                     android:src="@android:drawable/ic_btn_speak_now"
                     app:tint="?attr/colorOnSurface" />
             </LinearLayout>
@@ -106,7 +97,58 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/contactNumberTextInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Middle Name">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextMiddleName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <ImageButton
+                    android:id="@+id/middleNameSpeechButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="Speak for middle name"
+                    android:src="@android:drawable/ic_btn_speak_now"
+                    app:tint="?attr/colorOnSurface" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Last Name">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextLastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <ImageButton
+                    android:id="@+id/lastNameSpeechButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="Speak for last name"
+                    android:src="@android:drawable/ic_btn_speak_now"
+                    app:tint="?attr/colorOnSurface" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -116,8 +158,7 @@
                         android:id="@+id/editTextContactNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="phone"
-                        android:textColor="?attr/colorOnSurface" />
+                        android:inputType="phone" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <ImageButton
                     android:id="@+id/contactNumberSpeechButton"
@@ -134,46 +175,16 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/emailAddressTextInputLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Email Address">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextEmailAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:textColor="?attr/colorOnSurface" />
-                </com.google.android.material.textfield.TextInputLayout>
-                <ImageButton
-                    android:id="@+id/emailAddressSpeechButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:contentDescription="Speak for email address"
-                    android:src="@android:drawable/ic_btn_speak_now"
-                    app:tint="?attr/colorOnSurface" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/pwdIdTextInputLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="PWD ID Number (Optional)">
+                    android:hint="PWD ID Number">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextPwdId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:textColor="?attr/colorOnSurface" />
+                        android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <ImageButton
                     android:id="@+id/pwdIdSpeechButton"
@@ -188,8 +199,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Appointment Details"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
-                android:textSize="12sp"
+                android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="?attr/colorOnSurface"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp" />
@@ -197,17 +207,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Purpose of Appointment (e.g., Document Review, Consultation)"
+                android:text="Appointment Type"
                 android:textSize="12sp"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="?attr/colorOnSurface" />
             <Spinner
-                android:id="@+id/spinnerPurpose"
+                android:id="@+id/spinnerAppointmentType"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/appointment_purposes"
-                android:textColor="?attr/colorOnSurface" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -239,118 +247,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/preferred_time_slots"
-                android:textColor="?attr/colorOnSurface" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Alternate Date / Time (Optional)"
-                android:textSize="12sp"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?attr/colorOnSurface"
-                android:layout_marginTop="16dp" />
-            <EditText
-                android:id="@+id/editTextAlternateDateTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:clickable="true"
-                android:hint="Select Date and Time (YYYY-MM-DD HH:mm)"
-                android:textColor="?attr/colorOnSurface" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mode of Appointment (In-Person / Virtual)"
-                android:textSize="12sp"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?attr/colorOnSurface"
-                android:layout_marginTop="16dp" />
-            <RadioGroup
-                android:id="@+id/radioGroupMode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/radioButtonInPerson"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="In-Person"
-                    android:textColor="?attr/colorOnSurface" />
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/radioButtonVirtual"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Virtual"
-                    android:textColor="?attr/colorOnSurface" />
-            </RadioGroup>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Location (For In-Person Appointments)"
-                android:textSize="12sp"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
-                android:textColor="?attr/colorOnSurface"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Region / City"
-                android:textSize="12sp"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?attr/colorOnSurface" />
-            <Spinner
-                android:id="@+id/spinnerRegion"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/ncda_regions"
-                android:textColor="?attr/colorOnSurface" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Specific NCDA Office"
-                android:textSize="12sp"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?attr/colorOnSurface"
-                android:layout_marginTop="16dp" />
-            <Spinner
-                android:id="@+id/spinnerOffice"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="?attr/colorOnSurface" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Special Requests / Accessibility Needs"
-                android:textSize="12sp"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
-                android:textColor="?attr/colorOnSurface"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp" />
-
-            <CheckBox
-                android:id="@+id/checkBoxInterpreter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Interpreter Needed?"
-                android:textColor="?attr/colorOnSurface" />
-
-            <CheckBox
-                android:id="@+id/checkBoxWheelchairAccess"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Wheelchair Access Required?"
-                android:textColor="?attr/colorOnSurface" />
+                android:entries="@array/preferred_time_slots" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -358,25 +255,23 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/specialRequestsTextInputLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Other Requests / Concerns">
+                    android:hint="Note for your request">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextSpecialRequests"
+                        android:id="@+id/editTextNote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
-                        android:lines="3"
-                        android:textColor="?attr/colorOnSurface" />
+                        android:lines="3" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <ImageButton
-                    android:id="@+id/specialRequestsSpeechButton"
+                    android:id="@+id/noteSpeechButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:contentDescription="Speak for special requests"
+                    android:contentDescription="Speak for your note"
                     android:src="@android:drawable/ic_btn_speak_now"
                     app:tint="?attr/colorOnSurface" />
             </LinearLayout>
@@ -384,44 +279,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Supporting Documents (If Required)"
-                android:textSize="12sp"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
-                android:textColor="?attr/colorOnSurface"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Upload Section (.jpg, .png, .pdf)"
-                android:textSize="12sp"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?attr/colorOnSurface" />
-            <Button
-                android:id="@+id/buttonUploadDocuments"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Upload Documents"
-                android:textColor="?attr/colorOnSurface" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Confirmation"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
-                android:textSize="12sp"
+                android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="?attr/colorOnSurface"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginTop="16dp" />
 
             <CheckBox
-                android:id="@+id/checkBoxAgreement"
+                android:id="@+id/checkBoxConfirmation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I confirm that the information provided is accurate."
-                android:textColor="?attr/colorOnSurface" />
+                android:text="I confirm the information provided is correct."
+                android:textColor="?attr/colorOnSurface"
+                android:layout_marginTop="16dp" />
 
             <Button
                 android:id="@+id/buttonSubmit"
@@ -434,5 +303,4 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

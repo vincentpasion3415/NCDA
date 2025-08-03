@@ -8,13 +8,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -23,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -35,37 +32,25 @@ import androidx.core.content.ContextCompat;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private static final String TAG = "SettingsActivity";
     private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 1001;
-    private static final int PICK_DOCUMENT_REQUEST = 1002;
 
     private SeekBar fontSizeSeekBar;
     private FirebaseAnalytics mFirebaseAnalytics;
     private SwitchCompat switchDarkMode, switchNotifications; // Changed to SwitchCompat
     private TextView fontSizePreview;
     // Removed LinearLayout fields as they will be local variables
-    // private LinearLayout txtLanguage, txtHelp, txtAbout, txtClearCache, txtFeedback;
+    // private LinearLayout txtLanguage, txtAbout, txtClearCache, txtFeedback;
     private Button btnLogout;
-    private Button btnUploadDocument;
 
     private SharedPreferences sharedPreferences;
     private static final String CHANNEL_ID = "news_channel";
-
-    private FirebaseStorage storage;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +74,6 @@ public class SettingsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
-        // Initialize Firebase Storage and Auth
-        storage = FirebaseStorage.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-
-
         // Initialize UI elements
         fontSizeSeekBar = findViewById(R.id.fontSizeSeekBar);
         if (fontSizeSeekBar == null) Log.e(TAG, "fontSizeSeekBar is null!");
@@ -111,10 +91,8 @@ public class SettingsActivity extends AppCompatActivity {
         LinearLayout txtLanguage = findViewById(R.id.txtLanguage);
         if (txtLanguage == null) Log.e(TAG, "txtLanguage (LinearLayout) is null!");
 
-        // onlineStorageLayout LinearLayout was removed from XML, so no need to find it here
-
-        LinearLayout txtHelp = findViewById(R.id.txtHelp);
-        if (txtHelp == null) Log.e(TAG, "txtHelp (LinearLayout) is null!");
+        // LinearLayout txtHelp = findViewById(R.id.txtHelp); // Removed
+        // if (txtHelp == null) Log.e(TAG, "txtHelp (LinearLayout) is null!"); // Removed
 
         LinearLayout txtAbout = findViewById(R.id.txtAbout);
         if (txtAbout == null) Log.e(TAG, "txtAbout (LinearLayout) is null!");
@@ -127,9 +105,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         btnLogout = findViewById(R.id.btnLogout);
         if (btnLogout == null) Log.e(TAG, "btnLogout is null!");
-
-        btnUploadDocument = findViewById(R.id.btnUploadDocument);
-        if (btnUploadDocument == null) Log.e(TAG, "btnUploadDocument is null!");
 
 
         // Load and apply font size settings
@@ -210,19 +185,13 @@ public class SettingsActivity extends AppCompatActivity {
             Log.e(TAG, "txtLanguage is null, cannot set OnClickListener!");
         }
 
-        if (btnUploadDocument != null) {
-            btnUploadDocument.setOnClickListener(v -> pickDocumentForUpload());
-        } else {
-            Log.e(TAG, "btnUploadDocument is null, cannot set OnClickListener!");
-        }
-
-        if (txtHelp != null) {
-            txtHelp.setOnClickListener(v -> {
-                startActivity(new Intent(this, HelpActivity.class));
-            });
-        } else {
-            Log.e(TAG, "txtHelp is null, cannot set OnClickListener!");
-        }
+        // if (txtHelp != null) { // Removed
+        //     txtHelp.setOnClickListener(v -> { // Removed
+        //         startActivity(new Intent(this, HelpActivity.class)); // Removed
+        //     }); // Removed
+        // } else { // Removed
+        //     Log.e(TAG, "txtHelp is null, cannot set OnClickListener!"); // Removed
+        // } // Removed
 
         if (txtAbout != null) {
             txtAbout.setOnClickListener(v -> {
@@ -275,139 +244,6 @@ public class SettingsActivity extends AppCompatActivity {
         super.onResume();
         logAnalyticsEvent("user_engagement", "SettingsActivity", "User actively engaging in settings");
         updateNotificationSwitchState();
-    }
-
-    private void pickDocumentForUpload() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null) {
-            Toast.makeText(this, "Please log in to use online storage.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("*/*");
-        String[] mimeTypes = {"application/pdf", "image/*", "text/plain", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"};
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-
-        try {
-            startActivityForResult(Intent.createChooser(intent, "Select a Document to Upload"), PICK_DOCUMENT_REQUEST);
-            logAnalyticsEvent("document_upload_initiated", TAG, "User opened file picker for upload.");
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, "No file manager app found to pick documents.", Toast.LENGTH_LONG).show();
-            Log.e(TAG, "No activity found to handle document picking: " + ex.getMessage());
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_DOCUMENT_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri fileUri = data.getData();
-            Log.d(TAG, "Selected file URI: " + fileUri.toString());
-            uploadFileToFirebaseStorage(fileUri);
-        } else if (requestCode == PICK_DOCUMENT_REQUEST && resultCode == RESULT_CANCELED) {
-            Toast.makeText(this, "Document selection cancelled.", Toast.LENGTH_SHORT).show();
-            logAnalyticsEvent("document_upload_cancelled", TAG, "User cancelled document selection.");
-        }
-    }
-
-    private void uploadFileToFirebaseStorage(Uri fileUri) {
-        final FirebaseUser currentUser = mAuth.getCurrentUser(); // Made effectively final
-        if (currentUser == null) {
-            Toast.makeText(this, "Error: User not logged in. Cannot upload document.", Toast.LENGTH_SHORT).show();
-            logAnalyticsEvent("document_upload_failed", TAG, "User not logged in.");
-            return;
-        }
-
-        final String userId = currentUser.getUid(); // Made final
-        String baseFileName = getFileName(fileUri);
-        final String fileNameToUse; // New effectively final variable for filename
-
-        if (baseFileName == null || baseFileName.isEmpty()) {
-            fileNameToUse = "uploaded_document_" + System.currentTimeMillis();
-        } else {
-            fileNameToUse = baseFileName;
-        }
-
-        StorageReference documentRef = storage.getReference()
-                .child("users")
-                .child(userId)
-                .child("documents")
-                .child(fileNameToUse); // Use fileNameToUse here
-
-        Toast.makeText(this, "Uploading " + fileNameToUse + "...", Toast.LENGTH_LONG).show();
-        logAnalyticsEvent("document_upload_started", TAG, "File: " + fileNameToUse);
-
-        UploadTask uploadTask = documentRef.putFile(fileUri);
-
-        uploadTask.addOnProgressListener(snapshot -> {
-            double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
-            Log.d(TAG, "Upload is " + progress + "% done");
-        }).addOnPausedListener(snapshot -> {
-            Log.d(TAG, "Upload is paused");
-            Toast.makeText(this, "Upload paused for " + fileNameToUse, Toast.LENGTH_SHORT).show(); // Use fileNameToUse
-        }).addOnFailureListener(exception -> {
-            Log.e(TAG, "Upload failed for " + fileNameToUse + ": " + exception.getMessage(), exception); // Use fileNameToUse
-            Toast.makeText(this, "Upload failed: " + exception.getMessage(), Toast.LENGTH_LONG).show();
-            logAnalyticsEvent("document_upload_failed", TAG, "File: " + fileNameToUse + ", Error: " + exception.getMessage()); // Use fileNameToUse
-        }).addOnSuccessListener(taskSnapshot -> {
-            documentRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                Log.d(TAG, "Download URL: " + uri.toString());
-                Toast.makeText(this, "Document uploaded successfully!", Toast.LENGTH_LONG).show();
-                logAnalyticsEvent("document_uploaded_success", TAG, "File: " + fileNameToUse + ", URL: " + uri.toString()); // Use fileNameToUse
-                saveDocumentMetadataToFirestore(userId, fileNameToUse, uri.toString()); // Use fileNameToUse
-            }).addOnFailureListener(exception -> {
-                Log.e(TAG, "Failed to get download URL for " + fileNameToUse + ": " + exception.getMessage()); // Use fileNameToUse
-                Toast.makeText(this, "Upload success, but failed to get download URL.", Toast.LENGTH_LONG).show();
-            });
-        });
-    }
-
-    private String getFileName(Uri uri) {
-        String result = null;
-        if (uri.getScheme().equals("content")) {
-            try (android.database.Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
-                if (cursor != null && cursor.moveToFirst()) {
-                    int nameIndex = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME);
-                    if (nameIndex != -1) {
-                        result = cursor.getString(nameIndex);
-                    }
-                }
-            } catch (Exception e) {
-                Log.e(TAG, "Error getting file name from content URI", e);
-            }
-        }
-        if (result == null) {
-            result = uri.getPath();
-            int cut = result.lastIndexOf('/');
-            if (cut != -1) {
-                result = result.substring(cut + 1);
-            }
-        }
-        return result;
-    }
-
-    private void saveDocumentMetadataToFirestore(String userId, String fileName, String downloadUrl) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Map<String, Object> documentData = new HashMap<>();
-        documentData.put("fileName", fileName);
-        documentData.put("downloadUrl", downloadUrl);
-        documentData.put("timestamp", com.google.firebase.firestore.FieldValue.serverTimestamp());
-        documentData.put("uploadedBy", userId);
-
-        db.collection("users").document(userId)
-                .collection("uploaded_documents")
-                .add(documentData)
-                .addOnSuccessListener(documentReference -> {
-                    Log.d(TAG, "Document metadata saved to Firestore with ID: " + documentReference.getId());
-                    Toast.makeText(this, "Document metadata saved!", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error saving document metadata to Firestore: " + e.getMessage(), e);
-                    Toast.makeText(this, "Failed to save document metadata.", Toast.LENGTH_SHORT).show();
-                });
     }
 
     @Override

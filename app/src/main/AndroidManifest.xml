@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permissions here (already present) -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-feature android:name="android.hardware.camera" />
@@ -14,9 +13,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <!-- Duplicate INTERNET permission, one is enough but doesn't cause harm -->
-    <!-- <uses-permission android:name="android.permission.INTERNET"/> --> <!-- Removed the duplicate here for clarity, but keeping it wouldn't break anything -->
-
 
     <application
         android:allowBackup="true"
@@ -28,6 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NCDA"
         tools:targetApi="31">
+
         <activity
             android:name=".NewsActivity"
             android:exported="false" />
@@ -60,7 +57,6 @@
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity android:name=".HelpActivity" />
-        <!-- Your existing FeedbackActivity -->
         <activity
             android:name=".FeedbackActivity"
             android:exported="false" />
@@ -73,16 +69,18 @@
             android:label="Pending Approval"/>
 
 
-        <!-- NEW: Declaration for your ChatbotActivity -->
         <activity
             android:name=".ChatbotActivity"
             android:exported="false"
             android:label="NCDA Chatbot"
-            android:parentActivityName=".HelpActivity"> <!-- Suggesting HelpActivity as parent for back navigation -->
-            <!-- If you want the chatbot to be directly launchable from the app launcher (like HomeActivity),
-                 change android:exported="true" and add an <intent-filter> like HomeActivity has.
-                 Otherwise, keep android:exported="false" and launch it from another activity. -->
-        </activity>
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".HelpActivity"> </activity>
+
+        <activity
+            android:name=".AppointmentDetailActivity"
+            android:exported="false"
+            android:label="Appointment Details"
+            android:parentActivityName=".HomeActivity" />
 
     </application>
 

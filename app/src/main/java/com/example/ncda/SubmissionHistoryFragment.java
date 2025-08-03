@@ -1,10 +1,11 @@
 package com.example.ncda;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider; // Import ViewModelProvider
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,8 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 
 public class SubmissionHistoryFragment extends Fragment {
 
@@ -48,6 +47,22 @@ public class SubmissionHistoryFragment extends Fragment {
         submissionHistoryAdapter = new SubmissionHistoryAdapter();
         recyclerViewSubmissions.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewSubmissions.setAdapter(submissionHistoryAdapter);
+
+        // --- NEW CODE STARTS HERE ---
+        // Set the item click listener on the adapter
+        submissionHistoryAdapter.setOnItemClickListener(item -> {
+            // Check if the clicked item is an Appointment before proceeding
+            if (item instanceof Appointment) {
+                Intent intent = new Intent(getContext(), AppointmentDetailActivity.class);
+                // Cast the item to Appointment and pass it to the new activity
+                intent.putExtra(AppointmentDetailActivity.EXTRA_APPOINTMENT, (Appointment) item);
+                startActivity(intent);
+            } else {
+                // Handle PWDApplication or other item types here later
+                Toast.makeText(getContext(), "PWD Application details not yet available.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // --- NEW CODE ENDS HERE ---
 
 
         submissionHistoryViewModel = new ViewModelProvider(this).get(SubmissionHistoryViewModel.class);

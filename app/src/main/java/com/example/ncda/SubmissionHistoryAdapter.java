@@ -8,16 +8,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.ncda.Appointment; // Your Appointment model
-import com.example.ncda.PWDApplication; // Your PWDApplication model
-import com.example.ncda.R; // R file for your project
-import com.example.ncda.SubmissionItem; // Your SubmissionItem interface
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class SubmissionHistoryAdapter extends ListAdapter<SubmissionItem, SubmissionHistoryAdapter.SubmissionViewHolder> {
 
+    public interface OnItemClickListener {
+        void onItemClick(SubmissionItem item);
+    }
+
+    private OnItemClickListener listener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     private static final int VIEW_TYPE_APPOINTMENT = 1;
     private static final int VIEW_TYPE_PWD_APPLICATION = 2;
@@ -34,7 +39,7 @@ public class SubmissionHistoryAdapter extends ListAdapter<SubmissionItem, Submis
         } else if (item instanceof PWDApplication) {
             return VIEW_TYPE_PWD_APPLICATION;
         }
-        return super.getItemViewType(position); // Should not happen
+        return super.getItemViewType(position);
     }
 
     @NonNull
@@ -48,6 +53,12 @@ public class SubmissionHistoryAdapter extends ListAdapter<SubmissionItem, Submis
     public void onBindViewHolder(@NonNull SubmissionViewHolder holder, int position) {
         SubmissionItem currentItem = getItem(position);
         holder.bind(currentItem);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(currentItem);
+            }
+        });
     }
 
     public static class SubmissionViewHolder extends RecyclerView.ViewHolder {
@@ -69,19 +80,37 @@ public class SubmissionHistoryAdapter extends ListAdapter<SubmissionItem, Submis
         }
 
         public void bind(SubmissionItem item) {
-            tvFullName.setText("Applicant: " + item.getFullName());
+            if (item.getFullName() != null) {
+                tvFullName.setText("Applicant: " + item.getFullName());
+            } else if (item instanceof Appointment) {
+                Appointment appointment = (Appointment) item;
+                String fullName = String.format(Locale.getDefault(), "%s %s %s",
+                        appointment.getFirstName(), appointment.getMiddleName(), appointment.getLastName()).trim();
+                if (fullName.isEmpty()) {
+                    tvFullName.setText("Applicant: N/A");
+                } else {
+                    tvFullName.setText("Applicant: " + fullName);
+                }
+            }
+
             tvSubmissionStatus.setText("Status: " + item.getStatus());
             SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.getDefault());
             tvSubmissionTimestamp.setText("Submitted: " + sdf.format(item.getTimestamp()));
 
-
             if (item instanceof Appointment) {
                 Appointment appointment = (Appointment) item;
                 tvSubmissionType.setText("Appointment Request");
-                tvMainDetail.setText("Purpose: " + appointment.getPurpose());
+
+                if (appointment.getPurpose() != null) {
+                    tvMainDetail.setText("Purpose: " + appointment.getPurpose());
+                } else if (appointment.getAppointmentType() != null) {
+                    tvMainDetail.setText("Purpose: " + appointment.getAppointmentType());
+                } else {
+                    tvMainDetail.setText("Purpose: N/A");
+                }
+
                 tvSecondaryDetail.setText(String.format(Locale.getDefault(), "Date: %s | Time: %s",
                         appointment.getPreferredDate(), appointment.getPreferredTime()));
-
             } else if (item instanceof PWDApplication) {
                 PWDApplication pwdApplication = (PWDApplication) item;
                 tvSubmissionType.setText("PWD Application");
@@ -89,11 +118,10 @@ public class SubmissionHistoryAdapter extends ListAdapter<SubmissionItem, Submis
                 tvSecondaryDetail.setText("Disability: " + pwdApplication.getDisabilityType());
             }
 
-
             if (item.getStatus() != null) {
                 switch (item.getStatus().toLowerCase(Locale.ROOT)) {
                     case "pending":
-                        tvSubmissionStatus.setTextColor(itemView.getContext().getColor(R.color.color_status_pending)); // Define these colors in colors.xml
+                        tvSubmissionStatus.setTextColor(itemView.getContext().getColor(R.color.color_status_pending));
                         break;
                     case "approved":
                         tvSubmissionStatus.setTextColor(itemView.getContext().getColor(R.color.color_status_approved));
@@ -109,11 +137,9 @@ public class SubmissionHistoryAdapter extends ListAdapter<SubmissionItem, Submis
         }
     }
 
-
     private static final DiffUtil.ItemCallback<SubmissionItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<SubmissionItem>() {
         @Override
         public boolean areItemsTheSame(@NonNull SubmissionItem oldItem, @NonNull SubmissionItem newItem) {
-
             return oldItem.getId().equals(newItem.getId());
         }
 

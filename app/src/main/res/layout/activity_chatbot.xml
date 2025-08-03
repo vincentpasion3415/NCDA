@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
+    android:fitsSystemWindows="true"
     tools:context=".ChatbotActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -20,7 +21,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:layout_above="@+id/messageInputLayout"
         android:padding="8dp"
@@ -50,7 +51,6 @@
             android:inputType="textMultiLine"
             android:imeOptions="actionSend" />
 
-        <!-- Send Button - Now the only button in the input layout -->
         <ImageButton
             android:id="@+id/sendButton"
             android:layout_width="48dp"

@@ -1,10 +1,11 @@
 package com.example.ncda;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -15,257 +16,137 @@ import android.provider.Settings;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.text.InputType;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-
-
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
-    private EditText firstNameEditText, lastNameEditText, usernameEditText, emailEditText, phoneNumberEditText, birthEditText;
-    private TextView firstNameTextView, lastNameTextView, usernameTextView, emailTextView, phoneNumberTextView, birthTextView, genderTextView;
-    private Button editButton, saveButton;
-    private FirebaseFirestore db;
-    private FirebaseStorage storage;
-    private StorageReference storageReference;
-    private boolean isEditMode = false;
-    private String userId;
-    private TextView speechStatusTextView;
-    private ImageView profileImageView;
 
+    private static final String TAG = "ProfileActivity";
+    private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private static final int GALLERY_PERMISSION_REQUEST_CODE = 101;
-    private static final int PICK_IMAGE_REQUEST = 1;
-    private static final int REQUEST_CODE_SPEECH_INPUT_COMMANDS = 201;
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
 
-    private Uri imageUri;
+    // Firebase
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private StorageReference storageReference;
+
+    // UI Elements
+    private ShapeableImageView profileImageView;
+    private FloatingActionButton editProfileImageButton;
+    private Button editButton, saveButton;
+    private ImageButton voiceCommandButton;
+
+    // Speech-to-Text buttons
+    private ImageButton firstNameSpeechButton, lastNameSpeechButton, middleNameSpeechButton,
+            emailSpeechButton, phoneNumberSpeechButton, birthSpeechButton,
+            addressSpeechButton, genderSpeechButton;
+
+    // TextViews for displaying profile data
+    private TextView firstNameTextView, emailTextView, phoneNumberTextView, birthTextView, genderTextView, addressTextView, pwdIdNumberTextView, speechStatusTextView;
+
+    // EditTexts and Spinner for editing profile data
+    private EditText firstNameEditText, lastNameEditText, middleNameEditText, emailEditText, phoneNumberEditText, birthEditText, addressEditText, pwdIdNumberEditText;
     private Spinner genderSpinner;
+
+    private boolean isEditMode = false;
+    private String userId;
+
     private SpeechRecognizer speechRecognizer;
-    private EditText currentEditText;
-    private String currentPrompt; // Stores the prompt for field-specific speech input
-    private final Handler handler = new Handler(); // For delayed UI updates
-
-    // --- Speech Recognition Listener with enhanced feedback ---
-    private final RecognitionListener speechRecognitionListener = new RecognitionListener() {
-        @Override
-        public void onReadyForSpeech(Bundle params) {
-            speechStatusTextView.setText(currentPrompt + " (Listening...)"); // Show specific prompt
-        }
-
-        @Override
-        public void onBeginningOfSpeech() {
-            // Optional: Provide a subtle visual cue or sound
-        }
-
-        @Override
-        public void onRmsChanged(float rmsdB) {
-            // Optional: Provide a visual indicator of voice volume
-        }
-
-        @Override
-        public void onBufferReceived(byte[] buffer) {
-        }
-
-        @Override
-        public void onEndOfSpeech() {
-            speechStatusTextView.setText("Processing...");
-        }
-
-        @Override
-        public void onError(int error) {
-            String errorMessage;
-            switch (error) {
-                case SpeechRecognizer.ERROR_AUDIO:
-                    errorMessage = "Audio recording error.";
-                    break;
-                case SpeechRecognizer.ERROR_CLIENT:
-                    errorMessage = "Client side error.";
-                    break;
-                case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
-                    errorMessage = "Insufficient permissions. Please enable in settings.";
-                    break;
-                case SpeechRecognizer.ERROR_NETWORK:
-                    errorMessage = "Network error. Check internet connection.";
-                    break;
-                case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
-                    errorMessage = "Network timeout. Try again.";
-                    break;
-                case SpeechRecognizer.ERROR_NO_MATCH:
-                    errorMessage = "No speech recognized. Please try again.";
-                    break;
-                case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
-                    errorMessage = "Recognition service is busy. Try again soon.";
-                    break;
-                case SpeechRecognizer.ERROR_SERVER:
-                    errorMessage = "Server error. Try again.";
-                    break;
-                case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
-                    errorMessage = "No speech input detected.";
-                    break;
-                default:
-                    errorMessage = "Unknown error occurred: " + error;
-                    break;
-            }
-            speechStatusTextView.setText("Error: " + errorMessage);
-            Log.e("SpeechRecognition", "Error: " + error + " - " + errorMessage);
-            // Clear status after a delay
-            handler.postDelayed(() -> speechStatusTextView.setText(""), 3000);
-        }
-
-        @Override
-        public void onResults(Bundle results) {
-            ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-            if (matches != null && !matches.isEmpty()) {
-                String recognizedText = matches.get(0);
-                if (currentEditText != null) {
-                    currentEditText.setText(recognizedText);
-                    speechStatusTextView.setText("Recognized: " + recognizedText);
-                } else {
-                    Log.w("SpeechRecognition", "currentEditText is null. Recognized text: " + recognizedText);
-                    speechStatusTextView.setText("Recognized but no active field: " + recognizedText);
-                }
-            } else {
-                speechStatusTextView.setText("No speech recognized.");
-            }
-            // Clear status after a short delay
-            handler.postDelayed(() -> speechStatusTextView.setText(""), 2000);
-        }
-
-        @Override
-        public void onPartialResults(Bundle partialResults) {
-        }
-
-        @Override
-        public void onEvent(int eventType, Bundle params) {
-        }
-    };
-    private int activeFieldId;
-
-    private List<String> labels;
-    private static final int IMAGE_SIZE_X = 224;
-    private static final int IMAGE_SIZE_Y = 224;
+    private final Handler handler = new Handler();
+    private EditText currentSpeechInputEditText;
+    private String currentSpeechInputPrompt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
-        boolean darkMode = sharedPreferences.getBoolean("darkMode", false);
-        setAppTheme(darkMode);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        // Initialize Firebase
+        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        storage = FirebaseStorage.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-        profileImageView = findViewById(R.id.profileImageView);
-        firstNameEditText = findViewById(R.id.firstNameEditText);
-        lastNameEditText = findViewById(R.id.lastNameEditText);
-        usernameEditText = findViewById(R.id.usernameEditText);
-        emailEditText = findViewById(R.id.emailEditText);
-        phoneNumberEditText = findViewById(R.id.phoneNumberEditText);
-        birthEditText = findViewById(R.id.birthEditText);
-        genderSpinner = findViewById(R.id.genderSpinner);
-
-        phoneNumberEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        phoneNumberEditText.setHint("11 digits max");
-        phoneNumberEditText.setMaxLines(1);
-        phoneNumberEditText.setMaxEms(11);
-
-        birthEditText.setInputType(InputType.TYPE_NULL);
-        birthEditText.setOnClickListener(v -> showDatePickerDialog());
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.genders_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        genderSpinner.setAdapter(adapter);
-
-        firstNameTextView = findViewById(R.id.firstNameTextView);
-        lastNameTextView = findViewById(R.id.lastNameTextView);
-        usernameTextView = findViewById(R.id.usernameTextView);
-        emailTextView = findViewById(R.id.emailTextView);
-        phoneNumberTextView = findViewById(R.id.phoneNumberTextView);
-        birthTextView = findViewById(R.id.birthTextView);
-        genderTextView = findViewById(R.id.genderTextView);
-        speechStatusTextView = findViewById(R.id.speech_status_text_view);
-
-        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
-        speechRecognizer.setRecognitionListener(speechRecognitionListener);
-
-        initializeSpeechButtons(); // Call this to set up listeners for individual field speech buttons
-        editButton = findViewById(R.id.editButton);
-        saveButton = findViewById(R.id.saveButton);
-        FloatingActionButton editProfileImageButton = findViewById(R.id.editProfileImageButton);
-
-        ImageButton voiceCommandButton = findViewById(R.id.voiceCommandButton);
-        voiceCommandButton.setOnClickListener(v -> startGeneralVoiceRecognition());
-
-        int fontSize = sharedPreferences.getInt("fontSize", 14);
-        applyFontSize(firstNameTextView, fontSize);
-        applyFontSize(lastNameTextView, fontSize);
-        applyFontSize(usernameTextView, fontSize);
-        applyFontSize(emailTextView, fontSize);
-        applyFontSize(phoneNumberTextView, fontSize);
-        applyFontSize(birthTextView, fontSize);
-        applyFontSize(genderTextView, fontSize);
-        applyFontSize(speechStatusTextView, fontSize);
-
-        userId = getIntent().getStringExtra("userId");
-        if (userId != null) {
-            fetchProfileData(userId);
+        // Get userId from intent or current user
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            userId = currentUser.getUid();
         } else {
-            Toast.makeText(this, "User ID not found", Toast.LENGTH_SHORT).show();
-            Log.e("ProfileActivity", "User ID is null in onCreate");
+            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
+        // Initialize Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            // This is the key change: we no longer set the title here.
+            // The title is now a custom TextView in the layout.
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        // Initialize ALL Views
+        initializeViews();
+
+        // Setup Gender Spinner
+        ArrayAdapter<CharSequence> genderAdapter = ArrayAdapter.createFromResource(this,
+                R.array.genders_array, android.R.layout.simple_spinner_item);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderSpinner.setAdapter(genderAdapter);
+
+        // Set Click Listeners
+        editProfileImageButton.setOnClickListener(v -> editProfileImage());
         editButton.setOnClickListener(v -> toggleEditMode());
         saveButton.setOnClickListener(v -> saveChanges());
-        editProfileImageButton.setOnClickListener(v -> editProfileImage());
+        voiceCommandButton.setOnClickListener(v -> startVoiceCommand());
 
-    }
+        // Speech recognition setup
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+        speechRecognizer.setRecognitionListener(speechRecognitionListener);
+        setupSpeechButtons();
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (userId != null) {
-            fetchProfileData(userId);
-        }
+        // Initial state
+        fetchProfileData(userId);
+        setEditModeVisibility(false);
     }
 
     @Override
@@ -274,450 +155,186 @@ public class ProfileActivity extends AppCompatActivity {
         if (speechRecognizer != null) {
             speechRecognizer.destroy();
         }
-
     }
 
-    private void setAppTheme(boolean darkMode) {
-        if (darkMode) {
-            setTheme(R.style.Theme_NCDA_Dark);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            setTheme(R.style.Theme_NCDA);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
+    private void initializeViews() {
+        profileImageView = findViewById(R.id.profileImageView);
+        editProfileImageButton = findViewById(R.id.editProfileImageButton);
+        editButton = findViewById(R.id.editButton);
+        saveButton = findViewById(R.id.saveButton);
+
+        firstNameTextView = findViewById(R.id.firstNameTextView);
+        emailTextView = findViewById(R.id.emailTextView);
+        phoneNumberTextView = findViewById(R.id.phoneNumberTextView);
+        birthTextView = findViewById(R.id.birthTextView);
+        genderTextView = findViewById(R.id.genderTextView);
+        addressTextView = findViewById(R.id.addressTextView);
+        pwdIdNumberTextView = findViewById(R.id.pwdIdNumberTextView);
+        speechStatusTextView = findViewById(R.id.speech_status_text_view);
+
+        firstNameEditText = findViewById(R.id.firstNameEditText);
+        lastNameEditText = findViewById(R.id.lastNameEditText);
+        middleNameEditText = findViewById(R.id.middleNameEditText);
+        emailEditText = findViewById(R.id.emailEditText);
+        phoneNumberEditText = findViewById(R.id.phoneNumberEditText);
+        birthEditText = findViewById(R.id.birthEditText);
+        genderSpinner = findViewById(R.id.genderSpinner);
+        addressEditText = findViewById(R.id.addressEditText);
+        pwdIdNumberEditText = findViewById(R.id.pwdIdNumberEditText);
+
+        // Set PWD ID, Email and Birth date to be non-editable.
+        pwdIdNumberEditText.setEnabled(false);
+        pwdIdNumberEditText.setFocusable(false);
+        emailEditText.setEnabled(false);
+        emailEditText.setFocusable(false);
+        birthEditText.setEnabled(false);
+        birthEditText.setFocusable(false);
+
+        voiceCommandButton = findViewById(R.id.voiceCommandButton);
+        firstNameSpeechButton = findViewById(R.id.firstNameSpeechButton);
+        lastNameSpeechButton = findViewById(R.id.lastNameSpeechButton);
+        middleNameSpeechButton = findViewById(R.id.middleNameSpeechButton);
+        emailSpeechButton = findViewById(R.id.emailSpeechButton);
+        phoneNumberSpeechButton = findViewById(R.id.phoneNumberSpeechButton);
+        birthSpeechButton = findViewById(R.id.birthSpeechButton);
+        addressSpeechButton = findViewById(R.id.addressSpeechButton);
+        genderSpeechButton = findViewById(R.id.genderSpeechButton);
     }
 
-    private void applyFontSize(TextView textView, int fontSize) {
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+    private void setupSpeechButtons() {
+        setupSpeechButton(firstNameSpeechButton, firstNameEditText, "first name");
+        setupSpeechButton(lastNameSpeechButton, lastNameEditText, "last name");
+        setupSpeechButton(middleNameSpeechButton, middleNameEditText, "middle name");
+        setupSpeechButton(phoneNumberSpeechButton, phoneNumberEditText, "phone number");
+        setupSpeechButton(addressSpeechButton, addressEditText, "your address");
+        // Speech buttons for Email, Birth date, and Gender are removed as per user request.
+        // There is no need for a speech button for PWD ID as it is not editable.
     }
 
-
-
-
-
-    private void startGeneralVoiceRecognition() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO_PERMISSION);
-            return;
-        }
-
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().toString()); // Use Locale.getDefault() or specific like "en-PH"
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak a command...");
-
-        try {
-            startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT_COMMANDS);
-        } catch (Exception e) {
-            Toast.makeText(this, "Voice recognition not available: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.e("ProfileActivity", "Error starting general voice recognition: " + e.getMessage());
-        }
-    }
-
-
-    private void speakForField(int fieldId) {
-        activeFieldId = fieldId;
-        EditText targetEditText = null;
-        String prompt = "";
-        if (fieldId == R.id.firstNameTextView) {
-            targetEditText = firstNameEditText;
-            prompt = "Speak the first name";
-        } else if (fieldId == R.id.lastNameTextView) {
-            targetEditText = lastNameEditText;
-            prompt = "Speak the last name";
-        } else if (fieldId == R.id.usernameTextView) {
-            targetEditText = usernameEditText;
-            prompt = "Speak the username";
-        } else if (fieldId == R.id.emailTextView) {
-            targetEditText = emailEditText;
-            prompt = "Speak the email address";
-        } else if (fieldId == R.id.phoneNumberTextView) {
-            targetEditText = phoneNumberEditText;
-            prompt = "Speak the phone number";
-        } else if (fieldId == R.id.birthTextView) {
-            // For birth date, we will typically open the date picker
-            showDatePickerDialog();
-            return; // Exit as we handled it by showing date picker
-        }
-
-        if (targetEditText != null) {
-            setPromptAndStart(targetEditText, prompt);
-        } else {
-            Toast.makeText(this, "Cannot speak for this field.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    private void setPromptAndStart(EditText targetEditText, String prompt) {
-        currentEditText = targetEditText;
-        currentPrompt = prompt;
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO_PERMISSION);
-        } else {
-            startSpeechRecognitionWithPrompt(currentEditText, currentPrompt);
-        }
-    }
-
-    private void startSpeechRecognitionWithPrompt(EditText targetEditText, String prompt) {
-
-        speechRecognizer.stopListening();
-        speechRecognizer.cancel();
-
-        Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().toString());
-        speechIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, prompt);
-
-
-        speechStatusTextView.setText("Ready for " + prompt.toLowerCase() + "...");
-        speechRecognizer.startListening(speechIntent);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE_SPEECH_INPUT_COMMANDS) {
-            if (resultCode == RESULT_OK && data != null) {
-                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                if (result != null && !result.isEmpty()) {
-                    String spokenText = result.get(0).toLowerCase(Locale.getDefault());
-                    Log.d("VoiceCommand", "Recognized text: " + spokenText);
-
-                    handleVoiceCommand(spokenText);
-
+    private void setupSpeechButton(ImageButton button, EditText editText, String prompt) {
+        if (button != null) {
+            button.setOnClickListener(v -> {
+                currentSpeechInputEditText = editText;
+                currentSpeechInputPrompt = prompt;
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+                    startFieldSpecificSpeechRecognition();
                 } else {
-                    Log.e("VoiceCommand", "No speech recognition results.");
-                    Toast.makeText(this, "No speech recognized for command.", Toast.LENGTH_SHORT).show();
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO_PERMISSION);
                 }
-            } else {
-                Log.e("VoiceCommand", "Speech recognition failed: resultCode=" + resultCode);
-                Toast.makeText(this, "Speech recognition failed for command.", Toast.LENGTH_SHORT).show();
-            }
-        }
-        // Handle Image Picker results (Gallery or Camera)
-        else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
-            Bitmap bitmap = null;
-            Uri selectedImageUri = null;
-
-            if (data != null) {
-                if (data.getData() != null) { // From Gallery
-                    selectedImageUri = data.getData();
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Toast.makeText(this, "Error loading image from gallery.", Toast.LENGTH_SHORT).show();
-                    }
-                } else if (data.getExtras() != null && data.getExtras().containsKey("data")) { // From Camera
-                    bitmap = (Bitmap) data.getExtras().get("data");
-                    if (bitmap != null) {
-                        selectedImageUri = getImageUri(bitmap); // Convert bitmap to Uri for consistent handling
-                    }
-                }
-            }
-
-            if (bitmap != null) {
-                profileImageView.setImageBitmap(bitmap);
-
-
-                imageUri = selectedImageUri; // Update the global imageUri
-                uploadProfileImage(imageUri); // Trigger image upload here
-            } else {
-                Toast.makeText(this, "Failed to load image from gallery/camera.", Toast.LENGTH_SHORT).show();
-            }
+            });
         }
     }
 
-    // --- Fuzzy Matching Utility Function ---
-    public static int calculateLevenshteinDistance(String s1, String s2) {
-        s1 = s1.toLowerCase(Locale.getDefault());
-        s2 = s2.toLowerCase(Locale.getDefault());
+    private final RecognitionListener speechRecognitionListener = new RecognitionListener() {
+        @Override
+        public void onReadyForSpeech(Bundle params) {
+            speechStatusTextView.setText(currentSpeechInputPrompt + " (Listening...)");
+            speechStatusTextView.setVisibility(View.VISIBLE);
+        }
+        @Override public void onBeginningOfSpeech() { }
+        @Override public void onRmsChanged(float rmsdB) { }
+        @Override public void onBufferReceived(byte[] buffer) { }
+        @Override
+        public void onEndOfSpeech() {
+            speechStatusTextView.setText("Processing...");
+        }
+        @Override
+        public void onError(int error) {
+            String errorMessage;
+            switch (error) {
+                case SpeechRecognizer.ERROR_AUDIO: errorMessage = "Audio recording error."; break;
+                case SpeechRecognizer.ERROR_CLIENT: errorMessage = "Client side error."; break;
+                case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
+                    errorMessage = "Insufficient permissions.";
+                    showPermissionDialog();
+                    break;
+                case SpeechRecognizer.ERROR_NETWORK: errorMessage = "Network error."; break;
+                case SpeechRecognizer.ERROR_NETWORK_TIMEOUT: errorMessage = "Network timeout."; break;
+                case SpeechRecognizer.ERROR_NO_MATCH: errorMessage = "No speech recognized. Please try again."; break;
+                case SpeechRecognizer.ERROR_RECOGNIZER_BUSY: errorMessage = "Recognition service is busy. Try again soon."; break;
+                case SpeechRecognizer.ERROR_SERVER: errorMessage = "Server error."; break;
+                case SpeechRecognizer.ERROR_SPEECH_TIMEOUT: errorMessage = "No speech input detected."; break;
+                default: errorMessage = "Unknown error occurred."; break;
+            }
+            speechStatusTextView.setText("Error: " + errorMessage);
+            Log.e(TAG, "Speech Error: " + errorMessage);
+            handler.postDelayed(() -> speechStatusTextView.setVisibility(View.GONE), 3000);
+            currentSpeechInputEditText = null;
+            currentSpeechInputPrompt = null;
+        }
 
-        int[] costs = new int[s2.length() + 1];
-        for (int i = 0; i <= s1.length(); i++) {
-            int lastValue = i;
-            for (int j = 0; j <= s2.length(); j++) {
-                if (i == 0)
-                    costs[j] = j;
-                else {
-                    if (j > 0) {
-                        int newValue = costs[j - 1];
-                        if (s1.charAt(i - 1) != s2.charAt(j - 1))
-                            newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
-                        costs[j - 1] = lastValue;
-                        lastValue = newValue;
-                    }
+        @Override
+        public void onResults(Bundle results) {
+            ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            if (matches != null && !matches.isEmpty()) {
+                String recognizedText = matches.get(0);
+                if (currentSpeechInputEditText != null) {
+                    currentSpeechInputEditText.setText(recognizedText);
+                    currentSpeechInputEditText.setSelection(recognizedText.length());
+                    speechStatusTextView.setText("Recognized: " + recognizedText);
+                } else {
+                    speechStatusTextView.setText("Recognized but no active field: " + recognizedText);
                 }
-            }
-            if (i > 0)
-                costs[s2.length()] = lastValue;
-        }
-        return costs[s2.length()];
-    }
-
-
-    private void handleVoiceCommand(String spokenText) {
-        Map<String, Runnable> commands = new HashMap<>();
-
-
-        commands.put("home", () -> {
-            startActivity(new Intent(this, HomeActivity.class));
-            finish();
-        });
-        commands.put("return home", () -> {
-            startActivity(new Intent(this, HomeActivity.class));
-            finish();
-        });
-        commands.put("main menu", () -> {
-            startActivity(new Intent(this, HomeActivity.class));
-            finish();
-        });
-        commands.put("back", this::onBackPressed);
-        commands.put("go back", this::onBackPressed);
-        commands.put("previous page", this::onBackPressed);
-        commands.put("log out", () -> {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        });
-        commands.put("sign out", () -> {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        });
-
-
-        commands.put("edit profile", this::toggleEditMode);
-        commands.put("modify profile", this::toggleEditMode);
-        commands.put("change profile", this::toggleEditMode);
-        commands.put("update profile", this::toggleEditMode);
-
-        commands.put("save changes", this::saveChanges);
-        commands.put("confirm changes", this::saveChanges);
-
-        commands.put("next field", this::navigateNextField);
-        commands.put("move to next", this::navigateNextField);
-        commands.put("previous field", this::navigatePreviousField);
-        commands.put("move to previous", this::navigatePreviousField);
-
-
-        commands.put("enable edit mode", () -> setEditModeVisibility(true));
-        commands.put("turn on edit mode", () -> setEditModeVisibility(true));
-        commands.put("disable edit mode", () -> setEditModeVisibility(false));
-        commands.put("turn off edit mode", () -> setEditModeVisibility(false));
-        commands.put("exit edit mode", () -> setEditModeVisibility(false));
-
-
-        int bestDistance = Integer.MAX_VALUE;
-        Runnable bestAction = null;
-        String matchedCommand = "";
-        int MATCH_THRESHOLD = 2;
-
-        for (Map.Entry<String, Runnable> entry : commands.entrySet()) {
-            int distance = calculateLevenshteinDistance(spokenText, entry.getKey());
-            if (distance < bestDistance) {
-                bestDistance = distance;
-                bestAction = entry.getValue();
-                matchedCommand = entry.getKey();
-            }
-        }
-
-        if (bestAction != null && bestDistance <= MATCH_THRESHOLD) {
-
-            if ((matchedCommand.contains("save") || matchedCommand.contains("confirm")) && !isEditMode) {
-                Toast.makeText(this, "Please enter edit mode first to save changes.", Toast.LENGTH_SHORT).show();
-            } else if ((matchedCommand.contains("next field") || matchedCommand.contains("previous field")) && !isEditMode) {
-                Toast.makeText(this, "Please enter edit mode first to navigate fields.", Toast.LENGTH_SHORT).show();
-            } else if (matchedCommand.contains("open profile") || matchedCommand.contains("view profile") || matchedCommand.contains("my account")) {
-                Toast.makeText(this, "You are already on the profile page.", Toast.LENGTH_SHORT).show();
             } else {
-                bestAction.run();
-                Toast.makeText(this, "Command: '" + matchedCommand + "' executed.", Toast.LENGTH_SHORT).show();
+                speechStatusTextView.setText("No speech recognized.");
             }
+            handler.postDelayed(() -> speechStatusTextView.setVisibility(View.GONE), 2000);
+            currentSpeechInputEditText = null;
+            currentSpeechInputPrompt = null;
+        }
+
+        @Override public void onPartialResults(Bundle partialResults) { }
+        @Override public void onEvent(int eventType, Bundle params) { }
+    };
+
+    private void startFieldSpecificSpeechRecognition() {
+        if (speechRecognizer != null) {
+            Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().toString());
+            speechIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, currentSpeechInputPrompt);
+
+            // These extras extend the silence timeout
+            speechIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 3000L);
+            speechIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 3000L);
+
+            speechRecognizer.startListening(speechIntent);
         } else {
-
-            if (currentEditText != null && isEditMode) {
-                currentEditText.setText(spokenText);
-                Toast.makeText(this, "Inputted to field: " + spokenText, Toast.LENGTH_SHORT).show();
-
-            } else {
-                Log.e("VoiceCommand", "No command recognized and no active field for input.");
-                Toast.makeText(this, "Command not recognized. Say 'help' for commands, or enter edit mode to input text.", Toast.LENGTH_LONG).show();
-            }
+            Toast.makeText(this, "Speech recognition service is not available.", Toast.LENGTH_SHORT).show();
         }
     }
 
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == GALLERY_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                chooseImageFromGallery();
-            } else {
-                Toast.makeText(this, "Gallery permission denied. Cannot select photos.", Toast.LENGTH_LONG).show();
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    new AlertDialog.Builder(this)
-                            .setTitle("Permission Needed")
-                            .setMessage("This app needs gallery access to let you select a profile picture.")
-                            .setPositiveButton("OK", (dialog, which) -> ActivityCompat.requestPermissions(ProfileActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_PERMISSION_REQUEST_CODE))
-                            .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-                            .create()
-                            .show();
-                } else {
-                    new AlertDialog.Builder(this)
-                            .setTitle("Permission Denied Permanently")
-                            .setMessage("Gallery permission is required for this feature. Please enable it in app settings.")
-                            .setPositiveButton("Open Settings", (dialog, which) -> {
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                intent.setData(uri);
-                                startActivity(intent);
-                            })
-                            .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-                            .create()
-                            .show();
-                }
-            }
-        } else if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                takePhotoFromCamera();
-            } else {
-                Toast.makeText(this, "Camera permission denied. Cannot take photos.", Toast.LENGTH_SHORT).show();
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                    new AlertDialog.Builder(this)
-                            .setTitle("Permission Needed")
-                            .setMessage("This app needs camera access to let you take a profile picture.")
-                            .setPositiveButton("OK", (dialog, which) -> ActivityCompat.requestPermissions(ProfileActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE))
-                            .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-                            .create()
-                            .show();
-                } else {
-                    new AlertDialog.Builder(this)
-                            .setTitle("Permission Denied Permanently")
-                            .setMessage("Camera permission is required for this feature. Please enable it in app settings.")
-                            .setPositiveButton("Open Settings", (dialog, which) -> {
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                intent.setData(uri);
-                                startActivity(intent);
-                            })
-                            .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-                            .create()
-                            .show();
-                }
-            }
-        } else if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (currentEditText != null && currentPrompt != null) {
-                    startSpeechRecognitionWithPrompt(currentEditText, currentPrompt);
-                } else {
-                    startGeneralVoiceRecognition(); // Fallback if no specific field was targeted
-                }
-            } else {
-                Toast.makeText(this, "Audio recording permission denied. Voice input will not work.", Toast.LENGTH_SHORT).show();
-            }
-        }
+    private void showPermissionDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Permission Needed")
+                .setMessage("Microphone permission is required for voice input. Please enable it in app settings.")
+                .setPositiveButton("Open Settings", (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss()).create().show();
     }
 
-    private void navigateNextField() {
-        if (!isEditMode) {
-            Toast.makeText(this, "Please enter edit mode to navigate fields.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        // Define the order of fields for navigation
-        int[] fieldOrder = {
-                R.id.firstNameTextView,
-                R.id.lastNameTextView,
-                R.id.usernameTextView,
-                R.id.emailTextView,
-                R.id.phoneNumberTextView,
-                R.id.birthTextView // Birth date will trigger date picker
-        };
-
-        int currentIndex = -1;
-        for (int i = 0; i < fieldOrder.length; i++) {
-            if (activeFieldId == fieldOrder[i]) {
-                currentIndex = i;
-                break;
+    private void setEditModeVisibility(boolean isEnabled) {
+        if (isEnabled) {
+            // Populate EditTexts from TextViews before showing them
+            String fullName = firstNameTextView.getText().toString();
+            String[] names = fullName.split("\\s+");
+            if (names.length > 0) firstNameEditText.setText(names[0]);
+            if (names.length > 2) {
+                middleNameEditText.setText(names[1]);
+                lastNameEditText.setText(names[2]);
+            } else if (names.length > 1) {
+                lastNameEditText.setText(names[1]);
             }
-        }
 
-        int nextIndex = (currentIndex + 1) % fieldOrder.length;
-        speakForField(fieldOrder[nextIndex]);
-    }
-
-    private void navigatePreviousField() {
-        if (!isEditMode) {
-            Toast.makeText(this, "Please enter edit mode to navigate fields.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        int[] fieldOrder = {
-                R.id.firstNameTextView,
-                R.id.lastNameTextView,
-                R.id.usernameTextView,
-                R.id.emailTextView,
-                R.id.phoneNumberTextView,
-                R.id.birthTextView
-        };
-
-        int currentIndex = -1;
-        for (int i = 0; i < fieldOrder.length; i++) {
-            if (activeFieldId == fieldOrder[i]) {
-                currentIndex = i;
-                break;
-            }
-        }
-
-        int previousIndex = (currentIndex - 1 + fieldOrder.length) % fieldOrder.length;
-        speakForField(fieldOrder[previousIndex]);
-    }
-
-    private void setEditModeVisibility(boolean enableEdit) {
-        if (enableEdit == isEditMode) {
-            Toast.makeText(this, enableEdit ? "Already in edit mode." : "Already in view mode.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (enableEdit) {
-            firstNameEditText.setVisibility(View.VISIBLE);
-            lastNameEditText.setVisibility(View.VISIBLE);
-            usernameEditText.setVisibility(View.VISIBLE);
-            emailEditText.setVisibility(View.VISIBLE);
-            phoneNumberEditText.setVisibility(View.VISIBLE);
-            birthEditText.setVisibility(View.VISIBLE);
-            genderSpinner.setVisibility(View.VISIBLE);
-
-            findViewById(R.id.firstNameSpeechButton).setVisibility(View.VISIBLE);
-            findViewById(R.id.lastNameSpeechButton).setVisibility(View.VISIBLE);
-            findViewById(R.id.usernameSpeechButton).setVisibility(View.VISIBLE);
-            findViewById(R.id.emailSpeechButton).setVisibility(View.VISIBLE);
-            findViewById(R.id.phoneNumberSpeechButton).setVisibility(View.VISIBLE);
-            findViewById(R.id.birthSpeechButton).setVisibility(View.VISIBLE);
-
-            firstNameTextView.setVisibility(View.GONE);
-            lastNameTextView.setVisibility(View.GONE);
-            usernameTextView.setVisibility(View.GONE);
-            emailTextView.setVisibility(View.GONE);
-            phoneNumberTextView.setVisibility(View.GONE);
-            birthTextView.setVisibility(View.GONE);
-            genderTextView.setVisibility(View.GONE);
-
-            saveButton.setVisibility(View.VISIBLE);
-            editButton.setText("Cancel");
-
-
-            firstNameEditText.setText(firstNameTextView.getText().toString());
-            lastNameEditText.setText(lastNameTextView.getText().toString());
-            usernameEditText.setText(usernameTextView.getText().toString());
             emailEditText.setText(emailTextView.getText().toString());
-            phoneNumberEditText.setText(phoneNumberTextView.getText().toString().replace("Not Available", ""));
+            phoneNumberEditText.setText(phoneNumberTextView.getText().toString());
             birthEditText.setText(birthTextView.getText().toString());
+            addressEditText.setText(addressTextView.getText().toString());
+            pwdIdNumberEditText.setText(pwdIdNumberTextView.getText().toString());
 
             String currentGender = genderTextView.getText().toString();
             String[] gendersArray = getResources().getStringArray(R.array.genders_array);
@@ -731,42 +348,97 @@ public class ProfileActivity extends AppCompatActivity {
             if (spinnerPosition != -1) {
                 genderSpinner.setSelection(spinnerPosition);
             } else {
-                genderSpinner.setSelection(genderSpinner.getAdapter().getCount() - 1); // Default to last option if no match
+                genderSpinner.setSelection(0);
             }
+
+            // Show editable EditTexts and hide TextViews
+            firstNameEditText.setVisibility(View.VISIBLE);
+            lastNameEditText.setVisibility(View.VISIBLE);
+            middleNameEditText.setVisibility(View.VISIBLE);
+            emailEditText.setVisibility(View.VISIBLE);
+            phoneNumberEditText.setVisibility(View.VISIBLE);
+            addressEditText.setVisibility(View.VISIBLE);
+            genderSpinner.setVisibility(View.VISIBLE);
+            birthEditText.setVisibility(View.VISIBLE);
+
+            // PWD ID and Email are read-only
+            pwdIdNumberEditText.setVisibility(View.VISIBLE);
+            pwdIdNumberTextView.setVisibility(View.GONE);
+            emailEditText.setVisibility(View.VISIBLE);
+            emailTextView.setVisibility(View.GONE);
+            birthEditText.setVisibility(View.VISIBLE);
+            birthTextView.setVisibility(View.GONE);
+
+
+            firstNameTextView.setVisibility(View.GONE);
+            phoneNumberTextView.setVisibility(View.GONE);
+            genderTextView.setVisibility(View.GONE);
+            addressTextView.setVisibility(View.GONE);
+
+
+            saveButton.setVisibility(View.VISIBLE);
+            editButton.setText("Cancel");
+
+            // Show speech buttons for editable fields
+            firstNameSpeechButton.setVisibility(View.VISIBLE);
+            lastNameSpeechButton.setVisibility(View.VISIBLE);
+            middleNameSpeechButton.setVisibility(View.VISIBLE);
+            phoneNumberSpeechButton.setVisibility(View.VISIBLE);
+            addressSpeechButton.setVisibility(View.VISIBLE);
+
+            // Hide speech buttons for non-editable fields (Email, Birth date, Gender)
+            emailSpeechButton.setVisibility(View.GONE);
+            birthSpeechButton.setVisibility(View.GONE);
+            genderSpeechButton.setVisibility(View.GONE);
+            voiceCommandButton.setVisibility(View.VISIBLE);
 
             isEditMode = true;
             Toast.makeText(this, "Edit mode enabled.", Toast.LENGTH_SHORT).show();
 
         } else {
+            // Hide all EditTexts and show TextViews
             firstNameEditText.setVisibility(View.GONE);
             lastNameEditText.setVisibility(View.GONE);
-            usernameEditText.setVisibility(View.GONE);
+            middleNameEditText.setVisibility(View.GONE);
             emailEditText.setVisibility(View.GONE);
             phoneNumberEditText.setVisibility(View.GONE);
             birthEditText.setVisibility(View.GONE);
+            addressEditText.setVisibility(View.GONE);
             genderSpinner.setVisibility(View.GONE);
+            pwdIdNumberEditText.setVisibility(View.GONE);
 
-            findViewById(R.id.firstNameSpeechButton).setVisibility(View.GONE);
-            findViewById(R.id.lastNameSpeechButton).setVisibility(View.GONE);
-            findViewById(R.id.usernameSpeechButton).setVisibility(View.GONE);
-            findViewById(R.id.emailSpeechButton).setVisibility(View.GONE);
-            findViewById(R.id.phoneNumberSpeechButton).setVisibility(View.GONE);
-            findViewById(R.id.birthSpeechButton).setVisibility(View.GONE);
 
+            // Hide speech buttons
+            firstNameSpeechButton.setVisibility(View.GONE);
+            lastNameSpeechButton.setVisibility(View.GONE);
+            middleNameSpeechButton.setVisibility(View.GONE);
+            emailSpeechButton.setVisibility(View.GONE);
+            phoneNumberSpeechButton.setVisibility(View.GONE);
+            birthSpeechButton.setVisibility(View.GONE);
+            addressSpeechButton.setVisibility(View.GONE);
+            genderSpeechButton.setVisibility(View.GONE);
+            speechStatusTextView.setVisibility(View.GONE);
+
+            // Show TextViews
             firstNameTextView.setVisibility(View.VISIBLE);
-            lastNameTextView.setVisibility(View.VISIBLE);
-            usernameTextView.setVisibility(View.VISIBLE);
             emailTextView.setVisibility(View.VISIBLE);
             phoneNumberTextView.setVisibility(View.VISIBLE);
             birthTextView.setVisibility(View.VISIBLE);
             genderTextView.setVisibility(View.VISIBLE);
+            addressTextView.setVisibility(View.VISIBLE);
+            pwdIdNumberTextView.setVisibility(View.VISIBLE);
+
+
             saveButton.setVisibility(View.GONE);
             editButton.setText("Edit");
 
+            // Stop any ongoing speech recognition when exiting edit mode
+            if (speechRecognizer != null) {
+                speechRecognizer.cancel();
+            }
+
             isEditMode = false;
             Toast.makeText(this, "Edit mode disabled.", Toast.LENGTH_SHORT).show();
-
-
             if (userId != null) {
                 fetchProfileData(userId);
             }
@@ -774,95 +446,88 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void toggleEditMode() {
-        setEditModeVisibility(!isEditMode);
+        if (isEditMode) {
+            setEditModeVisibility(false);
+        } else {
+            setEditModeVisibility(true);
+        }
     }
 
     private void saveChanges() {
-        if (userId == null) {
-            Toast.makeText(this, "Error: User ID is null. Cannot save changes.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!isEditMode) {
-            Toast.makeText(this, "Not in edit mode. Nothing to save.", Toast.LENGTH_SHORT).show();
+        if (userId == null || !isEditMode) {
+            Toast.makeText(this, "Error: Cannot save changes.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Basic validation
         if (firstNameEditText.getText().toString().trim().isEmpty() ||
-                lastNameEditText.getText().toString().trim().isEmpty() ||
-                usernameEditText.getText().toString().trim().isEmpty() ||
-                emailEditText.getText().toString().trim().isEmpty()) {
-            Toast.makeText(this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (phoneNumberEditText.getText().toString().length() > 0 && phoneNumberEditText.getText().toString().length() != 11) {
-            Toast.makeText(this, "Phone number must be 11 digits.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailEditText.getText().toString()).matches()) {
-            Toast.makeText(this, "Please enter a valid email address.", Toast.LENGTH_SHORT).show();
+                lastNameEditText.getText().toString().trim().isEmpty()) {
+            Toast.makeText(this, "First Name and Last Name are required fields.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         Map<String, Object> userUpdates = new HashMap<>();
         userUpdates.put("firstName", firstNameEditText.getText().toString());
         userUpdates.put("lastName", lastNameEditText.getText().toString());
-        userUpdates.put("username", usernameEditText.getText().toString());
-        userUpdates.put("email", emailEditText.getText().toString());
-        userUpdates.put("contact Number", phoneNumberEditText.getText().toString());
-        userUpdates.put("birth", birthEditText.getText().toString());
+        userUpdates.put("middleName", middleNameEditText.getText().toString());
+        userUpdates.put("mobileNumber", phoneNumberEditText.getText().toString());
+        userUpdates.put("fullAddress", addressEditText.getText().toString());
         userUpdates.put("gender", genderSpinner.getSelectedItem().toString());
+        // Do not update non-editable fields (PWD ID, Email, Birth Date)
+        // userUpdates.put("pwdIdNumber", pwdIdNumberEditText.getText().toString());
+        // userUpdates.put("email", emailEditText.getText().toString());
+        // userUpdates.put("dateOfBirth", birthEditText.getText().toString());
 
-        db.collection("users").document(userId)
+        db.collection("registrationApplications").document(userId)
                 .set(userUpdates, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(ProfileActivity.this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
-                    setEditModeVisibility(false); // Exit edit mode after saving
-                    fetchProfileData(userId); // Refresh displayed data
+                    setEditModeVisibility(false);
                 })
                 .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error updating profile", e);
                     Toast.makeText(ProfileActivity.this, "Error updating profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e("ProfileActivity", "Error updating document", e);
                 });
     }
 
     private void fetchProfileData(String userId) {
         if (userId == null || userId.isEmpty()) {
-            Log.e("ProfileActivity", "User ID is null or empty in fetchProfileData");
-            Toast.makeText(this, "User ID is invalid. Cannot fetch profile.", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "User ID is null or empty in fetchProfileData");
             return;
         }
 
-        db.collection("users").document(userId).get()
+        db.collection("registrationApplications").document(userId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        firstNameTextView.setText(documentSnapshot.getString("firstName"));
-                        lastNameTextView.setText(documentSnapshot.getString("lastName"));
-                        usernameTextView.setText(documentSnapshot.getString("username"));
+                        String firstName = documentSnapshot.getString("firstName");
+                        String middleName = documentSnapshot.getString("middleName");
+                        String lastName = documentSnapshot.getString("lastName");
+                        String fullName = "";
+                        if (firstName != null) fullName += firstName + " ";
+                        if (middleName != null && !middleName.isEmpty()) fullName += middleName + " ";
+                        if (lastName != null) fullName += lastName;
+                        firstNameTextView.setText(fullName.trim());
+
                         emailTextView.setText(documentSnapshot.getString("email"));
-                        phoneNumberTextView.setText(documentSnapshot.getString("contact Number"));
-                        birthTextView.setText(documentSnapshot.getString("birth"));
+                        phoneNumberTextView.setText(documentSnapshot.getString("mobileNumber"));
+                        birthTextView.setText(documentSnapshot.getString("dateOfBirth"));
                         genderTextView.setText(documentSnapshot.getString("gender"));
+                        addressTextView.setText(documentSnapshot.getString("fullAddress"));
+                        pwdIdNumberTextView.setText(documentSnapshot.getString("pwdIdNumber"));
 
                         String profileImageUrl = documentSnapshot.getString("profileImageUrl");
                         if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
-                            Glide.with(this)
-                                    .load(profileImageUrl)
-                                    .placeholder(R.drawable.default_profile_image) // Placeholder
-                                    .error(R.drawable.error_profile_image)     // Error image
-                                    .into(profileImageView);
+                            Glide.with(this).load(profileImageUrl).placeholder(R.drawable.ic_profile_icon).error(R.drawable.ic_profile_icon).into(profileImageView);
                         } else {
-                            profileImageView.setImageResource(R.drawable.default_profile_image);
+                            profileImageView.setImageResource(R.drawable.ic_profile_icon);
                         }
 
                     } else {
                         Toast.makeText(ProfileActivity.this, "Profile data not found.", Toast.LENGTH_SHORT).show();
-                        Log.d("ProfileActivity", "No such document for userId: " + userId);
                     }
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(ProfileActivity.this, "Error fetching profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e("ProfileActivity", "Error fetching document", e);
+                    Log.e(TAG, "Error fetching document", e);
                 });
     }
 
@@ -909,7 +574,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    // Helper method to get Uri from Bitmap (needed for Camera images)
     private Uri getImageUri(Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -919,7 +583,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void uploadProfileImage(Uri imageUri) {
         if (imageUri != null && userId != null) {
-
             StorageReference profileImageRef = storageReference.child("profile_images/" + userId + ".jpg");
 
             profileImageRef.putFile(imageUri)
@@ -929,7 +592,7 @@ public class ProfileActivity extends AppCompatActivity {
                         Map<String, Object> userUpdates = new HashMap<>();
                         userUpdates.put("profileImageUrl", downloadUrl);
 
-                        db.collection("users").document(userId)
+                        db.collection("registrationApplications").document(userId)
                                 .set(userUpdates, SetOptions.merge())
                                 .addOnSuccessListener(aVoid -> Toast.makeText(ProfileActivity.this, "Profile image uploaded and link saved!", Toast.LENGTH_SHORT).show())
                                 .addOnFailureListener(e -> Toast.makeText(ProfileActivity.this, "Failed to save image link: " + e.getMessage(), Toast.LENGTH_SHORT).show());
@@ -940,31 +603,96 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void showDatePickerDialog() {
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                (view, year1, monthOfYear, dayOfMonth) -> {
-                    Calendar selectedDate = Calendar.getInstance();
-                    selectedDate.set(year1, monthOfYear, dayOfMonth);
-                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
-                    birthEditText.setText(sdf.format(selectedDate.getTime()));
-                }, year, month, day);
-        datePickerDialog.show();
+    private void startVoiceCommand() {
+        if (isEditMode) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say a command, e.g., 'save' or 'cancel'.");
+                try {
+                    startActivityForResult(intent, 201); // Using a new request code for voice navigation
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(this, "Speech recognition not supported.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 201);
+            }
+        } else {
+            Toast.makeText(this, "Voice commands are only available in edit mode.", Toast.LENGTH_SHORT).show();
+        }
     }
 
-
-    private void initializeSpeechButtons() {
-        findViewById(R.id.firstNameSpeechButton).setOnClickListener(v -> speakForField(R.id.firstNameTextView));
-        findViewById(R.id.lastNameSpeechButton).setOnClickListener(v -> speakForField(R.id.lastNameTextView));
-        findViewById(R.id.usernameSpeechButton).setOnClickListener(v -> speakForField(R.id.usernameTextView));
-        findViewById(R.id.emailSpeechButton).setOnClickListener(v -> speakForField(R.id.emailTextView));
-        findViewById(R.id.phoneNumberSpeechButton).setOnClickListener(v -> speakForField(R.id.phoneNumberTextView));
-        findViewById(R.id.birthSpeechButton).setOnClickListener(v -> speakForField(R.id.birthTextView)); // This will trigger showDatePickerDialog
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                takePhotoFromCamera();
+            } else {
+                Toast.makeText(this, "Camera permission is required to take photos.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == GALLERY_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                chooseImageFromGallery();
+            } else {
+                Toast.makeText(this, "Gallery permission is required to select images.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (currentSpeechInputEditText != null) {
+                    startFieldSpecificSpeechRecognition();
+                } else if (isEditMode) {
+                    startVoiceCommand();
+                }
+            } else {
+                Toast.makeText(this, "Audio recording permission is required for voice features.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == PICK_IMAGE_REQUEST) {
+                Uri imageUri = null;
+                if (data != null && data.getData() != null) {
+                    imageUri = data.getData();
+                } else if (data != null && data.getExtras() != null) {
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    if (photo != null) {
+                        imageUri = getImageUri(photo);
+                    }
+                }
+                if (imageUri != null) {
+                    Glide.with(this).load(imageUri).into(profileImageView);
+                    uploadProfileImage(imageUri);
+                }
+            } else if (requestCode == 201 && data != null) { // Voice navigation
+                ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                if (results != null && !results.isEmpty()) {
+                    String recognizedText = results.get(0);
+                    handleVoiceCommandResult(recognizedText);
+                }
+            }
+        }
+    }
 
+    private void handleVoiceCommandResult(String recognizedText) {
+        String lowerCaseCommand = recognizedText.toLowerCase(Locale.ROOT);
+        if (lowerCaseCommand.contains("save")) {
+            if (isEditMode) {
+                saveChanges();
+            }
+        } else if (lowerCaseCommand.contains("cancel")) {
+            if (isEditMode) {
+                toggleEditMode();
+            }
+        } else if (lowerCaseCommand.contains("go back") || lowerCaseCommand.contains("back")) {
+            finish();
+        } else {
+            Toast.makeText(this, "Voice command not recognized. Try 'save', or 'cancel'.", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

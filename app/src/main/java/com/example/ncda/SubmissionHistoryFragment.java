@@ -14,6 +14,14 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SubmissionHistoryFragment extends Fragment {
 
@@ -21,16 +29,17 @@ public class SubmissionHistoryFragment extends Fragment {
     private SubmissionHistoryAdapter submissionHistoryAdapter;
     private ProgressBar progressBarLoading;
     private TextView tvEmptyState;
-    private SubmissionHistoryViewModel submissionHistoryViewModel;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private List<SubmissionItem> submissionList = new ArrayList<>();
 
     public SubmissionHistoryFragment() {
-
+        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_submission_history, container, false);
     }
 
@@ -38,66 +47,120 @@ public class SubmissionHistoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         recyclerViewSubmissions = view.findViewById(R.id.recycler_view_submissions);
         progressBarLoading = view.findViewById(R.id.progress_bar_loading);
         tvEmptyState = view.findViewById(R.id.tv_empty_state);
 
-
         submissionHistoryAdapter = new SubmissionHistoryAdapter();
         recyclerViewSubmissions.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewSubmissions.setAdapter(submissionHistoryAdapter);
 
-        // --- NEW CODE STARTS HERE ---
-        // Set the item click listener on the adapter
+        // Set the item click listener
         submissionHistoryAdapter.setOnItemClickListener(item -> {
-            // Check if the clicked item is an Appointment before proceeding
             if (item instanceof Appointment) {
                 Intent intent = new Intent(getContext(), AppointmentDetailActivity.class);
-                // Cast the item to Appointment and pass it to the new activity
                 intent.putExtra(AppointmentDetailActivity.EXTRA_APPOINTMENT, (Appointment) item);
                 startActivity(intent);
-            } else {
-                // Handle PWDApplication or other item types here later
+            } else if (item instanceof PWDApplication) {
+                // TODO: Handle PWDApplication click
                 Toast.makeText(getContext(), "PWD Application details not yet available.", Toast.LENGTH_SHORT).show();
+            } else if (item instanceof Complaint) {
+                // TODO: Handle Complaint click
+                Toast.makeText(getContext(), "Complaint details not yet available.", Toast.LENGTH_SHORT).show();
             }
         });
-        // --- NEW CODE ENDS HERE ---
+        // fetchSubmissions() call removed from here.
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Fetch data every time the fragment is displayed
+        fetchSubmissions();
+    }
 
-        submissionHistoryViewModel = new ViewModelProvider(this).get(SubmissionHistoryViewModel.class);
+    private void fetchSubmissions() {
+        String userId = mAuth.getCurrentUser().getUid();
+        showLoading(true);
+        submissionList.clear();
 
+        // Use a counter to know when all queries are complete
+        final AtomicInteger pendingQueries = new AtomicInteger(3);
 
-        submissionHistoryViewModel.getSubmissionHistory().observe(getViewLifecycleOwner(), submissions -> {
-            submissionHistoryAdapter.submitList(submissions);
+        // Fetch Appointments
+        db.collection("appointments").whereEqualTo("userId", userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            submissionList.add(doc.toObject(Appointment.class));
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Error fetching appointments.", Toast.LENGTH_SHORT).show();
+                    }
+                    if (pendingQueries.decrementAndGet() == 0) {
+                        onAllQueriesComplete();
+                    }
+                });
 
-            if (submissions.isEmpty()) {
-                tvEmptyState.setVisibility(View.VISIBLE);
-                recyclerViewSubmissions.setVisibility(View.GONE);
-            } else {
-                tvEmptyState.setVisibility(View.GONE);
-                recyclerViewSubmissions.setVisibility(View.VISIBLE);
-            }
-        });
+        // Fetch PWD Applications
+        db.collection("pwdApplications").whereEqualTo("userId", userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            submissionList.add(doc.toObject(PWDApplication.class));
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Error fetching PWD applications.", Toast.LENGTH_SHORT).show();
+                    }
+                    if (pendingQueries.decrementAndGet() == 0) {
+                        onAllQueriesComplete();
+                    }
+                });
 
-        submissionHistoryViewModel.isLoading().observe(getViewLifecycleOwner(), isLoading -> {
-            progressBarLoading.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        // Fetch Complaints
+        db.collection("complaints").whereEqualTo("userId", userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Complaint complaint = doc.toObject(Complaint.class);
+                            // If no status is set, default to "Pending"
+                            if (complaint.getStatus() == null || complaint.getStatus().isEmpty()) {
+                                complaint.setStatus("Pending");
+                            }
+                            submissionList.add(complaint);
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Error fetching complaints.", Toast.LENGTH_SHORT).show();
+                    }
+                    if (pendingQueries.decrementAndGet() == 0) {
+                        onAllQueriesComplete();
+                    }
+                });
+    }
 
-            if (isLoading) {
-                recyclerViewSubmissions.setVisibility(View.GONE);
-                tvEmptyState.setVisibility(View.GONE);
-            }
-        });
+    private void onAllQueriesComplete() {
+        showLoading(false);
+        Collections.sort(submissionList, (o1, o2) -> o2.getTimestamp().compareTo(o1.getTimestamp()));
+        submissionHistoryAdapter.submitList(new ArrayList<>(submissionList));
 
-        submissionHistoryViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
-            if (errorMessage != null && !errorMessage.isEmpty()) {
-                Toast.makeText(getContext(), "Error: " + errorMessage, Toast.LENGTH_LONG).show();
+        if (submissionList.isEmpty()) {
+            tvEmptyState.setVisibility(View.VISIBLE);
+        } else {
+            tvEmptyState.setVisibility(View.GONE);
+        }
+    }
 
-                tvEmptyState.setText("Error loading submissions: " + errorMessage);
-                tvEmptyState.setVisibility(View.VISIBLE);
-                recyclerViewSubmissions.setVisibility(View.GONE);
-            }
-        });
-
+    private void showLoading(boolean isLoading) {
+        if (isLoading) {
+            progressBarLoading.setVisibility(View.VISIBLE);
+            recyclerViewSubmissions.setVisibility(View.GONE);
+            tvEmptyState.setVisibility(View.GONE);
+        } else {
+            progressBarLoading.setVisibility(View.GONE);
+            recyclerViewSubmissions.setVisibility(View.VISIBLE);
+        }
     }
 }

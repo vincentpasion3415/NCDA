@@ -26,8 +26,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.android.material.navigation.NavigationBarView;
 
-import com.google.firebase.firestore.FirebaseFirestore; // ADDED
-import com.google.firebase.firestore.DocumentSnapshot; // ADDED
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -35,13 +35,15 @@ import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
-    private FirebaseFirestore db; // ADDED
+    private FirebaseFirestore db;
 
     private BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
     private static final int REQUEST_CODE_SPEECH_INPUT = 100;
 
     private ImageButton settingsButton;
+    // New button variable
+    private ImageButton complainButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +51,14 @@ public class HomeActivity extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         FirebaseApp.initializeApp(this);
 
-        // MODIFIED: This now calls a method to check the user's status in Firestore
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
             redirectToLogin();
             return;
         }
 
-        db = FirebaseFirestore.getInstance(); // ADDED
-        checkUserApprovalStatus(currentUser); // NEW: Check status before proceeding
+        db = FirebaseFirestore.getInstance();
+        checkUserApprovalStatus(currentUser);
 
         SharedPreferences sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
         boolean darkMode = sharedPreferences.getBoolean("darkMode", false);
@@ -137,9 +138,20 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             Log.e("HomeActivity", "Settings Button (R.id.settingsButton) not found in layout!");
         }
+
+        // New: Handle the click for the complain button
+        complainButton = findViewById(R.id.complainButton);
+        if (complainButton != null) {
+            complainButton.setOnClickListener(v -> {
+                startActivity(new Intent(HomeActivity.this, ComplaintActivity.class));
+                Log.d("HomeActivity", "Complaint button clicked. Launching ComplaintActivity.");
+                mFirebaseAnalytics.logEvent("complaint_button_clicked", null);
+            });
+        } else {
+            Log.e("HomeActivity", "Complaint Button (R.id.complainButton) not found in layout!");
+        }
     }
 
-    // NEW METHOD: Checks the user's approval status in Firestore
     private void checkUserApprovalStatus(FirebaseUser user) {
         db.collection("registrationApplications").document(user.getUid())
                 .get()
@@ -147,14 +159,12 @@ public class HomeActivity extends AppCompatActivity {
                     if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
                         String status = task.getResult().getString("applicationStatus");
                         if (!"Approved".equalsIgnoreCase(status)) {
-                            // User is logged in but not approved, redirect to pending screen
                             Intent intent = new Intent(HomeActivity.this, PendingApprovalActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                             finish();
                         }
                     } else {
-                        // User document not found, redirect to pending screen as a safe default
                         Log.e("HomeActivity", "User document not found. Redirecting to pending approval.");
                         Intent intent = new Intent(HomeActivity.this, PendingApprovalActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -237,8 +247,15 @@ public class HomeActivity extends AppCompatActivity {
                     } else if (spokenText.contains("chatbot") || spokenText.contains("chat with bot") ||
                             spokenText.contains("ask bot") || spokenText.contains("talk to bot")) {
                         startActivity(new Intent(HomeActivity.this, ChatbotActivity.class));
-                    }
-                    else {
+                    } else if (spokenText.contains("referral") || spokenText.contains("government services") ||
+                            spokenText.contains("sss") || spokenText.contains("dswd") ||
+                            spokenText.contains("philhealth") || spokenText.contains("pag-ibig")) {
+                        startActivity(new Intent(HomeActivity.this, ReferralActivity.class));
+                    } else if (spokenText.contains("complaint") || spokenText.contains("report") ||
+                            spokenText.contains("feedback")) {
+                        // New: Voice command for complaint
+                        startActivity(new Intent(HomeActivity.this, ComplaintActivity.class));
+                    } else {
                         Toast.makeText(this, "Command not recognized.", Toast.LENGTH_SHORT).show();
                     }
 

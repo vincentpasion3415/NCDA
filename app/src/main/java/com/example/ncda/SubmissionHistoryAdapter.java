@@ -8,9 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.example.ncda.R;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Objects; // Import the Objects class
 
 public class SubmissionHistoryAdapter extends ListAdapter<SubmissionItem, SubmissionHistoryAdapter.SubmissionViewHolder> {
 
@@ -26,6 +27,7 @@ public class SubmissionHistoryAdapter extends ListAdapter<SubmissionItem, Submis
 
     private static final int VIEW_TYPE_APPOINTMENT = 1;
     private static final int VIEW_TYPE_PWD_APPLICATION = 2;
+    private static final int VIEW_TYPE_COMPLAINT = 3; // New View Type
 
     public SubmissionHistoryAdapter() {
         super(DIFF_CALLBACK);
@@ -38,6 +40,8 @@ public class SubmissionHistoryAdapter extends ListAdapter<SubmissionItem, Submis
             return VIEW_TYPE_APPOINTMENT;
         } else if (item instanceof PWDApplication) {
             return VIEW_TYPE_PWD_APPLICATION;
+        } else if (item instanceof Complaint) { // New condition
+            return VIEW_TYPE_COMPLAINT;
         }
         return super.getItemViewType(position);
     }
@@ -45,6 +49,7 @@ public class SubmissionHistoryAdapter extends ListAdapter<SubmissionItem, Submis
     @NonNull
     @Override
     public SubmissionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // All view types can use the same layout for simplicity
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_submission, parent, false);
         return new SubmissionViewHolder(view);
     }
@@ -80,44 +85,39 @@ public class SubmissionHistoryAdapter extends ListAdapter<SubmissionItem, Submis
         }
 
         public void bind(SubmissionItem item) {
-            if (item.getFullName() != null) {
-                tvFullName.setText("Applicant: " + item.getFullName());
-            } else if (item instanceof Appointment) {
-                Appointment appointment = (Appointment) item;
-                String fullName = String.format(Locale.getDefault(), "%s %s %s",
-                        appointment.getFirstName(), appointment.getMiddleName(), appointment.getLastName()).trim();
-                if (fullName.isEmpty()) {
-                    tvFullName.setText("Applicant: N/A");
-                } else {
-                    tvFullName.setText("Applicant: " + fullName);
-                }
-            }
-
-            tvSubmissionStatus.setText("Status: " + item.getStatus());
             SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.getDefault());
             tvSubmissionTimestamp.setText("Submitted: " + sdf.format(item.getTimestamp()));
 
+            // Set the full name for all submission types using the common getFullName() method
+            if (item.getFullName() != null) {
+                if (item instanceof Complaint) {
+                    tvFullName.setText("Complainant: " + item.getFullName());
+                } else {
+                    tvFullName.setText("Applicant: " + item.getFullName());
+                }
+            }
+
+            // Handle display based on the type of submission
             if (item instanceof Appointment) {
                 Appointment appointment = (Appointment) item;
                 tvSubmissionType.setText("Appointment Request");
+                tvMainDetail.setText("Purpose: " + (appointment.getPurpose() != null ? appointment.getPurpose() : appointment.getAppointmentType()));
+                tvSecondaryDetail.setText(String.format(Locale.getDefault(), "Date: %s | Time: %s", appointment.getPreferredDate(), appointment.getPreferredTime()));
 
-                if (appointment.getPurpose() != null) {
-                    tvMainDetail.setText("Purpose: " + appointment.getPurpose());
-                } else if (appointment.getAppointmentType() != null) {
-                    tvMainDetail.setText("Purpose: " + appointment.getAppointmentType());
-                } else {
-                    tvMainDetail.setText("Purpose: N/A");
-                }
-
-                tvSecondaryDetail.setText(String.format(Locale.getDefault(), "Date: %s | Time: %s",
-                        appointment.getPreferredDate(), appointment.getPreferredTime()));
             } else if (item instanceof PWDApplication) {
                 PWDApplication pwdApplication = (PWDApplication) item;
                 tvSubmissionType.setText("PWD Application");
                 tvMainDetail.setText("Type: " + pwdApplication.getApplicationType());
                 tvSecondaryDetail.setText("Disability: " + pwdApplication.getDisabilityType());
+
+            } else if (item instanceof Complaint) { // New logic for complaints
+                Complaint complaint = (Complaint) item;
+                tvSubmissionType.setText("Complaint");
+                tvMainDetail.setText("Details: " + complaint.getDetails());
+                tvSecondaryDetail.setVisibility(View.GONE); // Complaints don't have a secondary detail
             }
 
+            // Set the status text color
             if (item.getStatus() != null) {
                 switch (item.getStatus().toLowerCase(Locale.ROOT)) {
                     case "pending":
@@ -134,13 +134,15 @@ public class SubmissionHistoryAdapter extends ListAdapter<SubmissionItem, Submis
                         break;
                 }
             }
+            tvSubmissionStatus.setText("Status: " + item.getStatus());
         }
     }
 
     private static final DiffUtil.ItemCallback<SubmissionItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<SubmissionItem>() {
         @Override
         public boolean areItemsTheSame(@NonNull SubmissionItem oldItem, @NonNull SubmissionItem newItem) {
-            return oldItem.getId().equals(newItem.getId());
+            // FIX: Use Objects.equals() to prevent NullPointerException
+            return Objects.equals(oldItem.getId(), newItem.getId());
         }
 
         @Override

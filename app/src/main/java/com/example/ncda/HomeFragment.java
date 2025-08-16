@@ -1,5 +1,4 @@
-// Path: app/src/main/java/com.example.ncda/HomeFragment.java
-package com.example.ncda; // Your main package
+package com.example.ncda;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Button; // Add this import
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,7 +37,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView announcementsRecyclerView;
     private NewsAdapter newsAdapter;
     private List<NewsArticle> announcementsList;
-    private TextView noAnnouncementsMessage; // For the "No announcements found" text
+    private TextView noAnnouncementsMessage;
+    private Button referralButton; // Declared the button here
 
     public HomeFragment() {
         // Required empty public constructor
@@ -47,34 +48,48 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false); // This links to your fragment_home.xml
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Initialize Firestore
         db = FirebaseFirestore.getInstance();
 
         // Initialize RecyclerView and Adapter from the inflated view
         announcementsRecyclerView = view.findViewById(R.id.announcementsRecyclerView);
-        // Set up the layout manager for the RecyclerView (vertical list)
         announcementsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        announcementsList = new ArrayList<>(); // Initialize the list to hold news articles
-        newsAdapter = new NewsAdapter(announcementsList); // Create the adapter with the list
-        announcementsRecyclerView.setAdapter(newsAdapter); // Set the adapter to the RecyclerView
+        announcementsList = new ArrayList<>();
+        newsAdapter = new NewsAdapter(announcementsList);
+        announcementsRecyclerView.setAdapter(newsAdapter);
 
-        // Initialize "No Announcements" message (optional, but good for user feedback)
+        // Initialize "No Announcements" message
         noAnnouncementsMessage = view.findViewById(R.id.no_announcements_message);
         if (noAnnouncementsMessage != null) {
-            noAnnouncementsMessage.setVisibility(View.GONE); // Hidden by default
+            noAnnouncementsMessage.setVisibility(View.GONE);
         }
+
+        // ------------------ NEW CODE STARTS HERE ------------------
+        // Initialize the referral button from the layout file
+        referralButton = view.findViewById(R.id.referral_button);
+
+        // Set an OnClickListener on the button
+        if (referralButton != null) {
+            referralButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Create an Intent to start the ReferralActivity
+                    Intent intent = new Intent(getActivity(), ReferralActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+        // ------------------ NEW CODE ENDS HERE ------------------
 
         // Set up item click listener for the news articles
         newsAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(NewsArticle newsArticle) {
                 Toast.makeText(getContext(), "Opening: " + newsArticle.getTitle(), Toast.LENGTH_SHORT).show();
-
-                // Start NewsActivity to show detailed view of the clicked announcement
                 Intent intent = new Intent(getContext(), NewsActivity.class);
-                intent.putExtra("announcement_id", newsArticle.getId()); // Pass the document ID to NewsActivity
+                intent.putExtra("announcement_id", newsArticle.getId());
                 startActivity(intent);
             }
         });
@@ -82,22 +97,13 @@ public class HomeFragment extends Fragment {
         // Load announcements from Firestore when the fragment view is created
         loadAnnouncements();
 
-        // You can also include other UI elements and logic specific to your HomeFragment here
-        // For example, if you have a welcome message or other dashboard components, add them to fragment_home.xml
-        // and find them here using 'view.findViewById()':
-        // TextView welcomeMessage = view.findViewById(R.id.welcome_message);
-        // if (welcomeMessage != null) {
-        //     welcomeMessage.setText("Welcome from HomeFragment!");
-        // }
-
-        return view; // Return the inflated view
+        return view;
     }
 
-    // Method to fetch announcements from Firestore
     private void loadAnnouncements() {
-        db.collection("announcements") // Access the "announcements" collection
-                .orderBy("publishedOn", Query.Direction.DESCENDING) // Order by 'publishedOn' field, newest first
-                .addSnapshotListener(new EventListener<QuerySnapshot>() { // Real-time listener
+        db.collection("announcements")
+                .orderBy("publishedOn", Query.Direction.DESCENDING)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot snapshots,
                                         @Nullable FirebaseFirestoreException e) {
@@ -112,14 +118,13 @@ public class HomeFragment extends Fragment {
                         if (snapshots != null) {
                             List<NewsArticle> newAnnouncements = new ArrayList<>();
                             for (QueryDocumentSnapshot doc : snapshots) {
-                                NewsArticle announcement = doc.toObject(NewsArticle.class); // Convert document to NewsArticle object
-                                announcement.setId(doc.getId()); // Set the Firestore document ID to the NewsArticle object
+                                NewsArticle announcement = doc.toObject(NewsArticle.class);
+                                announcement.setId(doc.getId());
                                 newAnnouncements.add(announcement);
                             }
-                            newsAdapter.updateNewsList(newAnnouncements); // Update the adapter with the new data
+                            newsAdapter.updateNewsList(newAnnouncements);
                             Log.d(TAG, "Announcements updated: " + newAnnouncements.size() + " items.");
 
-                            // Logic to show/hide the "No announcements" message
                             if (noAnnouncementsMessage != null) {
                                 if (newAnnouncements.isEmpty()) {
                                     noAnnouncementsMessage.setVisibility(View.VISIBLE);

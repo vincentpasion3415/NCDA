@@ -68,7 +68,6 @@
             android:exported="false"
             android:label="Pending Approval"/>
 
-
         <activity
             android:name=".ChatbotActivity"
             android:exported="false"
@@ -81,6 +80,15 @@
             android:exported="false"
             android:label="Appointment Details"
             android:parentActivityName=".HomeActivity" />
+
+        <activity
+            android:name=".ReferralActivity"
+            android:exported="false"
+            android:label="Other Government Services" />
+
+        <activity android:name=".ComplaintActivity"
+            android:exported="false"
+            android:label="Submit a Complaint" />
 
     </application>
 

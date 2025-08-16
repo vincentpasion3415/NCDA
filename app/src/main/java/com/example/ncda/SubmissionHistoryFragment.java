@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -58,21 +56,24 @@ public class SubmissionHistoryFragment extends Fragment {
         recyclerViewSubmissions.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewSubmissions.setAdapter(submissionHistoryAdapter);
 
-        // Set the item click listener
+        // Set the item click listener with the new logic
         submissionHistoryAdapter.setOnItemClickListener(item -> {
             if (item instanceof Appointment) {
                 Intent intent = new Intent(getContext(), AppointmentDetailActivity.class);
                 intent.putExtra(AppointmentDetailActivity.EXTRA_APPOINTMENT, (Appointment) item);
                 startActivity(intent);
             } else if (item instanceof PWDApplication) {
-                // TODO: Handle PWDApplication click
-                Toast.makeText(getContext(), "PWD Application details not yet available.", Toast.LENGTH_SHORT).show();
+                // Handle PWDApplication click by starting a new activity
+                Intent intent = new Intent(getContext(), PWDApplicationDetailsActivity.class);
+                intent.putExtra("pwdApplication", (PWDApplication) item);
+                startActivity(intent);
             } else if (item instanceof Complaint) {
-                // TODO: Handle Complaint click
-                Toast.makeText(getContext(), "Complaint details not yet available.", Toast.LENGTH_SHORT).show();
+                // Handle Complaint click by starting a new activity
+                Intent intent = new Intent(getContext(), ComplaintDetailsActivity.class);
+                intent.putExtra("complaint", (Complaint) item);
+                startActivity(intent);
             }
         });
-        // fetchSubmissions() call removed from here.
     }
 
     @Override
@@ -87,7 +88,6 @@ public class SubmissionHistoryFragment extends Fragment {
         showLoading(true);
         submissionList.clear();
 
-        // Use a counter to know when all queries are complete
         final AtomicInteger pendingQueries = new AtomicInteger(3);
 
         // Fetch Appointments
@@ -126,7 +126,6 @@ public class SubmissionHistoryFragment extends Fragment {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
                             Complaint complaint = doc.toObject(Complaint.class);
-                            // If no status is set, default to "Pending"
                             if (complaint.getStatus() == null || complaint.getStatus().isEmpty()) {
                                 complaint.setStatus("Pending");
                             }

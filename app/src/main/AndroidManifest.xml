@@ -89,6 +89,22 @@
         <activity android:name=".ComplaintActivity"
             android:exported="false"
             android:label="Submit a Complaint" />
+        
+
+        <activity android:name=".SubmissionHistoryActivity"
+            android:exported="false"
+            android:label="Submission History"
+            android:parentActivityName=".HomeActivity" />
+
+        <activity android:name=".PWDApplicationDetailsActivity"
+            android:exported="false"
+            android:label="PWD Application Details"
+            android:parentActivityName=".SubmissionHistoryActivity" />
+
+        <activity android:name=".ComplaintDetailsActivity"
+            android:exported="false"
+            android:label="Complaint Details"
+            android:parentActivityName=".SubmissionHistoryActivity" />
 
     </application>
 

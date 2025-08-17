@@ -10,8 +10,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:titleTextColor="@android:color/white"
+        android:background="#2196F3"
+        app:titleTextColor="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:text="Application Type: "
             android:textSize="18sp"
+            android:textColor="#212121"
             android:layout_marginBottom="8dp"/>
 
         <TextView
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:text="Disability: "
             android:textSize="18sp"
+            android:textColor="#212121"
             android:layout_marginBottom="8dp"/>
 
         <TextView
@@ -44,6 +46,7 @@
             android:layout_height="wrap_content"
             android:text="Status: "
             android:textSize="18sp"
+            android:textColor="#212121"
             android:layout_marginBottom="8dp"/>
 
         <TextView
@@ -52,6 +55,7 @@
             android:layout_height="wrap_content"
             android:text="Applicant: "
             android:textSize="18sp"
+            android:textColor="#212121"
             android:layout_marginBottom="8dp"/>
 
         <TextView
@@ -59,7 +63,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Submitted: "
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:textColor="#212121"/>
 
     </LinearLayout>
 

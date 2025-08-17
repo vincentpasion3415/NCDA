@@ -13,8 +13,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-
-
         <androidx.cardview.widget.CardView
             android:id="@+id/referral_card_view"
             android:layout_width="match_parent"
@@ -34,14 +32,15 @@
                     android:layout_height="wrap_content"
                     android:text="Other Government Services"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="#212121" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Find contact information for SSS, PhilHealth, Pag-IBIG, and other agencies."
-                    android:textColor="?android:attr/textColorSecondary" />
+                    android:textColor="#757575" />
 
                 <Button
                     android:id="@+id/referral_button"
@@ -49,8 +48,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Explore Services"
-                    android:backgroundTint="?attr/colorPrimary"
-                    android:textColor="?attr/colorOnPrimary" />
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -60,6 +59,7 @@
             android:text="Latest Announcements"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="#212121"
             android:layout_marginTop="16dp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -79,7 +79,7 @@
             android:gravity="center"
             android:padding="20dp"
             android:visibility="gone"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="#757575"
             android:layout_marginTop="16dp" />
 
     </LinearLayout>

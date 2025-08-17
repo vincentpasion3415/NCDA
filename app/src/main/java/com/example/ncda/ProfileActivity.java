@@ -68,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     // UI Elements
     private ShapeableImageView profileImageView;
-    private FloatingActionButton editProfileImageButton;
+
     private Button editButton, saveButton;
     private ImageButton voiceCommandButton;
 
@@ -134,7 +134,7 @@ public class ProfileActivity extends AppCompatActivity {
         genderSpinner.setAdapter(genderAdapter);
 
         // Set Click Listeners
-        editProfileImageButton.setOnClickListener(v -> editProfileImage());
+
         editButton.setOnClickListener(v -> toggleEditMode());
         saveButton.setOnClickListener(v -> saveChanges());
         voiceCommandButton.setOnClickListener(v -> startVoiceCommand());
@@ -159,7 +159,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void initializeViews() {
         profileImageView = findViewById(R.id.profileImageView);
-        editProfileImageButton = findViewById(R.id.editProfileImageButton);
         editButton = findViewById(R.id.editButton);
         saveButton = findViewById(R.id.saveButton);
 
@@ -515,11 +514,13 @@ public class ProfileActivity extends AppCompatActivity {
                         pwdIdNumberTextView.setText(documentSnapshot.getString("pwdIdNumber"));
 
                         String profileImageUrl = documentSnapshot.getString("profileImageUrl");
-                        if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
-                            Glide.with(this).load(profileImageUrl).placeholder(R.drawable.ic_profile_icon).error(R.drawable.ic_profile_icon).into(profileImageView);
-                        } else {
-                            profileImageView.setImageResource(R.drawable.ic_profile_icon);
-                        }
+
+                        Glide.with(this)
+                                .load(profileImageUrl)
+                                .placeholder(R.drawable.man)
+                                .error(R.drawable.man)
+                                .into(profileImageView);
+
 
                     } else {
                         Toast.makeText(ProfileActivity.this, "Profile data not found.", Toast.LENGTH_SHORT).show();
@@ -530,6 +531,7 @@ public class ProfileActivity extends AppCompatActivity {
                     Log.e(TAG, "Error fetching document", e);
                 });
     }
+
 
     private void editProfileImage() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

@@ -13,10 +13,10 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-// import android.widget.Switch; // Removed, replaced by SwitchCompat
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.widget.SwitchCompat; // Added for Switch compatibility
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -36,6 +36,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.io.File;
 import java.util.Locale;
 
+/**
+ * Handles the display and logic for the Settings screen.
+ * It sets up the toolbar and makes the back button functional.
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     private static final String TAG = "SettingsActivity";
@@ -43,10 +47,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     private SeekBar fontSizeSeekBar;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private SwitchCompat switchDarkMode, switchNotifications; // Changed to SwitchCompat
+    private SwitchCompat switchNotifications;
     private TextView fontSizePreview;
-    // Removed LinearLayout fields as they will be local variables
-    // private LinearLayout txtLanguage, txtAbout, txtClearCache, txtFeedback;
     private Button btnLogout;
 
     private SharedPreferences sharedPreferences;
@@ -61,25 +63,26 @@ public class SettingsActivity extends AppCompatActivity {
         String savedLanguage = sharedPreferences.getString("language", "en");
         setAppLanguage(savedLanguage);
 
-        boolean darkMode = sharedPreferences.getBoolean("darkMode", false);
-        setAppTheme(darkMode);
-
         setContentView(R.layout.activity_settings);
 
-        // Initialize Toolbar
+        // Initialize Toolbar and set up the back button logic
         Toolbar toolbar = findViewById(R.id.settingsToolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
+            // Hides the default title from the toolbar
             getSupportActionBar().setDisplayShowTitleEnabled(false);
+            // This line enables the back arrow (or 'Up') button in the toolbar
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        // Sets a click listener on the back button.
+        // The `finish()` method will close this activity and go back to the previous one.
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         // Initialize UI elements
         fontSizeSeekBar = findViewById(R.id.fontSizeSeekBar);
         if (fontSizeSeekBar == null) Log.e(TAG, "fontSizeSeekBar is null!");
-
-        switchDarkMode = findViewById(R.id.switchDarkMode);
-        if (switchDarkMode == null) Log.e(TAG, "switchDarkMode is null!");
 
         switchNotifications = findViewById(R.id.switchNotifications);
         if (switchNotifications == null) Log.e(TAG, "switchNotifications is null!");
@@ -90,9 +93,6 @@ public class SettingsActivity extends AppCompatActivity {
         // Declaring LinearLayouts as local variables
         LinearLayout txtLanguage = findViewById(R.id.txtLanguage);
         if (txtLanguage == null) Log.e(TAG, "txtLanguage (LinearLayout) is null!");
-
-        // LinearLayout txtHelp = findViewById(R.id.txtHelp); // Removed
-        // if (txtHelp == null) Log.e(TAG, "txtHelp (LinearLayout) is null!"); // Removed
 
         LinearLayout txtAbout = findViewById(R.id.txtAbout);
         if (txtAbout == null) Log.e(TAG, "txtAbout (LinearLayout) is null!");
@@ -115,11 +115,6 @@ public class SettingsActivity extends AppCompatActivity {
         applyFontSize(fontSizePreview, fontSize);
         applyFontSizeToAllTextViews(fontSize);
 
-        // Set initial state for Dark Mode switch
-        if (switchDarkMode != null) {
-            switchDarkMode.setChecked(darkMode);
-        }
-
         updateNotificationSwitchState();
 
 
@@ -141,17 +136,6 @@ public class SettingsActivity extends AppCompatActivity {
                 public void onStopTrackingTouch(SeekBar seekBar) {
                     Toast.makeText(SettingsActivity.this, "Font size saved", Toast.LENGTH_SHORT).show();
                 }
-            });
-        }
-
-        if (switchDarkMode != null) {
-            switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("darkMode", isChecked);
-                editor.apply();
-                setAppTheme(isChecked);
-                recreate();
-                logAnalyticsEvent("dark_mode_toggled", "SettingsActivity", isChecked ? "Enabled" : "Disabled");
             });
         }
 
@@ -184,14 +168,6 @@ public class SettingsActivity extends AppCompatActivity {
         } else {
             Log.e(TAG, "txtLanguage is null, cannot set OnClickListener!");
         }
-
-        // if (txtHelp != null) { // Removed
-        //     txtHelp.setOnClickListener(v -> { // Removed
-        //         startActivity(new Intent(this, HelpActivity.class)); // Removed
-        //     }); // Removed
-        // } else { // Removed
-        //     Log.e(TAG, "txtHelp is null, cannot set OnClickListener!"); // Removed
-        // } // Removed
 
         if (txtAbout != null) {
             txtAbout.setOnClickListener(v -> {
@@ -238,6 +214,16 @@ public class SettingsActivity extends AppCompatActivity {
 
         createNotificationChannel();
     }
+
+    // You can override onOptionsItemSelected to handle clicks if you prefer
+    // @Override
+    // public boolean onOptionsItemSelected(MenuItem item) {
+    //     if (item.getItemId() == android.R.id.home) {
+    //         onBackPressed();
+    //         return true;
+    //     }
+    //     return super.onOptionsItemSelected(item);
+    // }
 
     @Override
     protected void onResume() {
@@ -341,16 +327,6 @@ public class SettingsActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName);
         bundle.putString(FirebaseAnalytics.Param.VALUE, value);
         mFirebaseAnalytics.logEvent(eventName, bundle);
-    }
-
-    private void setAppTheme(boolean darkMode) {
-        if (darkMode) {
-            setTheme(R.style.Theme_NCDA_Dark);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            setTheme(R.style.Theme_NCDA);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
     }
 
     private void createNotificationChannel() {

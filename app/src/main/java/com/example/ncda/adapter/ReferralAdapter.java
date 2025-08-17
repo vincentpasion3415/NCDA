@@ -36,7 +36,7 @@ public class ReferralAdapter extends RecyclerView.Adapter<ReferralAdapter.Servic
 
         holder.nameTextView.setText(service.getName());
 
-        String hotline = service.getHotline();
+        String hotline = service.getHotline(); // Corrected method call
         if (hotline != null && !hotline.isEmpty()) {
             holder.hotlineButton.setVisibility(View.VISIBLE);
             holder.hotlineButton.setOnClickListener(v -> {
@@ -52,21 +52,13 @@ public class ReferralAdapter extends RecyclerView.Adapter<ReferralAdapter.Servic
         if (email != null && !email.isEmpty()) {
             holder.emailButton.setVisibility(View.VISIBLE);
             holder.emailButton.setOnClickListener(v -> {
-                // Create a new Intent with ACTION_SENDTO
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
-                intent.setData(Uri.parse("mailto:")); // Set data scheme
-
-                // Set the recipient email address
+                intent.setData(Uri.parse("mailto:"));
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
-
-                // Set the package name of the Gmail app to force it to open
-                intent.setPackage("com.google.android.gm");
-
                 try {
                     v.getContext().startActivity(intent);
                 } catch (Exception e) {
-                    // Inform the user if Gmail is not found
-                    Toast.makeText(v.getContext(), "Gmail app not found. Please install it.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "No email app found.", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -92,8 +84,8 @@ public class ReferralAdapter extends RecyclerView.Adapter<ReferralAdapter.Servic
 
     static class ServiceViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView;
-        Button hotlineButton; // Changed to Button
-        Button emailButton; // Changed to Button
+        Button hotlineButton;
+        Button emailButton;
         Button websiteButton;
 
         ServiceViewHolder(@NonNull View itemView) {

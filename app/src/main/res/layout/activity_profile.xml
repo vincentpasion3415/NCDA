@@ -9,13 +9,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#2196F3"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary">
+            android:background="#2196F3">
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -23,9 +24,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:text="Profile"
-                android:textColor="?attr/colorOnPrimary"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                android:textColor="#FFFFFF"
+                android:textSize="25sp" />
 
             <ImageButton
                 android:id="@+id/voiceCommandButton"
@@ -36,7 +36,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Voice Command"
                 android:src="@android:drawable/ic_btn_speak_now"
-                app:tint="?attr/colorOnPrimary" />
+                app:tint="#FFFFFF" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -54,32 +54,27 @@
             android:orientation="vertical">
 
             <FrameLayout
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="16dp">
 
+                <!-- This View acts as the darker circular background -->
+                <View
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_background" />
+
+                <!-- The profile image is placed on top of the background -->
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profileImageView"
                     style="@style/CircularImageViewStyle"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
                     android:scaleType="centerCrop"
                     android:src="@drawable/man" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/editProfileImageButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="bottom|end"
-                    android:src="@drawable/ic_edit_icon"
-                    app:backgroundTint="?attr/colorSurface"
-                    app:borderWidth="0dp"
-                    app:elevation="4dp"
-                    app:fabSize="mini" />
-
             </FrameLayout>
 
             <TextView
@@ -88,31 +83,32 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="24dp"
-                android:text="Edit Profile"
-                android:textColor="?attr/colorOnSurface"
+                android:text="Profile Information"
+                android:textColor="#212121"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
+            <!-- Full Name Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="?attr/colorSurface">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:padding="10dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Full Name:"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
 
                     <LinearLayout
@@ -120,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:orientation="vertical">
-
+                        <!-- EditTexts and SpeechButtons for names -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -132,7 +128,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:hint="First Name"
-                                android:textColor="?attr/colorOnSurface"
+                                android:textColor="#212121"
                                 android:textSize="16sp"
                                 android:visibility="gone" />
 
@@ -144,10 +140,9 @@
                                 android:contentDescription="Speak for first name"
                                 android:padding="8dp"
                                 android:src="@android:drawable/ic_btn_speak_now"
-                                app:tint="?attr/colorOnSurface"
+                                app:tint="#212121"
                                 android:visibility="gone" />
                         </LinearLayout>
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -160,7 +155,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:hint="Middle Name"
-                                android:textColor="?attr/colorOnSurface"
+                                android:textColor="#212121"
                                 android:textSize="16sp"
                                 android:visibility="gone" />
 
@@ -172,10 +167,9 @@
                                 android:contentDescription="Speak for middle name"
                                 android:padding="8dp"
                                 android:src="@android:drawable/ic_btn_speak_now"
-                                app:tint="?attr/colorOnSurface"
+                                app:tint="#212121"
                                 android:visibility="gone" />
                         </LinearLayout>
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -188,7 +182,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:hint="Last Name"
-                                android:textColor="?attr/colorOnSurface"
+                                android:textColor="#212121"
                                 android:textSize="16sp"
                                 android:visibility="gone" />
 
@@ -200,42 +194,42 @@
                                 android:contentDescription="Speak for last name"
                                 android:padding="8dp"
                                 android:src="@android:drawable/ic_btn_speak_now"
-                                app:tint="?attr/colorOnSurface"
+                                app:tint="#212121"
                                 android:visibility="gone" />
                         </LinearLayout>
                     </LinearLayout>
-
                     <TextView
                         android:id="@+id/firstNameTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:text="N/A"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Email Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="?attr/colorSurface">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:padding="10dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Email:"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
 
                     <LinearLayout
@@ -250,7 +244,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="Email"
-                            android:textColor="?attr/colorOnSurface"
+                            android:textColor="#212121"
                             android:textSize="16sp"
                             android:visibility="gone" />
 
@@ -262,9 +256,8 @@
                             android:contentDescription="Speak for email"
                             android:padding="8dp"
                             android:src="@android:drawable/ic_btn_speak_now"
-                            app:tint="?attr/colorOnSurface"
+                            app:tint="#212121"
                             android:visibility="gone" />
-
                     </LinearLayout>
 
                     <TextView
@@ -273,31 +266,32 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:text="N/A"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Phone Number Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="?attr/colorSurface">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:padding="10dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Phone Number:"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
 
                     <LinearLayout
@@ -314,7 +308,7 @@
                             android:hint="11 digits max"
                             android:inputType="number"
                             android:maxLength="11"
-                            android:textColor="?attr/colorOnSurface"
+                            android:textColor="#212121"
                             android:textSize="16sp"
                             android:visibility="gone" />
 
@@ -326,42 +320,41 @@
                             android:contentDescription="Speak for phone number"
                             android:padding="8dp"
                             android:src="@android:drawable/ic_btn_speak_now"
-                            app:tint="?attr/colorOnSurface"
+                            app:tint="#212121"
                             android:visibility="gone" />
-
                     </LinearLayout>
-
                     <TextView
                         android:id="@+id/phoneNumberTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:text="N/A"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Birth Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="?attr/colorSurface">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:padding="10dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Birth:"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
 
                     <LinearLayout
@@ -377,7 +370,7 @@
                             android:layout_weight="1"
                             android:focusable="false"
                             android:hint="Birth"
-                            android:textColor="?attr/colorOnSurface"
+                            android:textColor="#212121"
                             android:textSize="16sp"
                             android:visibility="gone" />
 
@@ -388,29 +381,29 @@
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:contentDescription="Speak for birth"
                             android:padding="8dp"
-                            android:src="@drawable/mic"
-                            app:tint="?attr/colorOnSurface"
+                            android:src="@android:drawable/ic_btn_speak_now"
+                            app:tint="#212121"
                             android:visibility="gone" />
                     </LinearLayout>
-
                     <TextView
                         android:id="@+id/birthTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:text=" N/A"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Gender Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="?attr/colorSurface">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -423,7 +416,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Gender:"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
 
                     <LinearLayout
@@ -446,29 +439,29 @@
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:contentDescription="Speak for gender"
                             android:padding="8dp"
-                            android:src="@drawable/mic"
-                            app:tint="?attr/colorOnSurface"
+                            android:src="@android:drawable/ic_btn_speak_now"
+                            app:tint="#212121"
                             android:visibility="gone" />
                     </LinearLayout>
-
                     <TextView
                         android:id="@+id/genderTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:text="N/A"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- PWD ID Number Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="?attr/colorSurface">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -481,7 +474,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="PWD ID Number:"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
 
                     <LinearLayout
@@ -497,7 +490,7 @@
                             android:layout_weight="1"
                             android:hint="PWD ID Number"
                             android:inputType="number"
-                            android:textColor="?attr/colorOnSurface"
+                            android:textColor="#212121"
                             android:textSize="16sp"
                             android:visibility="gone" />
 
@@ -509,27 +502,27 @@
                             android:contentDescription="Speak for PWD ID number"
                             android:padding="8dp"
                             android:src="@android:drawable/ic_btn_speak_now"
-                            app:tint="?attr/colorOnSurface"
+                            app:tint="#212121"
                             android:visibility="gone" />
                     </LinearLayout>
-
                     <TextView
                         android:id="@+id/pwdIdNumberTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:text="N/A"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+            <!-- Address Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="?attr/colorSurface">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -542,7 +535,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Address:"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
 
                     <LinearLayout
@@ -557,7 +550,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="Address"
-                            android:textColor="?attr/colorOnSurface"
+                            android:textColor="#212121"
                             android:textSize="16sp"
                             android:visibility="gone" />
 
@@ -569,17 +562,16 @@
                             android:contentDescription="Speak for address"
                             android:padding="8dp"
                             android:src="@android:drawable/ic_btn_speak_now"
-                            app:tint="?attr/colorOnSurface"
+                            app:tint="#212121"
                             android:visibility="gone" />
                     </LinearLayout>
-
                     <TextView
                         android:id="@+id/addressTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:text="N/A"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -598,8 +590,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:text="Edit"
-                    android:backgroundTint="?attr/colorPrimary"
-                    android:textColor="?attr/colorOnPrimary" />
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF" />
 
                 <Button
                     android:id="@+id/saveButton"
@@ -608,8 +600,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Save"
-                    android:backgroundTint="?attr/colorAccent"
-                    android:textColor="?attr/colorOnPrimary"
+                    android:backgroundTint="#FFC107"
+                    android:textColor="#FFFFFF"
                     android:visibility="gone" />
 
             </LinearLayout>

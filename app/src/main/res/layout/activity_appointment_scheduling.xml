@@ -8,6 +8,7 @@
     android:fitsSystemWindows="true"
     tools:context=".AppointmentSchedulingActivity">
 
+    <!-- The AppBarLayout and Toolbar are now styled with blue colors -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,8 +18,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary">
+            android:background="#2196F3">
 
+            <!-- Mic icon on the toolbar remains white for contrast -->
             <ImageButton
                 android:id="@+id/voiceCommandButton"
                 android:layout_width="48dp"
@@ -28,7 +30,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Voice Command"
                 android:src="@android:drawable/ic_btn_speak_now"
-                app:tint="?attr/colorOnPrimary" />
+                app:tint="#FFFFFF" />
         </androidx.appcompat.widget.Toolbar>
 
         <TextView
@@ -37,11 +39,11 @@
             android:layout_height="wrap_content"
             android:text="Speech Status: Ready"
             android:textSize="16sp"
-            android:textColor="?attr/colorOnPrimary"
+            android:textColor="#FFFFFF"
             android:padding="8dp"
             android:gravity="center"
             android:visibility="gone"
-            android:background="?attr/colorPrimaryVariant" />
+            android:background="#1976D2" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -63,7 +65,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="User Information"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textColor="?attr/colorOnSurface" />
+                android:textColor="#212121" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,13 +84,14 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <!-- Mic icon reverted to dark grey to avoid a blue tint -->
                 <ImageButton
                     android:id="@+id/firstNameSpeechButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:contentDescription="Speak for first name"
                     android:src="@android:drawable/ic_btn_speak_now"
-                    app:tint="?attr/colorOnSurface" />
+                    app:tint="#212121" />
             </LinearLayout>
 
             <LinearLayout
@@ -108,13 +111,14 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <!-- Mic icon reverted to dark grey to avoid a blue tint -->
                 <ImageButton
                     android:id="@+id/middleNameSpeechButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:contentDescription="Speak for middle name"
                     android:src="@android:drawable/ic_btn_speak_now"
-                    app:tint="?attr/colorOnSurface" />
+                    app:tint="#212121" />
             </LinearLayout>
 
             <LinearLayout
@@ -134,13 +138,14 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <!-- Mic icon reverted to dark grey to avoid a blue tint -->
                 <ImageButton
                     android:id="@+id/lastNameSpeechButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:contentDescription="Speak for last name"
                     android:src="@android:drawable/ic_btn_speak_now"
-                    app:tint="?attr/colorOnSurface" />
+                    app:tint="#212121" />
             </LinearLayout>
 
             <LinearLayout
@@ -160,13 +165,14 @@
                         android:layout_height="wrap_content"
                         android:inputType="phone" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <!-- Mic icon reverted to dark grey to avoid a blue tint -->
                 <ImageButton
                     android:id="@+id/contactNumberSpeechButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:contentDescription="Speak for contact number"
                     android:src="@android:drawable/ic_btn_speak_now"
-                    app:tint="?attr/colorOnSurface" />
+                    app:tint="#212121" />
             </LinearLayout>
 
             <LinearLayout
@@ -186,13 +192,14 @@
                         android:layout_height="wrap_content"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <!-- Mic icon reverted to dark grey to avoid a blue tint -->
                 <ImageButton
                     android:id="@+id/pwdIdSpeechButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:contentDescription="Speak for PWD ID"
                     android:src="@android:drawable/ic_btn_speak_now"
-                    app:tint="?attr/colorOnSurface" />
+                    app:tint="#212121" />
             </LinearLayout>
 
             <TextView
@@ -200,7 +207,7 @@
                 android:layout_height="wrap_content"
                 android:text="Appointment Details"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="#212121"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp" />
 
@@ -210,7 +217,7 @@
                 android:text="Appointment Type"
                 android:textSize="12sp"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?attr/colorOnSurface" />
+                android:textColor="#212121" />
             <Spinner
                 android:id="@+id/spinnerAppointmentType"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -223,7 +230,7 @@
                 android:text="Preferred Date"
                 android:textSize="12sp"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="#212121"
                 android:layout_marginTop="16dp" />
             <EditText
                 android:id="@+id/editTextPreferredDate"
@@ -232,7 +239,7 @@
                 android:focusable="false"
                 android:clickable="true"
                 android:hint="Select Date (YYYY-MM-DD)"
-                android:textColor="?attr/colorOnSurface" />
+                android:textColor="#212121" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -240,7 +247,7 @@
                 android:text="Preferred Time Slot"
                 android:textSize="12sp"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="#212121"
                 android:layout_marginTop="16dp" />
             <Spinner
                 android:id="@+id/spinnerPreferredTime"
@@ -267,13 +274,14 @@
                         android:inputType="textMultiLine"
                         android:lines="3" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <!-- Mic icon reverted to dark grey to avoid a blue tint -->
                 <ImageButton
                     android:id="@+id/noteSpeechButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:contentDescription="Speak for your note"
                     android:src="@android:drawable/ic_btn_speak_now"
-                    app:tint="?attr/colorOnSurface" />
+                    app:tint="#212121" />
             </LinearLayout>
 
             <TextView
@@ -281,7 +289,7 @@
                 android:layout_height="wrap_content"
                 android:text="Confirmation"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="#212121"
                 android:layout_marginTop="16dp" />
 
             <CheckBox
@@ -289,7 +297,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="I confirm the information provided is correct."
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="#212121"
                 android:layout_marginTop="16dp" />
 
             <Button
@@ -298,8 +306,8 @@
                 android:layout_height="wrap_content"
                 android:text="Submit"
                 android:layout_marginTop="24dp"
-                android:textColor="?attr/colorOnPrimary"
-                android:backgroundTint="?attr/colorPrimary" />
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#2196F3" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

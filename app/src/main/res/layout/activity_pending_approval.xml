@@ -7,6 +7,7 @@
     android:padding="16dp"
     tools:context=".PendingApprovalActivity">
 
+    <!-- The icon is now a blue color -->
     <ImageView
         android:id="@+id/iconImageView"
         android:layout_width="100dp"
@@ -16,7 +17,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/approval_pending_icon" />
+        android:contentDescription="@string/approval_pending_icon"
+        app:tint="#2196F3" />
 
     <TextView
         android:id="@+id/titleTextView"
@@ -26,6 +28,7 @@
         android:text="Application Submitted!"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="#212121"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iconImageView" />
@@ -38,16 +41,20 @@
         android:text="Thank you for submitting your registration. Your application is now under review by an administrator. You will be notified once it has been approved."
         android:textAlignment="center"
         android:textSize="16sp"
+        android:textColor="#212121"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
+    <!-- The button is now a blue color with white text -->
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="Back"
+        android:backgroundTint="#2196F3"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

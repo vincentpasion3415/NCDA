@@ -17,14 +17,14 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary">
+            android:background="#2196F3">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="News/Announcements"
-                android:textColor="?attr/colorOnPrimary"
+                android:textColor="#FFFFFF"
                 android:textSize="25sp"
                 android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="#212121"
                 android:layout_marginBottom="8dp"
                 tools:text="Full Announcement Title Here" />
 
@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="#212121"
                 android:alpha="0.7"
                 android:layout_marginBottom="16dp"
                 tools:text="Published: July 28, 2025 10:30 PM" />
@@ -75,10 +75,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="#212121"
                 android:lineSpacingExtra="4dp"
                 android:autoLink="web"
-                android:textColorLink="@color/black"  tools:text="This is the full detailed description of the announcement, which can be much longer and contain more information than the snippet shown on the home page." />
+                android:textColorLink="#2196F3"
+                tools:text="This is the full detailed description of the announcement, which can be much longer and contain more information than the snippet shown on the home page." />
 
         </LinearLayout>
     </ScrollView>

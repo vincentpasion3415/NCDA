@@ -4,26 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?attr/colorSurface"
+    android:background="#F5F5F5"
     android:fitsSystemWindows="true">
 
-    <com.google.android.material.appbar.MaterialToolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/settingsToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="#2196F3"
         android:elevation="4dp"
-        app:titleTextColor="?attr/colorOnPrimary">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:titleTextColor="#FFFFFF">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Settings"
-            android:textColor="?attr/colorOnPrimary"
+            android:textColor="#FFFFFF"
             android:textSize="25sp"
             android:textStyle="bold"
             android:layout_gravity="center" />
-    </com.google.android.material.appbar.MaterialToolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -42,7 +43,7 @@
                 android:text="Font Size"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="#212121"
                 android:layout_marginBottom="8dp" />
 
             <SeekBar
@@ -52,6 +53,8 @@
                 android:max="30"
                 android:min="12"
                 android:progress="14"
+                android:progressTint="#2196F3"
+                android:thumbTint="#2196F3"
                 android:layout_marginBottom="16dp" />
 
             <TextView
@@ -60,31 +63,8 @@
                 android:layout_height="wrap_content"
                 android:text="This is a font size preview."
                 android:textSize="14sp"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="#212121"
                 android:layout_marginBottom="24dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingVertical="12dp"
-                android:layout_marginBottom="8dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Dark Mode"
-                    android:textSize="16sp"
-                    android:textColor="?attr/colorOnSurface" />
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switchDarkMode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="48dp" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -100,19 +80,21 @@
                     android:layout_weight="1"
                     android:text="Enable Notifications"
                     android:textSize="16sp"
-                    android:textColor="?attr/colorOnSurface" />
+                    android:textColor="#212121" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switchNotifications"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="48dp" />
+                    android:minWidth="48dp"
+                    app:thumbTint="#2196F3"
+                    app:trackTint="#90CAF9" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?attr/colorOutlineVariant"
+                android:background="#E0E0E0"
                 android:layout_marginVertical="16dp" />
 
             <LinearLayout
@@ -131,7 +113,7 @@
                     android:layout_weight="1"
                     android:text="Language"
                     android:textSize="16sp"
-                    android:textColor="?attr/colorOnSurface" />
+                    android:textColor="#212121" />
             </LinearLayout>
 
             <LinearLayout
@@ -150,7 +132,7 @@
                     android:layout_weight="1"
                     android:text="About NCDA App"
                     android:textSize="16sp"
-                    android:textColor="?attr/colorOnSurface" />
+                    android:textColor="#212121" />
             </LinearLayout>
 
             <LinearLayout
@@ -169,13 +151,13 @@
                     android:layout_weight="1"
                     android:text="Send Feedback"
                     android:textSize="16sp"
-                    android:textColor="?attr/colorOnSurface" />
+                    android:textColor="#212121" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?attr/colorOutlineVariant"
+                android:background="#E0E0E0"
                 android:layout_marginVertical="16dp" />
 
             <LinearLayout
@@ -194,7 +176,7 @@
                     android:layout_weight="1"
                     android:text="Clear Cache"
                     android:textSize="16sp"
-                    android:textColor="?attr/colorError" />
+                    android:textColor="#F44336" />
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -206,8 +188,7 @@
                 android:paddingHorizontal="32dp"
                 android:paddingVertical="12dp"
                 android:textSize="18sp"
-                android:backgroundTint="@color/red_primary"
-                android:textColor="@android:color/white"
+                android:backgroundTint="#F44336"
                 app:cornerRadius="12dp"
                 android:elevation="4dp"
                 android:stateListAnimator="@null"

@@ -8,12 +8,13 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true" tools:context=".AppointmentDetailActivity">
 
+    <!-- The Toolbar is now styled with the blue theme -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:titleTextColor="?attr/colorOnPrimary"
+        android:background="#2196F3"
+        app:titleTextColor="#FFFFFF"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:title="Appointment Information" />
 

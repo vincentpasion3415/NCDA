@@ -9,20 +9,53 @@
     android:fitsSystemWindows="true"
     tools:context=".ReferralActivity">
 
+    <!-- The Toolbar is now set to a specific blue color -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/referral_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:titleTextColor="?attr/colorOnPrimary"
+        android:background="#2196F3"
+        app:titleTextColor="#FFFFFF"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:navigationIcon="?attr/homeAsUpIndicator"
-        app:title="Other Government Services" />
+        app:navigationIcon="?attr/homeAsUpIndicator">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Other Government Services"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <!-- The voice input button now has a white tint -->
+            <ImageButton
+                android:id="@+id/voice_toolbar_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Voice Command"
+                android:src="@android:drawable/ic_btn_speak_now"
+                app:tint="#FFFFFF" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/referral_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="16dp"
         android:clipToPadding="false" />
 

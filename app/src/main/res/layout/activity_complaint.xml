@@ -8,12 +8,13 @@
     android:fitsSystemWindows="true"
     tools:context=".ComplaintActivity">
 
+    <!-- The Toolbar is now set to a specific blue color -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/complaint_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:titleTextColor="?attr/colorOnPrimary"
+        android:background="#2196F3"
+        app:titleTextColor="#FFFFFF"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:title="Submit a Complaint" />
@@ -24,23 +25,57 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <EditText
-            android:id="@+id/complaint_details_edit_text"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:gravity="top"
-            android:hint="Tell us what your complaint is here"
-            android:inputType="textMultiLine"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/rounded_edittext"
-            android:padding="8dp"/>
+            android:background="@drawable/rounded_edittext">
 
+            <EditText
+                android:id="@+id/complaint_details_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:hint="Tell us what your complaint is here"
+                android:inputType="textMultiLine"
+                android:background="@android:color/transparent"
+                android:padding="8dp"
+                android:paddingEnd="56dp"/>
+
+            <!-- The voice input button now has a black tint -->
+            <ImageButton
+                android:id="@+id/voice_input_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Voice Input"
+                android:src="@android:drawable/ic_btn_speak_now"
+                android:layout_margin="8dp"
+                app:tint="#000000" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/speech_status_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Listening"
+            android:textColor="#212121"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <!-- The Submit button is now blue -->
         <Button
             android:id="@+id/submit_complaint_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Submit Complaint"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#2196F3" />
     </LinearLayout>
 </LinearLayout>

@@ -8,15 +8,16 @@
     android:fitsSystemWindows="true"
     tools:context=".ChatbotActivity">
 
+    <!-- The Toolbar is now styled with a blue background and white title text -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="#2196F3"
         android:elevation="4dp"
-        android:theme="?attr/actionBarTheme"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:title="NCDA Chatbot"
-        app:titleTextColor="@android:color/white" />
+        app:titleTextColor="#FFFFFF" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
@@ -51,15 +52,17 @@
             android:inputType="textMultiLine"
             android:imeOptions="actionSend" />
 
+        <!-- The send button now has a solid blue background and white tint -->
         <ImageButton
             android:id="@+id/sendButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/bg_send_button_rounded"
-            android:src="@drawable/ic_send"
+            android:src="@android:drawable/ic_menu_send"
             android:contentDescription="Send Message"
-            app:tint="@color/background_color"
+            app:tint="#FFFFFF"
+            android:backgroundTint="#2196F3"
             android:scaleType="centerInside" />
 
     </LinearLayout>

@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true" tools:context=".ComplaintDetailsActivity">
 
+    <!-- The Toolbar is now styled with a blue background and white title text -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:titleTextColor="@android:color/white"
+        android:background="#2196F3"
+        app:titleTextColor="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout

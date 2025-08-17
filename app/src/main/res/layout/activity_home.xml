@@ -8,7 +8,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="#2196F3"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <androidx.appcompat.widget.Toolbar
@@ -18,7 +18,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="16dp"
@@ -28,57 +28,54 @@
                     android:id="@+id/welcome_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
                     android:contentDescription="Welcome to PWD App Header"
                     android:text="PWD App"
-                    android:textColor="?attr/colorOnPrimary"
+                    android:textColor="#FFFFFF"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
                 <ImageButton
                     android:id="@+id/settingsButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="0dp"
-                    android:layout_marginRight="0dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="Settings"
-                    android:src="@drawable/icon" />
+                    android:src="@drawable/ic_settings_vector"
+                    app:tint="#FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
                 <ImageButton
                     android:id="@+id/complainButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_toStartOf="@id/settingsButton"
-                    android:layout_toLeftOf="@id/settingsButton"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="Submit a Complaint"
                     android:src="@drawable/ic_complain"
-                    app:tint="?attr/colorOnPrimary" />
+                    app:tint="#FFFFFF"
+                    app:layout_constraintEnd_toStartOf="@id/settingsButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="8dp" />
 
                 <ImageButton
                     android:id="@+id/voiceCommandButton"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_toStartOf="@id/complainButton"
-                    android:layout_toLeftOf="@id/complainButton"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="Voice Command"
                     android:src="@android:drawable/ic_btn_speak_now"
-                    app:tint="?attr/colorOnPrimary" />
+                    app:tint="#FFFFFF"
+                    app:layout_constraintEnd_toStartOf="@id/complainButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="8dp" />
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.Toolbar>
 

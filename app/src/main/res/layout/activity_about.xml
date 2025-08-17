@@ -5,17 +5,18 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+    <!-- The MaterialToolbar and other elements now use blue colors. -->
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="?attr/colorPrimary"
+        android:background="#2196F3"
         android:elevation="4dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_ncda_title"
-            android:textColor="?attr/colorOnPrimary"
+            android:textColor="#FFFFFF"
             android:textSize="25sp"
             android:textStyle="bold"
             android:layout_gravity="center" />
@@ -40,7 +41,7 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="6dp"
-                android:background="?attr/colorSurface">
+                android:background="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -54,7 +55,7 @@
                         android:text="@string/about_ncda_title"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="?attr/colorPrimary"
+                        android:textColor="#2196F3"
                         android:paddingBottom="6dp" />
 
                     <TextView
@@ -62,7 +63,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/about_ncda_text"
                         android:textSize="16sp"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:lineSpacingExtra="6dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -73,7 +74,7 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="6dp"
-                android:background="?attr/colorSurface">
+                android:background="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -87,7 +88,7 @@
                         android:text="@string/ncda_mission_title"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="?attr/colorPrimary"
+                        android:textColor="#2196F3"
                         android:paddingBottom="6dp" />
 
                     <TextView
@@ -96,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/ncda_mission_text"
                         android:textSize="16sp"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:lineSpacingExtra="6dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -107,7 +108,7 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="6dp"
-                android:background="?attr/colorSurface">
+                android:background="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -121,7 +122,7 @@
                         android:text="@string/ncda_vision_title"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="?attr/colorPrimary"
+                        android:textColor="#2196F3"
                         android:paddingBottom="6dp" />
 
                     <TextView
@@ -130,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/ncda_vision_text"
                         android:textSize="16sp"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:lineSpacingExtra="6dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -141,7 +142,7 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="6dp"
-                android:background="?attr/colorSurface">
+                android:background="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -154,7 +155,7 @@
                         android:text="@string/ncda_core_values_title"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="?attr/colorPrimary"
+                        android:textColor="#2196F3"
                         android:paddingBottom="6dp" />
 
                     <TextView
@@ -163,7 +164,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/ncda_core_values_text"
                         android:textSize="16sp"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:lineSpacingExtra="6dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -174,7 +175,7 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="6dp"
-                android:background="?attr/colorSurface">
+                android:background="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -188,7 +189,7 @@
                         android:text="@string/ncda_services_title"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="?attr/colorPrimary"
+                        android:textColor="#2196F3"
                         android:paddingBottom="6dp" />
 
                     <TextView
@@ -197,7 +198,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/ncda_services_text"
                         android:textSize="16sp"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="#212121"
                         android:lineSpacingExtra="6dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

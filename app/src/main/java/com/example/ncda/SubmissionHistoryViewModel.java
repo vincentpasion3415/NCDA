@@ -3,12 +3,11 @@ package com.example.ncda;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-
+import com.example.ncda.model.Referral; // ADD THIS IMPORT
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,8 +59,7 @@ public class SubmissionHistoryViewModel extends ViewModel {
         _errorMessage.setValue(null);
 
         final List<SubmissionItem> combinedList = new ArrayList<>();
-        final AtomicInteger pendingFetches = new AtomicInteger(2);
-
+        final AtomicInteger pendingFetches = new AtomicInteger(3); // CHANGE THE COUNT TO 3
 
         db.collection("appointments")
                 .whereEqualTo("userId", currentUserId)
@@ -101,12 +99,29 @@ public class SubmissionHistoryViewModel extends ViewModel {
                     _errorMessage.setValue("Error fetching PWD applications: " + e.getMessage());
                     _isLoading.setValue(false);
                 });
+
+        db.collection("referrals") // ADD THIS NEW QUERY
+                .whereEqualTo("userId", currentUserId)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        Referral referral = document.toObject(Referral.class);
+                        referral.setId(document.getId());
+                        combinedList.add(referral);
+                    }
+                    if (pendingFetches.decrementAndGet() == 0) {
+                        sortAndPostSubmissions(combinedList);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    _errorMessage.setValue("Error fetching referrals: " + e.getMessage());
+                    _isLoading.setValue(false);
+                });
     }
 
     private void sortAndPostSubmissions(List<SubmissionItem> list) {
-        // Sort the combined list by timestamp (descending)
         Collections.sort(list, (o1, o2) -> {
-
             if (o1.getTimestamp() == null && o2.getTimestamp() == null) return 0;
             if (o1.getTimestamp() == null) return 1;
             if (o2.getTimestamp() == null) return -1;
@@ -115,7 +130,6 @@ public class SubmissionHistoryViewModel extends ViewModel {
         _submissionHistory.setValue(list);
         _isLoading.setValue(false);
     }
-
 
     public void retryFetch() {
         if (currentUserId != null) {

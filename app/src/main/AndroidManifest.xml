@@ -89,7 +89,11 @@
         <activity android:name=".ComplaintActivity"
             android:exported="false"
             android:label="Submit a Complaint" />
-        
+
+        <activity
+            android:name=".NCDAReferralFormActivity"
+            android:exported="false"
+            android:label="NCDA Referral Form" />
 
         <activity android:name=".SubmissionHistoryActivity"
             android:exported="false"
@@ -106,6 +110,11 @@
             android:label="Complaint Details"
             android:parentActivityName=".SubmissionHistoryActivity" />
 
-    </application>
+        <activity
+            android:name=".ReferralDetailsActivity"
+            android:exported="false"
+            android:label="Referral Details"
+            android:parentActivityName=".SubmissionHistoryActivity" />
 
+    </application>
 </manifest>

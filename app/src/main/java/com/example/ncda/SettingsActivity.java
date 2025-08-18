@@ -40,14 +40,16 @@ import java.util.Locale;
  * Handles the display and logic for the Settings screen.
  * It sets up the toolbar and makes the back button functional.
  */
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity { // This line has been changed to extend BaseActivity
 
     private static final String TAG = "SettingsActivity";
     private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 1001;
+    private static final String PREF_HIGH_CONTRAST = "highContrast";
 
     private SeekBar fontSizeSeekBar;
     private FirebaseAnalytics mFirebaseAnalytics;
     private SwitchCompat switchNotifications;
+    private SwitchCompat switchHighContrast;
     private TextView fontSizePreview;
     private Button btnLogout;
 
@@ -56,6 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // The theme setting logic is now handled in BaseActivity, so we remove it from here.
         super.onCreate(savedInstanceState);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
@@ -87,6 +90,9 @@ public class SettingsActivity extends AppCompatActivity {
         switchNotifications = findViewById(R.id.switchNotifications);
         if (switchNotifications == null) Log.e(TAG, "switchNotifications is null!");
 
+        switchHighContrast = findViewById(R.id.switchHighContrast); // Initialize new switch
+        if (switchHighContrast == null) Log.e(TAG, "switchHighContrast is null!");
+
         fontSizePreview = findViewById(R.id.fontSizePreview);
         if (fontSizePreview == null) Log.e(TAG, "fontSizePreview is null!");
 
@@ -116,6 +122,8 @@ public class SettingsActivity extends AppCompatActivity {
         applyFontSizeToAllTextViews(fontSize);
 
         updateNotificationSwitchState();
+        boolean isHighContrast = sharedPreferences.getBoolean(PREF_HIGH_CONTRAST, false);
+        switchHighContrast.setChecked(isHighContrast);
 
 
         // Set up Listeners
@@ -162,6 +170,16 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
         }
+
+        // Set up listener for the new high contrast switch
+        if (switchHighContrast != null) {
+            switchHighContrast.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                sharedPreferences.edit().putBoolean(PREF_HIGH_CONTRAST, isChecked).apply();
+                logAnalyticsEvent("high_contrast_toggled", "SettingsActivity", "High contrast mode set to " + isChecked);
+                recreate(); // Recreate the activity to apply the new theme
+            });
+        }
+
 
         if (txtLanguage != null) {
             txtLanguage.setOnClickListener(v -> showLanguageSelectionDialog());

@@ -45,7 +45,16 @@
 
     <string name="latest_news_placeholder">Latest PWD-related news will be displayed here.</string>
     <string name="voice_command">Voice Command</string>
-
-
     <string name="approval_pending_icon" translatable="false">Application Pending</string>
+
+    <string-array name="service_options">
+        <item>DSWD (Department of Social Welfare and Development)</item>
+        <item>TESDA (Technical Education and Skills Development Authority)</item>
+        <item>DOH (Department of Health) / Local Health Office</item>
+        <item>DepEd / SPED Centers</item>
+        <item>DOLE / PESO Offices</item>
+        <item>LGU (local partner offices / MSWDO / CSWDO)</item>
+        <item>PhilHealth</item>
+        <item>PCSO (Philippine Charity Sweepstakes Office)</item>
+    </string-array>
 </resources>

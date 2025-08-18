@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="CircularImageViewStyle" parent="">
         <item name="android:shape">oval</item>
@@ -7,4 +8,25 @@
         <item name="android:progressTint">#FFD700</item> <!-- Gold/Yellow color -->
         <item name="android:progressBackgroundTint">#E0E0E0</item> <!-- Grey background for unrated stars -->
     </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#2196F3</item>
+        <item name="colorPrimaryDark">#1976D2</item>
+        <item name="colorAccent">#FFC107</item>
+        <item name="android:windowBackground">#F5F5F5</item>
+    </style>
+
+    <!-- High contrast theme for accessibility. -->
+    <style name="HighContrastTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- High contrast colors -->
+        <item name="colorPrimary">#000000</item> <!-- Black primary color -->
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">#FFFF00</item> <!-- Bright yellow accent color -->
+        <item name="android:textColorPrimary">#FFFFFF</item> <!-- White text on black -->
+        <item name="android:textColorSecondary">#EEEEEE</item>
+        <item name="android:windowBackground">#000000</item> <!-- Black background -->
+    </style>
+
 </resources>

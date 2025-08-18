@@ -8,20 +8,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Button; // Add this import
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import com.example.ncda.adapter.NewsAdapter;
 import com.example.ncda.model.NewsArticle;
@@ -38,7 +42,10 @@ public class HomeFragment extends Fragment {
     private NewsAdapter newsAdapter;
     private List<NewsArticle> announcementsList;
     private TextView noAnnouncementsMessage;
-    private Button referralButton; // Declared the button here
+
+    // CHANGE THESE FROM CARDVIEW TO BUTTON
+    private Button referralButton;
+    private Button ncdareferralButton;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -47,43 +54,68 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Initialize Firestore
         db = FirebaseFirestore.getInstance();
-
-        // Initialize RecyclerView and Adapter from the inflated view
         announcementsRecyclerView = view.findViewById(R.id.announcementsRecyclerView);
         announcementsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         announcementsList = new ArrayList<>();
         newsAdapter = new NewsAdapter(announcementsList);
         announcementsRecyclerView.setAdapter(newsAdapter);
 
-        // Initialize "No Announcements" message
         noAnnouncementsMessage = view.findViewById(R.id.no_announcements_message);
         if (noAnnouncementsMessage != null) {
             noAnnouncementsMessage.setVisibility(View.GONE);
         }
 
-        // ------------------ NEW CODE STARTS HERE ------------------
-        // Initialize the referral button from the layout file
-        referralButton = view.findViewById(R.id.referral_button);
+        // FIND THE BUTTON FOR "START REFERRAL" AND SET ITS LISTENER
+        ncdareferralButton = view.findViewById(R.id.btn_start_referral);
+        if (ncdareferralButton != null) {
+            ncdareferralButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user != null) {
+                        String userId = user.getUid();
+                        db.collection("users").document(userId).get()
+                                .addOnSuccessListener(documentSnapshot -> {
+                                    if (documentSnapshot.exists()) {
+                                        String name = documentSnapshot.getString("name");
+                                        String pwdId = documentSnapshot.getString("pwdId");
+                                        Intent intent = new Intent(getActivity(), NCDAReferralFormActivity.class);
+                                        intent.putExtra("personalName", name);
+                                        intent.putExtra("pwdId", pwdId);
+                                        startActivity(intent);
+                                    } else {
+                                        startActivity(new Intent(getActivity(), NCDAReferralFormActivity.class));
+                                        Toast.makeText(getContext(), "User data not found. Please fill in manually.", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(e -> {
+                                    startActivity(new Intent(getActivity(), NCDAReferralFormActivity.class));
+                                    Toast.makeText(getContext(), "Error retrieving user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.e(TAG, "Error retrieving user data", e);
+                                });
+                    } else {
+                        startActivity(new Intent(getActivity(), NCDAReferralFormActivity.class));
+                        Toast.makeText(getContext(), "User not logged in. Please sign in to pre-fill the form.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
 
-        // Set an OnClickListener on the button
+        // FIND THE BUTTON FOR "EXPLORE SERVICES" AND SET ITS LISTENER
+        referralButton = view.findViewById(R.id.referral_button);
         if (referralButton != null) {
             referralButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Create an Intent to start the ReferralActivity
                     Intent intent = new Intent(getActivity(), ReferralActivity.class);
                     startActivity(intent);
                 }
             });
         }
-        // ------------------ NEW CODE ENDS HERE ------------------
 
-        // Set up item click listener for the news articles
         newsAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(NewsArticle newsArticle) {
@@ -94,7 +126,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        // Load announcements from Firestore when the fragment view is created
         loadAnnouncements();
 
         return view;

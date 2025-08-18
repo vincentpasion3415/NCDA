@@ -26,10 +26,10 @@
         <item name="colorError">@color/red</item>
         <item name="colorOutlineVariant">@color/gray_light</item>
 
-        <!-- ADDED: Material Components specific color for hints/outlines in light mode -->
+        <!-- Material Components specific color for hints/outlines in light mode -->
         <item name="colorOnSurfaceVariant">@color/grey_hint</item>
 
-        <!-- ADDED: Default text and hint colors for the light theme -->
+        <!-- Default text and hint colors for the light theme -->
         <item name="android:textColorHint">@color/grey_hint</item>
         <item name="android:textColor">@color/on_surface_color</item>
     </style>
@@ -54,12 +54,44 @@
         <item name="colorError">@color/dark_red</item>
         <item name="colorOutlineVariant">@color/dark_gray_dark</item>
 
-        <!-- ADDED: Material Components specific color for hints/outlines in dark mode -->
+        <!-- Material Components specific color for hints/outlines in dark mode -->
         <item name="colorOnSurfaceVariant">@color/dark_gray_light</item>
 
-        <!-- ADDED: Default text and hint colors for the dark theme -->
+        <!-- Default text and hint colors for the dark theme -->
         <item name="android:textColorHint">@color/dark_gray_light</item>
         <item name="android:textColor">@color/dark_on_surface</item>
+    </style>
+
+    <style name="Theme.NCDA.HighContrast" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary branding colors for high contrast -->
+        <item name="colorPrimary">#FFFF00</item> <!-- Bright yellow for key components -->
+        <item name="colorPrimaryVariant">#FFEB3B</item>
+        <item name="colorOnPrimary">#000000</item> <!-- Black text on bright yellow -->
+
+        <!-- Secondary branding colors for high contrast -->
+        <item name="colorSecondary">#00FFFF</item> <!-- Bright cyan -->
+        <item name="colorSecondaryVariant">#00BCD4</item>
+        <item name="colorOnSecondary">#000000</item> <!-- Black text on bright cyan -->
+
+        <!-- Status bar and Window settings for high contrast -->
+        <item name="android:statusBarColor">#000000</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- Background and Surface colors for High Contrast Theme -->
+        <item name="android:windowBackground">#000000</item>
+        <item name="colorSurface">#000000</item> <!-- Pure black surface -->
+        <item name="colorOnSurface">#FFFFFF</item> <!-- Pure white text on surface -->
+
+        <!-- Error and Outline colors for Material Design components (High Contrast Theme) -->
+        <item name="colorError">#FF0000</item>
+        <item name="colorOutlineVariant">#FFFFFF</item>
+
+        <!-- Text and hint colors for the high contrast theme -->
+        <item name="colorOnSurfaceVariant">#FFFFFF</item>
+        <item name="android:textColorHint">#FFFFFF</item>
+        <item name="android:textColor">#FFFFFF</item>
     </style>
 
     <!-- This style is a child of Widget.AppCompat.Button, ensure your buttons use MaterialButton if possible -->

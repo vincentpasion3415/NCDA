@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".NCDAReferralFormActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#2196F3"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="NCDA Referral Form"
+        app:titleTextColor="#FFFFFF" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_below="@id/toolbar"> <EditText
+        android:id="@+id/et_personal_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Personal Name"
+        android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/et_pwd_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="PWD ID"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/et_disability"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Disability Type"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Service Needed"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <Spinner
+            android:id="@+id/spinner_service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp" />
+
+        <EditText
+            android:id="@+id/et_remarks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Remarks"
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:gravity="top" />
+
+        <Button
+            android:id="@+id/btn_submit_referral"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Submit Referral" />
+
+    </LinearLayout>
+</RelativeLayout>

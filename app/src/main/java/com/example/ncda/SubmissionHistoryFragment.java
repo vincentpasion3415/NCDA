@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.example.ncda.model.Referral;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,21 +57,23 @@ public class SubmissionHistoryFragment extends Fragment {
         recyclerViewSubmissions.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewSubmissions.setAdapter(submissionHistoryAdapter);
 
-        // Set the item click listener with the new logic
         submissionHistoryAdapter.setOnItemClickListener(item -> {
             if (item instanceof Appointment) {
                 Intent intent = new Intent(getContext(), AppointmentDetailActivity.class);
                 intent.putExtra(AppointmentDetailActivity.EXTRA_APPOINTMENT, (Appointment) item);
                 startActivity(intent);
             } else if (item instanceof PWDApplication) {
-                // Handle PWDApplication click by starting a new activity
                 Intent intent = new Intent(getContext(), PWDApplicationDetailsActivity.class);
                 intent.putExtra("pwdApplication", (PWDApplication) item);
                 startActivity(intent);
             } else if (item instanceof Complaint) {
-                // Handle Complaint click by starting a new activity
                 Intent intent = new Intent(getContext(), ComplaintDetailsActivity.class);
                 intent.putExtra("complaint", (Complaint) item);
+                startActivity(intent);
+            } else if (item instanceof Referral) {
+                // This is the updated code to start the ReferralDetailsActivity
+                Intent intent = new Intent(getContext(), ReferralDetailsActivity.class);
+                intent.putExtra("referral", (Referral) item);
                 startActivity(intent);
             }
         });
@@ -79,7 +82,6 @@ public class SubmissionHistoryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Fetch data every time the fragment is displayed
         fetchSubmissions();
     }
 
@@ -88,7 +90,7 @@ public class SubmissionHistoryFragment extends Fragment {
         showLoading(true);
         submissionList.clear();
 
-        final AtomicInteger pendingQueries = new AtomicInteger(3);
+        final AtomicInteger pendingQueries = new AtomicInteger(4);
 
         // Fetch Appointments
         db.collection("appointments").whereEqualTo("userId", userId).get()
@@ -138,11 +140,31 @@ public class SubmissionHistoryFragment extends Fragment {
                         onAllQueriesComplete();
                     }
                 });
+
+        // Fetch Referrals
+        db.collection("referrals").whereEqualTo("userId", userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            submissionList.add(doc.toObject(Referral.class));
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Error fetching referrals.", Toast.LENGTH_SHORT).show();
+                    }
+                    if (pendingQueries.decrementAndGet() == 0) {
+                        onAllQueriesComplete();
+                    }
+                });
     }
 
     private void onAllQueriesComplete() {
         showLoading(false);
-        Collections.sort(submissionList, (o1, o2) -> o2.getTimestamp().compareTo(o1.getTimestamp()));
+        Collections.sort(submissionList, (o1, o2) -> {
+            if (o1.getTimestamp() == null || o2.getTimestamp() == null) {
+                return 0;
+            }
+            return o2.getTimestamp().compareTo(o1.getTimestamp());
+        });
         submissionHistoryAdapter.submitList(new ArrayList<>(submissionList));
 
         if (submissionList.isEmpty()) {

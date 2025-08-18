@@ -4,23 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5"
+    android:background="?attr/colorSurface"
     android:fitsSystemWindows="true">
 
+    <!-- The Toolbar background is now set to use the primary color from the theme. -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/settingsToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#2196F3"
+        android:background="@android:color/holo_blue_light"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:titleTextColor="#FFFFFF">
+        app:titleTextColor="?attr/colorOnPrimary">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Settings"
-            android:textColor="#FFFFFF"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="25sp"
             android:textStyle="bold"
             android:layout_gravity="center" />
@@ -43,9 +44,10 @@
                 android:text="Font Size"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#212121"
+                android:textColor="?attr/colorOnSurface"
                 android:layout_marginBottom="8dp" />
 
+            <!-- The SeekBar now uses theme-based tints. -->
             <SeekBar
                 android:id="@+id/fontSizeSeekBar"
                 android:layout_width="match_parent"
@@ -53,8 +55,8 @@
                 android:max="30"
                 android:min="12"
                 android:progress="14"
-                android:progressTint="#2196F3"
-                android:thumbTint="#2196F3"
+                android:progressTint="?attr/colorPrimary"
+                android:thumbTint="?attr/colorPrimary"
                 android:layout_marginBottom="16dp" />
 
             <TextView
@@ -63,9 +65,10 @@
                 android:layout_height="wrap_content"
                 android:text="This is a font size preview."
                 android:textSize="14sp"
-                android:textColor="#212121"
+                android:textColor="?attr/colorOnSurface"
                 android:layout_marginBottom="24dp" />
 
+            <!-- Notifications Switch -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,22 +83,53 @@
                     android:layout_weight="1"
                     android:text="Enable Notifications"
                     android:textSize="16sp"
-                    android:textColor="#212121" />
+                    android:textColor="?attr/colorOnSurface"
+                    />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switchNotifications"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minWidth="48dp"
-                    app:thumbTint="#2196F3"
-                    app:trackTint="#90CAF9" />
+                    app:thumbTint="?attr/colorPrimary"
+                    app:trackTint="?attr/colorPrimaryVariant"
+                    />
+            </LinearLayout>
+
+            <!-- High Contrast Switch is now using theme attributes. -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="12dp"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="High Contrast Mode"
+                    android:textSize="16sp"
+                    android:textColor="?attr/colorOnSurface"
+                    />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchHighContrast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="48dp"
+                    app:thumbTint="?attr/colorPrimary"
+                    app:trackTint="?attr/colorPrimaryVariant"
+                    />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E0E0E0"
-                android:layout_marginVertical="16dp" />
+                android:background="?attr/colorOnSurface"
+                android:layout_marginVertical="16dp"
+                android:alpha="0.1" />
 
             <LinearLayout
                 android:id="@+id/txtLanguage"
@@ -113,7 +147,8 @@
                     android:layout_weight="1"
                     android:text="Language"
                     android:textSize="16sp"
-                    android:textColor="#212121" />
+                    android:textColor="?attr/colorOnSurface"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -132,7 +167,8 @@
                     android:layout_weight="1"
                     android:text="About NCDA App"
                     android:textSize="16sp"
-                    android:textColor="#212121" />
+                    android:textColor="?attr/colorOnSurface"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -151,14 +187,16 @@
                     android:layout_weight="1"
                     android:text="Send Feedback"
                     android:textSize="16sp"
-                    android:textColor="#212121" />
+                    android:textColor="?attr/colorOnSurface"
+                    />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E0E0E0"
-                android:layout_marginVertical="16dp" />
+                android:background="?attr/colorOnSurface"
+                android:layout_marginVertical="16dp"
+                android:alpha="0.1" />
 
             <LinearLayout
                 android:id="@+id/txtClearCache"
@@ -176,7 +214,8 @@
                     android:layout_weight="1"
                     android:text="Clear Cache"
                     android:textSize="16sp"
-                    android:textColor="#F44336" />
+                    android:textColor="?attr/colorError"
+                    />
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -188,7 +227,7 @@
                 android:paddingHorizontal="32dp"
                 android:paddingVertical="12dp"
                 android:textSize="18sp"
-                android:backgroundTint="#F44336"
+                android:backgroundTint="?attr/colorError"
                 app:cornerRadius="12dp"
                 android:elevation="4dp"
                 android:stateListAnimator="@null"

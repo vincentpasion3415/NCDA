@@ -12,7 +12,8 @@
         android:layout_height="?attr/actionBarSize"
         android:background="#2196F3"
         app:titleTextColor="#FFFFFF"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="PWD Application Details" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,7 +65,26 @@
             android:layout_height="wrap_content"
             android:text="Submitted: "
             android:textSize="18sp"
-            android:textColor="#212121"/>
+            android:textColor="#212121"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Admin's Remark Section -->
+        <TextView
+            android:id="@+id/tv_admin_remark_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin's Remark"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tv_admin_remark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="[Admin's Remark]"
+            android:textSize="16sp" />
 
     </LinearLayout>
 

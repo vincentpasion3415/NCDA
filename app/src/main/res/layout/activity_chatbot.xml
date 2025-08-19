@@ -16,7 +16,7 @@
         android:background="#2196F3"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="NCDA Chatbot"
+        app:title="FAQS Chat"
         app:titleTextColor="#FFFFFF" />
 
     <androidx.recyclerview.widget.RecyclerView

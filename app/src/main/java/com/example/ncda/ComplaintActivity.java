@@ -269,17 +269,30 @@ public class ComplaintActivity extends AppCompatActivity {
     }
 
     private void submitComplaintToFirestore(String name, String complaint, String userId, String userEmail) {
-        // Your existing method, no changes needed here.
         Map<String, Object> complaintData = new HashMap<>();
         complaintData.put("name", name);
         complaintData.put("details", complaint);
         complaintData.put("timestamp", new Date());
         complaintData.put("userId", userId);
         complaintData.put("userEmail", userEmail);
+        complaintData.put("status", "Pending");
 
         db.collection("complaints")
                 .add(complaintData)
                 .addOnSuccessListener(documentReference -> {
+                    // Get the auto-generated ID from the DocumentReference
+                    String complaintId = documentReference.getId();
+
+                    // Now, create the Complaint object and set its ID
+                    Complaint newComplaint = new Complaint(complaintId, userId, name, complaint, "Pending", new Date());
+
+                    // You can now pass this full object to ComplaintDetailsActivity
+                    // and the ID will be available, preventing the crash.
+                    // For example, if you wanted to view the complaint right after submitting:
+                    // Intent intent = new Intent(ComplaintActivity.this, ComplaintDetailsActivity.class);
+                    // intent.putExtra("complaint", newComplaint);
+                    // startActivity(intent);
+
                     Toast.makeText(ComplaintActivity.this, "Your complaint is for reviewing. We will inform you if it's done processed.", Toast.LENGTH_LONG).show();
                     complaintDetailsEditText.setText("");
                 })

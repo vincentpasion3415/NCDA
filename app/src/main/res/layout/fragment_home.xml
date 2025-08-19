@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Explore Services"
-                    android:backgroundTint="#2196F3"
+                    android:backgroundTint="@android:color/holo_red_dark"
                     android:textColor="#FFFFFF" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -87,8 +87,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Start Referral"
-                    android:backgroundTint="#2196F3"
+                    android:text="Go to Referral"
+                    android:backgroundTint="@color/color_status_declined"
                     android:textColor="#FFFFFF" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

@@ -48,7 +48,7 @@ public class ChatbotActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Enable back button
-            getSupportActionBar().setTitle("NCDA Chatbot");
+            getSupportActionBar().setTitle("FAQS Chat");
         }
         toolbar.setNavigationOnClickListener(v -> onBackPressed()); // Handle back button click
 

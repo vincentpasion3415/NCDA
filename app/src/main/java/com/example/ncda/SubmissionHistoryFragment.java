@@ -97,7 +97,9 @@ public class SubmissionHistoryFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
-                            submissionList.add(doc.toObject(Appointment.class));
+                            Appointment appointment = doc.toObject(Appointment.class);
+                            appointment.setId(doc.getId()); // FIX: Set the ID
+                            submissionList.add(appointment);
                         }
                     } else {
                         Toast.makeText(getContext(), "Error fetching appointments.", Toast.LENGTH_SHORT).show();
@@ -112,7 +114,9 @@ public class SubmissionHistoryFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
-                            submissionList.add(doc.toObject(PWDApplication.class));
+                            PWDApplication pwdApplication = doc.toObject(PWDApplication.class);
+                            pwdApplication.setId(doc.getId()); // FIX: Set the ID
+                            submissionList.add(pwdApplication);
                         }
                     } else {
                         Toast.makeText(getContext(), "Error fetching PWD applications.", Toast.LENGTH_SHORT).show();
@@ -128,6 +132,10 @@ public class SubmissionHistoryFragment extends Fragment {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
                             Complaint complaint = doc.toObject(Complaint.class);
+
+                            // THIS IS THE CRITICAL FIX
+                            complaint.setId(doc.getId());
+
                             if (complaint.getStatus() == null || complaint.getStatus().isEmpty()) {
                                 complaint.setStatus("Pending");
                             }
@@ -146,7 +154,9 @@ public class SubmissionHistoryFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
-                            submissionList.add(doc.toObject(Referral.class));
+                            Referral referral = doc.toObject(Referral.class);
+                            referral.setId(doc.getId()); // FIX: Set the ID
+                            submissionList.add(referral);
                         }
                     } else {
                         Toast.makeText(getContext(), "Error fetching referrals.", Toast.LENGTH_SHORT).show();

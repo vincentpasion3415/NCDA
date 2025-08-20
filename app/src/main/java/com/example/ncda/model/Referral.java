@@ -2,21 +2,24 @@ package com.example.ncda.model;
 
 import com.example.ncda.SubmissionItem;
 import com.google.firebase.firestore.DocumentId;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
-public class Referral implements SubmissionItem  {
+public class Referral implements SubmissionItem, Serializable {
     @DocumentId
     private String id;
     private String personalName;
     private String pwdId;
     private String disability;
     private String serviceNeeded;
-    private String remarks;
+    private ArrayList<Map<String, Object>> remarks; // <-- CORRECTED: Change this to ArrayList
     private String status;
     private String userId;
     private Date timestamp;
-    private String adminRemark;
+    private String adminRemark; // Assuming you are keeping this separate field
 
     public Referral() {
         // Required empty public constructor for Firestore
@@ -63,11 +66,12 @@ public class Referral implements SubmissionItem  {
         this.serviceNeeded = serviceNeeded;
     }
 
-    public String getRemarks() {
+    // <-- CORRECTED: Update getter and setter to return and accept ArrayList
+    public ArrayList<Map<String, Object>> getRemarks() {
         return remarks;
     }
 
-    public void setRemarks(String remarks) {
+    public void setRemarks(ArrayList<Map<String, Object>> remarks) {
         this.remarks = remarks;
     }
 

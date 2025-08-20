@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.example.ncda.model.Referral;
+import com.example.ncda.Appointment;
+import com.example.ncda.PWDApplication;
+import com.example.ncda.Complaint;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SubmissionHistoryFragment extends Fragment {
+
+    private static final String TAG = "SubmissionHistoryFrag";
 
     private RecyclerView recyclerViewSubmissions;
     private SubmissionHistoryAdapter submissionHistoryAdapter;
@@ -154,9 +162,41 @@ public class SubmissionHistoryFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
-                            Referral referral = doc.toObject(Referral.class);
-                            referral.setId(doc.getId()); // FIX: Set the ID
-                            submissionList.add(referral);
+                            try {
+                                Referral referral = doc.toObject(Referral.class);
+                                referral.setId(doc.getId());
+                                submissionList.add(referral);
+                            } catch (Exception e) {
+                                // Log the error for debugging
+                                Log.e(TAG, "Error deserializing document with ID: " + doc.getId(), e);
+
+                                // Handle old documents where 'remarks' is a String
+                                if (doc.contains("remarks") && doc.get("remarks") instanceof String) {
+                                    Referral referral = new Referral();
+                                    referral.setId(doc.getId());
+                                    referral.setPersonalName(doc.getString("personalName"));
+                                    referral.setPwdId(doc.getString("pwdId"));
+                                    referral.setDisability(doc.getString("disability"));
+                                    referral.setServiceNeeded(doc.getString("serviceNeeded"));
+                                    referral.setStatus(doc.getString("status"));
+                                    referral.setUserId(doc.getString("userId"));
+                                    referral.setTimestamp(doc.getDate("timestamp"));
+
+                                    // Manually create the remarks list
+                                    ArrayList<Map<String, Object>> remarksList = new ArrayList<>();
+                                    Map<String, Object> oldRemark = new HashMap<>();
+                                    oldRemark.put("text", doc.getString("remarks"));
+                                    oldRemark.put("timestamp", doc.getDate("timestamp"));
+                                    oldRemark.put("adminEmail", ""); // No admin email for old remarks
+                                    remarksList.add(oldRemark);
+
+                                    referral.setRemarks(remarksList);
+                                    submissionList.add(referral);
+                                } else {
+                                    // Handle any other deserialization errors
+                                    Log.e(TAG, "Unknown deserialization error for document with ID: " + doc.getId());
+                                }
+                            }
                         }
                     } else {
                         Toast.makeText(getContext(), "Error fetching referrals.", Toast.LENGTH_SHORT).show();

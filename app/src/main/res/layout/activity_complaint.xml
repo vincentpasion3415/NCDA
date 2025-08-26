@@ -37,13 +37,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top"
-                android:hint="Tell us what your complaint is here"
+                android:hint="Describe your complaint: Who was involved, What happened, Where/When it happened, How it affected you as a PWD, and any details."
                 android:inputType="textMultiLine"
                 android:background="@android:color/transparent"
                 android:padding="8dp"
                 android:paddingEnd="56dp"/>
 
-            <!-- The voice input button now has a black tint -->
+
+
             <ImageButton
                 android:id="@+id/voice_input_button"
                 android:layout_width="48dp"

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- White overlay to soften background -->
+    <item>
+        <color android:color="#F2FFFFFF"/> <!-- Adjust alpha for more/less fade -->
+    </item>
+
+    <!-- Single centered NCDA logo -->
+    <item>
+        <bitmap
+            android:src="@drawable/ncda_logo"
+            android:tileMode="disabled"
+            android:gravity="center" />
+    </item>
+
+</layer-list>

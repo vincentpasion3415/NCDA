@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="?attr/colorSurface"
+    android:fitsSystemWindows="true"
     tools:context=".RegisterActivity">
 
+    <!-- Background image (this will be blurred in Java/Kotlin) -->
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_ncda_pattern"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Semi-transparent overlay (softens background brightness) -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CCFFFFFF" />
+
+    <!-- Foreground content (remains sharp and scrollable) -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,8 +42,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingTop="56dp"
             android:paddingBottom="24dp"
-            android:paddingTop="56dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -30,7 +55,6 @@
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnSurface"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="16dp" />
 
             <TextView
@@ -60,8 +84,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
-                <com.google.android.material.textfield.TextInputLayout
+                android:gravity="center_vertical"
+                android:layout_gravity="center_horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/emailTextInputLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -722,10 +748,9 @@
                 android:id="@+id/privacyConsentCheckbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="I consent to the collection and processing of my personal data by NCDA as per their Privacy Policy."
                 android:textColor="?attr/colorOnSurface"
-                android:layout_marginBottom="8dp"/>
-
+                android:layout_marginBottom="8dp"
+                android:text="@string/privacy_consent_text"/>
             <CheckBox
                 android:id="@+id/truthfulnessDeclarationCheckbox"
                 android:layout_width="match_parent"

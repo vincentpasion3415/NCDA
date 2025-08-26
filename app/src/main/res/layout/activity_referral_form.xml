@@ -17,61 +17,149 @@
         app:title="NCDA Referral Form"
         app:titleTextColor="#FFFFFF" />
 
-    <LinearLayout
+    <!-- ✅ Speech status text view -->
+    <TextView
+        android:id="@+id/speech_status_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Speech status"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:layout_below="@id/toolbar"
+        android:layout_margin="8dp"
+        android:visibility="gone" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:layout_below="@id/toolbar"> <EditText
-        android:id="@+id/et_personal_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Personal Name"
-        android:inputType="textPersonName" />
+        android:layout_below="@id/speech_status_text_view"
+        android:padding="16dp">
 
-        <EditText
-            android:id="@+id/et_pwd_id"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="PWD ID"
-            android:inputType="text" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/et_disability"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Disability Type"
-            android:inputType="text" />
+            <!-- Personal Name with mic -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Service Needed"
-            android:textStyle="bold"
-            android:textSize="14sp" />
+                <EditText
+                    android:id="@+id/et_personal_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Personal Name"
+                    android:inputType="textPersonName" />
 
-        <Spinner
-            android:id="@+id/spinner_service"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp" />
+                <ImageButton
+                    android:id="@+id/btn_mic_name"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@android:drawable/ic_btn_speak_now"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="Speak name" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/et_remarks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Remarks"
-            android:inputType="textMultiLine"
-            android:lines="3"
-            android:gravity="top" />
+            <!-- PWD ID with mic -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-        <Button
-            android:id="@+id/btn_submit_referral"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Submit Referral" />
+                <EditText
+                    android:id="@+id/et_pwd_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="PWD ID"
+                    android:inputType="text" />
 
-    </LinearLayout>
+                <ImageButton
+                    android:id="@+id/btn_mic_pwd"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@android:drawable/ic_btn_speak_now"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="Speak PWD ID" />
+            </LinearLayout>
+
+            <!-- Disability with mic -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/et_disability"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Disability Type"
+                    android:inputType="text" />
+
+                <ImageButton
+                    android:id="@+id/btn_mic_disability"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@android:drawable/ic_btn_speak_now"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="Speak disability" />
+            </LinearLayout>
+
+            <!-- Service Spinner -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Service Needed"
+                android:textStyle="bold"
+                android:textSize="14sp" />
+
+            <Spinner
+                android:id="@+id/spinner_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp" />
+
+            <!-- Remarks with mic -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/et_remarks"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Remarks"
+                    android:inputType="textMultiLine"
+                    android:lines="3"
+                    android:gravity="top" />
+
+                <ImageButton
+                    android:id="@+id/btn_mic_remarks"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@android:drawable/ic_btn_speak_now"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="Speak remarks" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_submit_referral"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Submit Referral" />
+
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

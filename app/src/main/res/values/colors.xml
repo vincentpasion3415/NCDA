@@ -24,7 +24,7 @@
     <color name="dark_gray_light">#BDBDBD</color>
     <color name="dark_gray_dark">#616161</color>
     <color name="green">#00FF00</color>
-
+    <color name="your_link_color">#007BFF</color>
     <color name="color_status_pending">#FFA500</color>
     <color name="color_status_approved">#4CAF50</color>
     <color name="color_status_declined">#F44336</color>

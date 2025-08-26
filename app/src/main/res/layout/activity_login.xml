@@ -8,7 +8,7 @@
     android:background="?attr/colorSurface"
     tools:context=".LoginActivity">
 
-
+    <!-- Splash Logo -->
     <ImageView
         android:id="@+id/ncdaLogo"
         android:layout_width="150dp"
@@ -21,7 +21,7 @@
         android:scaleType="fitCenter"
         android:alpha="0.0" />
 
-
+    <!-- Initial Screen -->
     <LinearLayout
         android:id="@+id/initialButtonsContainer"
         android:layout_width="0dp"
@@ -33,8 +33,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5">
+        app:layout_constraintVertical_bias="0.4">
 
+        <!-- Logo above NCDA APP -->
+        <ImageView
+            android:id="@+id/ncdaLogoInitial"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ncda_logo"
+            android:contentDescription="NCDA Logo"
+            android:layout_marginBottom="16dp"
+            android:scaleType="fitCenter" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -69,7 +78,7 @@
             android:stateListAnimator="@null"/>
     </LinearLayout>
 
-
+    <!-- Login Form -->
     <LinearLayout
         android:id="@+id/loginFormContainer"
         android:layout_width="0dp"
@@ -81,7 +90,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6">
+        app:layout_constraintVertical_bias="0.3">
+
+        <!-- Logo above login form -->
+        <ImageView
+            android:id="@+id/ncdaLogoLogin"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ncda_logo"
+            android:contentDescription="NCDA Logo"
+            android:layout_marginBottom="24dp"
+            android:scaleType="fitCenter" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailTextInputLayout"
@@ -139,7 +158,6 @@
             android:layout_marginTop="24dp"
             android:clickable="true"
             android:focusable="true"/>
-
     </LinearLayout>
 
     <ProgressBar

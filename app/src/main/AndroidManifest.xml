@@ -49,7 +49,10 @@
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />

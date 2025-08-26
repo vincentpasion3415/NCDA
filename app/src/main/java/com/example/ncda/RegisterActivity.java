@@ -10,8 +10,11 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -29,7 +33,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
+import android.graphics.RenderEffect;
+import android.graphics.Shader;
+import android.os.Build;
+import android.view.View;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -47,7 +54,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
@@ -132,11 +140,42 @@ public class RegisterActivity extends AppCompatActivity {
             finish();
         });
 
+        String htmlText = getString(R.string.privacy_consent_text);
+        SpannableString spannableString = new SpannableString(Html.fromHtml(htmlText));
+        int linkColor = ContextCompat.getColor(this, R.color.your_link_color);
+
+        String linkText = "Privacy Policy";
+        int start = spannableString.toString().indexOf(linkText);
+        int end = start + linkText.length();
+
+        if (start != -1) {
+            spannableString.setSpan(new ForegroundColorSpan(linkColor), start, end, 0);
+        }
+
+        privacyConsentCheckbox.setText(spannableString);
+        privacyConsentCheckbox.setMovementMethod(LinkMovementMethod.getInstance());
+
+        // --- BLUR ONLY THE BACKGROUND IMAGE ---
+        ImageView backgroundImage = findViewById(R.id.backgroundImage);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            backgroundImage.setRenderEffect(
+                    RenderEffect.createBlurEffect(
+                            20f, // blur X
+                            20f, // blur Y
+                            Shader.TileMode.CLAMP
+                    )
+            );
+        }
+        // --------------------------------------
+
         // Speech recognition setup
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         speechRecognizer.setRecognitionListener(speechRecognitionListener);
         setupSpeechButtons();
     }
+
+
+
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -753,4 +792,5 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
     }
+
 }

@@ -140,7 +140,7 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         // New: Handle the click for the complain button
-        complainButton = findViewById(R.id.complainButton);
+        //complainButton = findViewById(R.id.complainButton);
         if (complainButton != null) {
             complainButton.setOnClickListener(v -> {
                 startActivity(new Intent(HomeActivity.this, ComplaintActivity.class));
@@ -213,7 +213,9 @@ public class HomeActivity extends AppCompatActivity {
 
                 if (result != null && !result.isEmpty()) {
                     String spokenText = result.get(0).toLowerCase();
-                    Log.d("VoiceCommand", "Recognized text: " + spokenText);
+
+                    // Removed Log.d statement
+                    // Log.d("VoiceCommand", "Recognized text: " + spokenText);
 
                     Bundle voiceBundle = new Bundle();
                     voiceBundle.putString("recognized_command", spokenText);
@@ -235,24 +237,24 @@ public class HomeActivity extends AppCompatActivity {
                             redirectToLogin();
                         }
                     } else if (spokenText.contains("appointment") || spokenText.contains("schedule") ||
-                            spokenText.contains("book")) {
+                            spokenText.contains("book") || spokenText.contains("make appointment") || spokenText.contains("gumawa ng appointment") || spokenText.contains("mag appointment")) {
                         startActivity(new Intent(HomeActivity.this, AppointmentSchedulingActivity.class));
                     } else if (spokenText.contains("submissions") || spokenText.contains("history") ||
-                            spokenText.contains("my applications") || spokenText.contains("my appointments")) {
+                            spokenText.contains("my applications") || spokenText.contains("my appointments") || spokenText.contains("my submission")) {
                         replaceFragment(new SubmissionHistoryFragment());
                         bottomNavigationView.setSelectedItemId(R.id.nav_submission_history);
                     } else if (spokenText.contains("settings") || spokenText.contains("options") ||
                             spokenText.contains("configure")) {
                         startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
                     } else if (spokenText.contains("chatbot") || spokenText.contains("chat with bot") ||
-                            spokenText.contains("ask bot") || spokenText.contains("talk to bot")) {
+                            spokenText.contains("ask bot") || spokenText.contains("talk to bot") || spokenText.contains("faqs bot") || spokenText.contains("chat")) {
                         startActivity(new Intent(HomeActivity.this, ChatbotActivity.class));
                     } else if (spokenText.contains("referral") || spokenText.contains("government services") ||
                             spokenText.contains("sss") || spokenText.contains("dswd") ||
-                            spokenText.contains("philhealth") || spokenText.contains("pag-ibig")) {
-                        startActivity(new Intent(HomeActivity.this, ReferralActivity.class));
-                    } else if (spokenText.contains("complaint") || spokenText.contains("report") ||
-                            spokenText.contains("feedback")) {
+                            spokenText.contains("philhealth") || spokenText.contains("pag-ibig") || spokenText.contains("refer") || spokenText.contains("reffer") || spokenText.contains("mag referral")) {
+                        startActivity(new Intent(HomeActivity.this, NCDAReferralFormActivity.class));
+                    } else if (spokenText.contains("complaint") || spokenText.contains("report") || spokenText.contains("complain") ||
+                            spokenText.contains("feedback") || spokenText.contains("submit complaint") || spokenText.contains("reklamo") || spokenText.contains("mag reklamo")) {
                         // New: Voice command for complaint
                         startActivity(new Intent(HomeActivity.this, ComplaintActivity.class));
                     } else {

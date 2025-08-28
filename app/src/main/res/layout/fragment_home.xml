@@ -14,7 +14,7 @@
         android:padding="16dp">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/referral_card_view"
+            android:id="@+id/complaint_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -28,18 +28,60 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Other Government Services"
+                    android:text="Submit a Complaint"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="#212121" />
+                    android:textColor="#212121"
+                    android:gravity="center" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Find contact information for SSS, PhilHealth, Pag-IBIG, and other agencies."
+                    android:text="Report issues or concerns directly to the agency."
+                    android:textColor="#757575" />
+
+                <Button
+                    android:id="@+id/btn_submit_complaint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Submit Complaint"
+                    android:backgroundTint="@color/color_status_declined"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/referral_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Other Government Services"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#212121"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Find contact information for other Government agencies"
                     android:textColor="#757575" />
 
                 <Button
@@ -68,12 +110,13 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="NCDA Referral"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="#212121" />
+                    android:textColor="#212121"
+                    android:gravity="center" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -99,7 +142,8 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#212121"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:gravity="center" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/announcementsRecyclerView"

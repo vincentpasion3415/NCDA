@@ -1,4 +1,4 @@
-package com.example.ncda.adapter;
+package com.example.ncda.chatbot.adapter;
 
 import android.content.Intent;
 import android.net.Uri;

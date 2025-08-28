@@ -11,13 +11,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ncda.adapter.ChatAdapter; // Assume adapter is in 'adapter' package
+import com.example.ncda.chatbot.adapter.ChatAdapter; // Assume adapter is in 'adapter' package
 import com.example.ncda.chatbot.NCDABot; // Assume NCDABot is in 'chatbot' package
 import com.example.ncda.model.ChatMessage; // Assume ChatMessage is in 'model' package
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

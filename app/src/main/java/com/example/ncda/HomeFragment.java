@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.cardview.widget.CardView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,9 +24,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.DocumentSnapshot;
 
-import com.example.ncda.adapter.NewsAdapter;
+import com.example.ncda.chatbot.adapter.NewsAdapter;
 import com.example.ncda.model.NewsArticle;
 
 import java.util.ArrayList;
@@ -46,6 +44,7 @@ public class HomeFragment extends Fragment {
     // CHANGE THESE FROM CARDVIEW TO BUTTON
     private Button referralButton;
     private Button ncdareferralButton;
+    private Button complaintButton; // 1. Add this new button variable
 
     public HomeFragment() {
         // Required empty public constructor
@@ -66,6 +65,19 @@ public class HomeFragment extends Fragment {
         noAnnouncementsMessage = view.findViewById(R.id.no_announcements_message);
         if (noAnnouncementsMessage != null) {
             noAnnouncementsMessage.setVisibility(View.GONE);
+        }
+
+        // FIND THE BUTTON FOR "SUBMIT COMPLAINT" AND SET ITS LISTENER
+        complaintButton = view.findViewById(R.id.btn_submit_complaint); // 2. Find the new button by its ID
+        if (complaintButton != null) {
+            complaintButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // 3. Start the ComplaintActivity when the button is clicked
+                    Intent intent = new Intent(getActivity(), ComplaintActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
 
         // FIND THE BUTTON FOR "START REFERRAL" AND SET ITS LISTENER

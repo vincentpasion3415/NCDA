@@ -1,5 +1,5 @@
 // Path: app/src/main/java/com.example.ncda/adapter/NewsAdapter.java
-package com.example.ncda.adapter;
+package com.example.ncda.chatbot.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;

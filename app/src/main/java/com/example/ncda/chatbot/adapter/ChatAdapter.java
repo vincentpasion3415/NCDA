@@ -1,4 +1,4 @@
-package com.example.ncda.adapter; // IMPORTANT: Ensure this matches your project's package structure
+package com.example.ncda.chatbot.adapter; // IMPORTANT: Ensure this matches your project's package structure
 
 import android.view.LayoutInflater;
 import android.view.View;

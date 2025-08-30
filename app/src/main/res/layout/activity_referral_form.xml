@@ -14,10 +14,9 @@
         android:background="#2196F3"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="NCDA Referral Form"
+        app:title="@string/n_c_d_a_referral_form"
         app:titleTextColor="#FFFFFF" />
 
-    <!-- ✅ Speech status text view -->
     <TextView
         android:id="@+id/speech_status_text_view"
         android:layout_width="wrap_content"
@@ -40,7 +39,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Personal Name with mic -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,7 +50,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Personal Name"
+                    android:hint="@string/personal_name"
                     android:inputType="textPersonName" />
 
                 <ImageButton
@@ -64,7 +62,6 @@
                     android:contentDescription="Speak name" />
             </LinearLayout>
 
-            <!-- PWD ID with mic -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,7 +73,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="PWD ID"
+                    android:hint="@string/pwd_id"
                     android:inputType="text" />
 
                 <ImageButton
@@ -88,7 +85,6 @@
                     android:contentDescription="Speak PWD ID" />
             </LinearLayout>
 
-            <!-- Disability with mic -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,7 +96,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Disability Type"
+                    android:hint="@string/disability_type"
                     android:inputType="text" />
 
                 <ImageButton
@@ -112,12 +108,11 @@
                     android:contentDescription="Speak disability" />
             </LinearLayout>
 
-            <!-- Service Spinner -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Service Needed"
+                android:text="@string/service_needed"
                 android:textStyle="bold"
                 android:textSize="14sp" />
 
@@ -127,7 +122,6 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp" />
 
-            <!-- Remarks with mic -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -139,7 +133,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Remarks"
+                    android:hint="@string/remarks"
                     android:inputType="textMultiLine"
                     android:lines="3"
                     android:gravity="top" />
@@ -158,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Submit Referral" />
+                android:text="@string/submit_referral" />
 
         </LinearLayout>
     </ScrollView>

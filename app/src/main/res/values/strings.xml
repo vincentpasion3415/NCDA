@@ -1,12 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NCDA</string>
 
     <string name="about_ncda_title">About NCDA</string>
-    <string name="about_ncda_text">
-        The National Council on Disability Affairs (NCDA) is the Philippine government\'s policy-making, coordinating, and monitoring body for disability issues.\n
-        It aims to promote the rights and well-being of persons with disabilities in the Philippines.\n
-        You can find more information on the official website: https://ncda.gov.ph/.
-    </string>
+    <string name="about_ncda_text">The National Council on Disability Affairs (NCDA) is the Philippine government\'s policy-making, coordinating, and monitoring body for disability issues.\nIt aims to promote the rights and well-being of persons with disabilities in the Philippines.\nYou can find more information on the official website: https://ncda.gov.ph/.</string>
 
     <string name="ncda_mission_title">Mission</string>
     <string name="ncda_mission_text">
@@ -38,6 +35,7 @@
         Credentialing: The NCDA offers competency-based credentials for people in the field of career development.\n
         Program evaluation: The NCDA evaluates and monitors programs related to disability prevention and rehabilitation.
     </string>
+
     <string-array name="genders_array">
         <item>Male</item>
         <item>Female</item>
@@ -46,6 +44,52 @@
     <string name="latest_news_placeholder">Latest PWD-related news will be displayed here.</string>
     <string name="voice_command">Voice Command</string>
     <string name="approval_pending_icon" translatable="false">Application Pending</string>
+
+    <string name="profile_title">Profile</string>
+    <string name="profile_information_title">Profile Information</string>
+    <string name="full_name_label">Full Name:</string>
+    <string name="first_name_hint">First Name</string>
+    <string name="speak_first_name_hint">Speak for first name</string>
+    <string name="middle_name_hint">Middle Name</string>
+    <string name="speak_middle_name_hint">Speak for middle name</string>
+    <string name="last_name_hint">Last Name</string>
+    <string name="speak_last_name_hint">Speak for last name</string>
+    <string name="email_label">Email:</string>
+    <string name="email_hint">Email</string>
+    <string name="speak_email_hint">Speak for email</string>
+    <string name="phone_number_label">Phone Number:</string>
+    <string name="phone_number_hint">11 digits max</string>
+    <string name="speak_phone_number_hint">Speak for phone number</string>
+    <string name="birth_date_label">Birth Date:</string>
+    <string name="birth_date_hint">Birth Date</string>
+    <string name="speak_birth_date_hint">Speak for birth date</string>
+    <string name="gender_label">Gender:</string>
+    <string name="speak_gender_hint">Speak for gender</string>
+    <string name="pwd_id_label">PWD ID Number:</string>
+    <string name="pwd_id_hint">PWD ID Number</string>
+    <string name="speak_pwd_id_hint">Speak for PWD ID number</string>
+    <string name="address_label">Address:</string>
+    <string name="address_hint">Address</string>
+    <string name="speak_address_hint">Speak for address</string>
+    <string name="edit_button">Edit</string>
+    <string name="save_button">Save</string>
+
+    <string name="speech_status_ready">Speech Status: Ready</string>
+    <string name="user_information_title">User Information</string>
+    <string name="first_name_label">First Name</string>
+    <string name="middle_name_label">Middle Name</string>
+    <string name="last_name_label">Last Name</string>
+    <string name="contact_number_label">Contact Number</string>
+    <string name="pwd_id_number_label">PWD ID Number</string>
+    <string name="appointment_details_title">Appointment Details</string>
+    <string name="appointment_type_label">Appointment Type</string>
+    <string name="preferred_date_label">Preferred Date</string>
+    <string name="select_date_hint">Select a Date (YYYY-MM-DD)</string>
+    <string name="preferred_time_slot_label">Preferred Time Slot</string>
+    <string name="note_for_request_label">Note for your request</string>
+    <string name="confirmation_title">Confirmation</string>
+    <string name="confirmation_checkbox_text">I confirm the information provided is correct.</string>
+    <string name="submit_button_text">Submit</string>
 
     <string-array name="service_options">
         <item>DSWD (Department of Social Welfare and Development)</item>
@@ -59,4 +103,81 @@
     </string-array>
 
     <string name="privacy_consent_text" translatable="false"><![CDATA[I consent to the collection and processing of my personal data by NCDA as per their <a href=\'https://privacy.gov.ph/data-privacy-act/\'><font color=\'#007bff\'>Privacy Policy</font></a>.]]></string>
+
+    <string name="submit_a_complaint_title">Submit a Complaint</string>
+    <string name="submit_a_complaint_description">Report issues or concerns directly to the agency.</string>
+    <string name="submit_complaint">Submit Complaint</string>
+    <string name="other_gov_services_title">Other Government Services</string>
+    <string name="other_gov_services_description">Find contact information for other Government agencies</string>
+    <string name="explore_services">Explore Services</string>
+    <string name="ncda_referral_title">NCDA Referral</string>
+    <string name="ncda_referral_description">Submit a referral to the National Council on Disability Affairs.</string>
+    <string name="start_referral">Go to Referral</string>
+    <string name="latest_announcements_title">Latest Announcements</string>
+    <string name="no_announcements">No announcements found at the moment. Please check back later!</string>
+
+    <string name="n_c_d_a_referral_form">NCDA Referral Form</string>
+    <string name="personal_name">Personal Name</string>
+    <string name="pwd_id">PWD ID</string>
+    <string name="disability_type">Disability Type</string>
+    <string name="service_needed">Service Needed</string>
+    <string name="remarks">Remarks</string>
+    <string name="submit_referral">Submit Referral</string>
+
+    <string name="complaint_details_hint">Describe your complaint: Who was involved, What happened, Where/When it happened, How it affected you as a PWD, and any details.</string>
+    <string name="voice_input_description">Voice Input</string>
+    <string name="speech_status_listening">Listening</string>
+
+    <string name="title_appointment_scheduling">Appointment</string>
+    <string name="error_first_name_required">First Name is required.</string>
+    <string name="error_last_name_required">Last Name is required.</string>
+    <string name="error_contact_number_required">Contact Number is required.</string>
+    <string name="error_invalid_contact_number">Invalid Contact Number length.</string>
+    <string name="error_pwd_id_required">PWD ID Number is required.</string>
+    <string name="error_appointment_type_required">Appointment Type is required.</string>
+    <string name="error_preferred_date_required">Preferred Date is required.</string>
+    <string name="error_future_date_required">Please select a future date.</string>
+    <string name="error_weekday_required">Please select a weekday (Mon-Fri).</string>
+    <string name="error_preferred_time_required">Preferred Time is required.</string>
+    <string name="error_must_confirm_info">You must confirm the information is correct.</string>
+    <string name="error_fill_all_fields">Please fill in all required fields.</string>
+    <string name="error_not_logged_in">User not logged in. Cannot submit appointment.</string>
+    <string name="success_appointment_submitted">Appointment submitted successfully!</string>
+    <string name="error_submitting_appointment">Error submitting appointment:</string>
+    <string name="success_logged_out">Logged out successfully.</string>
+    <string name="success_form_cleared">Form cleared.</string>
+    <string name="error_audio_permission_denied">Record audio permission denied. Voice input will not work.</string>
+    <string name="permission_needed_title">Permission Needed</string>
+    <string name="permission_needed_message">Microphone permission is required for voice input.</string>
+    <string name="go_to_settings">Open Settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="permission_denied_permanently_title">Permission Denied Permanently</string>
+    <string name="permission_denied_permanently_message">Microphone permission is required for voice features. Please enable it in app settings.</string>
+    <string name="voice_prompt_first_name">your first name</string>
+    <string name="voice_prompt_middle_name">your middle name</string>
+    <string name="voice_prompt_last_name">your last name</string>
+    <string name="voice_prompt_contact_number">your contact number</string>
+    <string name="voice_prompt_pwd_id">your PWD ID number</string>
+    <string name="voice_prompt_note">your request note</string>
+    <string name="voice_status_listening"> (Listening...)</string>
+    <string name="voice_status_processing">Processing...</string>
+    <string name="voice_status_no_match">No speech recognized. Please try again.</string>
+    <string name="voice_status_error">Error: </string>
+    <string name="voice_status_recognized">Recognized: </string>
+    <string name="voice_status_no_active_field">Recognized but no active field: </string>
+    <string name="voice_status_ready_for">Ready for </string>
+    <string name="voice_status_no_service">Speech recognition service is not available.</string>
+    <string name="voice_command_general">Speak a general command...</string>
+    <string name="voice_command_not_recognized">No speech input recognized for command.</string>
+    <string name="operation_cancelled">Operation cancelled.</string>
+    <string name="operation_failed">Operation failed.</string>
+
+    <string-array name="appointment_types">
+        <item>Choose Appointment Type</item>
+        <item>Free Assistive Devices</item>
+        <item>Financial Assistance</item>
+        <item>Educational Support</item>
+        <item>Job Assistance / Employment</item>
+        <item>Medical Certificate Assistance</item>
+    </string-array>
 </resources>

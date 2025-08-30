@@ -1,42 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NCDA</string>
 
     <string name="about_ncda_title">Tungkol sa NCDA</string>
     <string name="about_ncda_text">
-        Ang National Council on Disability Affairs (NCDA) ay ang tagapagbuo ng mga polisiya, tagapag-ugnay, at tagapag-monitor ng gobyerno ng Pilipinas para sa mga isyung may kaugnayan sa kapansanan.\n
-        Nilalayon nitong isulong ang mga karapatan at kapakanan ng mga taong may kapansanan sa Pilipinas.\n
-        Maaari kang makahanap ng karagdagang impormasyon sa opisyal na website: https://ncda.gov.ph/.
+        Ang National Council on Disability Affairs (NCDA) ay ang ahensya ng gobyerno ng Pilipinas na gumagawa ng patakaran, nagko-coordinate, at nagmo-monitor sa mga isyu tungkol sa kapansanan.\n
+        Layunin nitong itaguyod ang mga karapatan at kapakanan ng mga taong may kapansanan sa Pilipinas.\n
+        Makakahanap ka ng karagdagang impormasyon sa opisyal na website: https://ncda.gov.ph/.
     </string>
 
     <string name="ncda_mission_title">Misyon</string>
     <string name="ncda_mission_text">
-        Magbigay ng direksyon sa lahat ng mga stakeholder sa pamamagitan ng pagbuo ng mga polisiya, koordinasyon, pagsubaybay, at pagsusuri ng lahat ng mga aktibidad upang "ISAKATUPARAN ANG MGA KARAPATAN" para sa lahat.
+        Magbigay ng direksyon sa lahat ng stakeholder sa pamamagitan ng pagbuo ng patakaran, koordinasyon, pagmo-monitor, at pagsusuri ng lahat ng aktibidad upang “GAWIN TUNAY ANG MGA KARAPATAN” para sa lahat.
     </string>
 
-    <string name="ncda_vision_title">Pananaw</string>
+    <string name="ncda_vision_title">Bisyon</string>
     <string name="ncda_vision_text">
-        Lahat ng taong may kapansanan ay makakamit ang kanilang buong potensyal at maging aktibong kalahok sa pagbuo ng bansa.
+        Ang lahat ng taong may kapansanan ay makakamit ang kanilang buong potensyal at magiging aktibong taga-ambag at kalahok sa pagbuo ng bansa.
     </string>
 
-    <string name="ncda_core_values_title">Mga Halagang Pangunahing ng NCDA</string>
+    <string name="ncda_core_values_title">Mga Pangunahing Halaga ng NCDA</string>
     <string name="ncda_core_values_text">
-        Komunidad: Isang halagang tumutulong sa NCDA na maging pangkulturang tagapag-ugnay.\n
-        Propesyonalismo: Isang halagang tumutulong sa NCDA na maisakatuparan ang misyon nito.\n
-        Pagkakaiba-iba at pagsasama: Isang halagang tumutulong sa NCDA na maisakatuparan ang misyon nito.\n
-        Kakayahan: Isang halagang tumutulong sa NCDA na maisakatuparan ang misyon nito.\n
-        Integridad: Isang halagang tumutulong sa NCDA na panatilihin ang katapatan at etikal na pag-uugali.\n
-        Inspirasyon: Isang halagang tumutulong sa NCDA na maisakatuparan ang misyon nito.\n
-        Inobasyon: Isang pangarap na halagang tumutulong sa NCDA na maisakatuparan ang misyon nito.\n
-        Pananagutan: Isang pangarap na halagang tumutulong sa NCDA na maisakatuparan ang misyon nito.
+        Komunidad: Isang halaga na tumutulong sa NCDA na maging cultural unifying.\n
+        Propesyonalismo: Isang halaga na tumutulong sa NCDA na tuparin ang misyon nito.\n
+        Diversity at inclusion: Isang halaga na tumutulong sa NCDA na tuparin ang misyon nito.\n
+        Kakayahan: Isang halaga na tumutulong sa NCDA na tuparin ang misyon nito.\n
+        Integridad: Isang halaga na tumutulong sa NCDA na panatilihin ang katapatan at etikal na pag-uugali.\n
+        Inspirasyon: Isang halaga na tumutulong sa NCDA na tuparin ang misyon nito.\n
+        Inobasyon: Isang aspirational na halaga na tumutulong sa NCDA na tuparin ang misyon nito.\n
+        Pananagutan: Isang aspirational na halaga na tumutulong sa NCDA na tuparin ang misyon nito.
     </string>
 
     <string name="ncda_services_title">Mga Serbisyo ng NCDA</string>
     <string name="ncda_services_text">
-        Pagbuo ng mga polisiya: Lumilikha ang NCDA ng mga polisiya ukol sa pagpigil ng kapansanan, rehabilitasyon, at pantay na oportunidad para sa mga taong may kapansanan.\n
-        Pagsusulong: Ipinagtatanggol ng NCDA ang mga karapatan ng mga taong may kapansanan at nagmumungkahi ng mga batas.\n
-        Impormasyon sa publiko: Gumagawa ang NCDA ng mga pampublikong programa ng impormasyon ukol sa pagpigil ng kapansanan, rehabilitasyon, at pantay na oportunidad.\n
-        Kredensyal: Nagbibigay ang NCDA ng mga kredensyal na batay sa kakayahan para sa mga nasa larangan ng pag-unlad ng karera.\n
-        Pagsusuri ng programa: Sinusuri at sinusubaybayan ng NCDA ang mga programang may kaugnayan sa pagpigil ng kapansanan at rehabilitasyon.
+        Pagbuo ng patakaran: Lumilikha ang NCDA ng mga patakaran sa pag-iwas sa kapansanan, rehabilitasyon, at pantay na pagkakataon para sa mga taong may kapansanan.\n
+        Adhokasiya: Itinaguyod ng NCDA ang mga karapatan ng mga taong may kapansanan at nagmumungkahi ng batas.\n
+        Impormasyon sa publiko: Bumubuo ang NCDA ng mga pampublikong programang impormasyon sa pag-iwas sa kapansanan, rehabilitasyon, at pantay na pagkakataon.\n
+        Credentialing: Nag-aalok ang NCDA ng mga competency-based credentials para sa mga tao sa larangan ng career development.\n
+        Pagsusuri ng programa: Sinusuri at mino-monitor ng NCDA ang mga programa na may kaugnayan sa pag-iwas sa kapansanan at rehabilitasyon.
     </string>
 
     <string-array name="genders_array">
@@ -44,6 +45,143 @@
         <item>Babae</item>
     </string-array>
 
-    <string name="latest_news_placeholder">Ang mga pinakabagong balita na may kaugnayan sa PWD ay ipapakita rito.</string>
+    <string name="latest_news_placeholder">Dito ipapakita ang pinakabagong balita na may kaugnayan sa PWD.</string>
     <string name="voice_command">Utos ng Boses</string>
+    <string name="approval_pending_icon" translatable="false">Aplikasyon Nakabinbin</string>
+
+    <string name="profile_title">Profile</string>
+    <string name="profile_information_title">Impormasyon ng Profile</string>
+    <string name="full_name_label">Buong Pangalan:</string>
+    <string name="first_name_hint">Unang Pangalan</string>
+    <string name="speak_first_name_hint">Magsalita para sa unang pangalan</string>
+    <string name="middle_name_hint">Panggitnang Pangalan</string>
+    <string name="speak_middle_name_hint">Magsalita para sa panggitnang pangalan</string>
+    <string name="last_name_hint">Huling Pangalan</string>
+    <string name="speak_last_name_hint">Magsalita para sa huling pangalan</string>
+    <string name="email_label">Email:</string>
+    <string name="email_hint">Email</string>
+    <string name="speak_email_hint">Magsalita para sa email</string>
+    <string name="phone_number_label">Numero ng Telepono:</string>
+    <string name="phone_number_hint">Max 11 digits</string>
+    <string name="speak_phone_number_hint">Magsalita para sa numero ng telepono</string>
+    <string name="birth_date_label">Petsa ng Kapanganakan:</string>
+    <string name="birth_date_hint">Petsa ng Kapanganakan</string>
+    <string name="speak_birth_date_hint">Magsalita para sa petsa ng kapanganakan</string>
+    <string name="gender_label">Kasarian:</string>
+    <string name="speak_gender_hint">Magsalita para sa kasarian</string>
+    <string name="pwd_id_label">Numero ng PWD ID:</string>
+    <string name="pwd_id_hint">Numero ng PWD ID</string>
+    <string name="speak_pwd_id_hint">Magsalita para sa numero ng PWD ID</string>
+    <string name="address_label">Address:</string>
+    <string name="address_hint">Address</string>
+    <string name="speak_address_hint">Magsalita para sa address</string>
+    <string name="edit_button">I-edit</string>
+    <string name="save_button">I-save</string>
+
+    <string name="speech_status_ready">Katayuan ng Boses: Handa</string>
+    <string name="user_information_title">Impormasyon ng User</string>
+    <string name="first_name_label">Unang Pangalan</string>
+    <string name="middle_name_label">Panggitnang Pangalan</string>
+    <string name="last_name_label">Huling Pangalan</string>
+    <string name="contact_number_label">Numero ng Kontak</string>
+    <string name="pwd_id_number_label">Numero ng PWD ID</string>
+    <string name="appointment_details_title">Detalye ng Appointment</string>
+    <string name="appointment_type_label">Uri ng Appointment</string>
+    <string name="preferred_date_label">Ginustong Petsa</string>
+    <string name="select_date_hint">Pumili ng Petsa (YYYY-MM-DD)</string>
+    <string name="preferred_time_slot_label">Ginustong Oras</string>
+    <string name="note_for_request_label">Tala para sa iyong hiling</string>
+    <string name="confirmation_title">Kumpirmasyon</string>
+    <string name="confirmation_checkbox_text">Kinukumpirma ko na tama ang ibinigay na impormasyon.</string>
+    <string name="submit_button_text">Isumite</string>
+
+    <string-array name="service_options">
+        <item>DSWD (Department of Social Welfare and Development)</item>
+        <item>TESDA (Technical Education and Skills Development Authority)</item>
+        <item>DOH (Department of Health) / Local Health Office</item>
+        <item>DepEd / SPED Centers</item>
+        <item>DOLE / PESO Offices</item>
+        <item>LGU (local partner offices / MSWDO / CSWDO)</item>
+        <item>PhilHealth</item>
+        <item>PCSO (Philippine Charity Sweepstakes Office)</item>
+    </string-array>
+
+    <string name="privacy_consent_text" translatable="false"><![CDATA[Pumapayag ako sa pagkuha at pagproseso ng aking personal na data ng NCDA ayon sa kanilang <a href=\'https://privacy.gov.ph/data-privacy-act/\'><font color=\'#007bff\'>Patakaran sa Pagkapribado</font></a>.]]></string>
+
+    <string name="submit_a_complaint_title">Magsumite ng Reklamo</string>
+    <string name="submit_a_complaint_description">Iulat ang mga isyu o alalahanin direkta sa ahensya.</string>
+    <string name="submit_complaint">Isumite ang Reklamo</string>
+    <string name="other_gov_services_title">Iba Pang Serbisyo ng Gobyerno</string>
+    <string name="other_gov_services_description">Maghanap ng impormasyon sa kontak para sa iba pang ahensya ng Gobyerno</string>
+    <string name="explore_services">Mag-explore ng mga Serbisyo</string>
+    <string name="ncda_referral_title">Referral sa NCDA</string>
+    <string name="ncda_referral_description">Magsumite ng referral sa National Council on Disability Affairs.</string>
+    <string name="start_referral">Pumunta sa Referral</string>
+    <string name="latest_announcements_title">Pinakabagong mga Anunsyo</string>
+    <string name="no_announcements">Walang mga anunsyo sa ngayon. Mangyaring bumalik muli!</string>
+
+    <string name="n_c_d_a_referral_form">Form ng Referral ng NCDA</string>
+    <string name="personal_name">Pangalan</string>
+    <string name="pwd_id">PWD ID</string>
+    <string name="disability_type">Uri ng Kapansanan</string>
+    <string name="service_needed">Serbisyong Kailangan</string>
+    <string name="remarks">Mga Tala</string>
+    <string name="submit_referral">Isumite ang Referral</string>
+
+    <string name="complaint_details_hint">Ilarawan ang iyong reklamo: Sino ang sangkot, Ano ang nangyari, Saan/Kailan ito nangyari, Paano ito nakaapekto sa iyo bilang isang PWD, at iba pang detalye.</string>
+    <string name="voice_input_description">Input sa Boses</string>
+    <string name="speech_status_listening">Nakikinig</string>
+
+    <string name="title_appointment_scheduling">Appointment</string>
+    <string name="error_first_name_required">Kailangan ang Unang Pangalan.</string>
+    <string name="error_last_name_required">Kailangan ang Huling Pangalan.</string>
+    <string name="error_contact_number_required">Kailangan ang Numero ng Kontak.</string>
+    <string name="error_invalid_contact_number">Hindi wasto ang haba ng Numero ng Kontak.</string>
+    <string name="error_pwd_id_required">Kailangan ang Numero ng PWD ID.</string>
+    <string name="error_appointment_type_required">Kailangan ang Uri ng Appointment.</string>
+    <string name="error_preferred_date_required">Kailangan ang Ginustong Petsa.</string>
+    <string name="error_future_date_required">Mangyaring pumili ng petsa sa hinaharap.</string>
+    <string name="error_weekday_required">Mangyaring pumili ng araw ng trabaho (Mon-Fri).</string>
+    <string name="error_preferred_time_required">Kailangan ang Ginustong Oras.</string>
+    <string name="error_must_confirm_info">Dapat mong kumpirmahin na tama ang impormasyon.</string>
+    <string name="error_fill_all_fields">Mangyaring punan ang lahat ng kinakailangang field.</string>
+    <string name="error_not_logged_in">Hindi naka-log-in ang user. Hindi maaring magsumite ng appointment.</string>
+    <string name="success_appointment_submitted">Matagumpay na naisumite ang appointment!</string>
+    <string name="error_submitting_appointment">Nagkaroon ng error sa pagsumite ng appointment:</string>
+    <string name="success_logged_out">Matagumpay na naka-log out.</string>
+    <string name="success_form_cleared">Nalinis na ang form.</string>
+    <string name="error_audio_permission_denied">Tinanggihan ang pahintulot sa pag-record ng audio. Hindi gagana ang voice input.</string>
+    <string name="permission_needed_title">Kailangan ng Pahintulot</string>
+    <string name="permission_needed_message">Kailangan ang pahintulot sa mikropono para sa voice input.</string>
+    <string name="go_to_settings">Buksan ang Mga Setting</string>
+    <string name="cancel">Kanselahin</string>
+    <string name="permission_denied_permanently_title">Permanenteng Tinanggihan ang Pahintulot</string>
+    <string name="permission_denied_permanently_message">Kailangan ang pahintulot sa mikropono para sa mga voice feature. Mangyaring i-enable ito sa mga setting ng app.</string>
+    <string name="voice_prompt_first_name">ang iyong unang pangalan</string>
+    <string name="voice_prompt_middle_name">ang iyong gitnang pangalan</string>
+    <string name="voice_prompt_last_name">ang iyong huling pangalan</string>
+    <string name="voice_prompt_contact_number">ang iyong contact number</string>
+    <string name="voice_prompt_pwd_id">ang iyong numero ng PWD ID</string>
+    <string name="voice_prompt_note">ang iyong tala para sa hiling</string>
+    <string name="voice_status_listening"> (Nakikinig...)</string>
+    <string name="voice_status_processing">Pinoproseso...</string>
+    <string name="voice_status_no_match">Walang boses na nakilala. Pakisubukang muli.</string>
+    <string name="voice_status_error">Error: </string>
+    <string name="voice_status_recognized">Nakilala: </string>
+    <string name="voice_status_no_active_field">Nakilala ngunit walang aktibong field: </string>
+    <string name="voice_status_ready_for">Handa para sa </string>
+    <string name="voice_status_no_service">Hindi available ang serbisyo ng voice recognition.</string>
+    <string name="voice_command_general">Magbigay ng isang pangkalahatang utos...</string>
+    <string name="voice_command_not_recognized">Walang voice input na nakilala para sa utos.</string>
+    <string name="operation_cancelled">Kinansela ang operasyon.</string>
+    <string name="operation_failed">Nabigo ang operasyon.</string>
+
+    <string-array name="appointment_types">
+        <item>Pumili ng Uri ng Appointment</item>
+        <item>Libreng Assistive Devices</item>
+        <item>Tulong Pinansyal</item>
+        <item>Tulong sa Edukasyon</item>
+        <item>Tulong sa Trabaho / Hanapbuhay</item>
+        <item>Tulong sa Medical Certificate</item>
+    </string-array>
 </resources>

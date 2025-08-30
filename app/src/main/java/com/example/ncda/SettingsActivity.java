@@ -40,47 +40,51 @@ import java.util.Locale;
  * Handles the display and logic for the Settings screen.
  * It sets up the toolbar and makes the back button functional.
  */
-public class SettingsActivity extends BaseActivity { // This line has been changed to extend BaseActivity
+public class SettingsActivity extends BaseActivity {
 
     private static final String TAG = "SettingsActivity";
     private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 1001;
-    private static final String PREF_HIGH_CONTRAST = "highContrast";
+    // Removed: private static final String PREF_HIGH_CONTRAST = "highContrast";
+    private static final String PREF_SCREEN_READER_HINTS = "screenReaderHints";
+    private static final String PREF_SIMPLIFIED_MODE = "simplifiedMode";
 
     private SeekBar fontSizeSeekBar;
     private FirebaseAnalytics mFirebaseAnalytics;
     private SwitchCompat switchNotifications;
-    private SwitchCompat switchHighContrast;
+    // Removed: private SwitchCompat switchHighContrast;
+    // Removed: private SwitchCompat switchScreenReaderHints;
+    // Removed: private SwitchCompat switchSimplifiedMode;
     private TextView fontSizePreview;
     private Button btnLogout;
 
     private SharedPreferences sharedPreferences;
     private static final String CHANNEL_ID = "news_channel";
+    private LanguageManager languageManager; // Add LanguageManager variable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // The theme setting logic is now handled in BaseActivity, so we remove it from here.
         super.onCreate(savedInstanceState);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
 
-        String savedLanguage = sharedPreferences.getString("language", "en");
-        setAppLanguage(savedLanguage);
+        // REMOVE THIS BLOCK - Language is now handled in the attachBaseContext of HomeActivity
+        // String savedLanguage = sharedPreferences.getString("language", "en");
+        // setAppLanguage(savedLanguage);
 
         setContentView(R.layout.activity_settings);
+
+        // Initialize LanguageManager
+        languageManager = new LanguageManager(this);
 
         // Initialize Toolbar and set up the back button logic
         Toolbar toolbar = findViewById(R.id.settingsToolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
-            // Hides the default title from the toolbar
             getSupportActionBar().setDisplayShowTitleEnabled(false);
-            // This line enables the back arrow (or 'Up') button in the toolbar
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        // Sets a click listener on the back button.
-        // The `finish()` method will close this activity and go back to the previous one.
         toolbar.setNavigationOnClickListener(v -> finish());
 
         // Initialize UI elements
@@ -90,8 +94,10 @@ public class SettingsActivity extends BaseActivity { // This line has been chang
         switchNotifications = findViewById(R.id.switchNotifications);
         if (switchNotifications == null) Log.e(TAG, "switchNotifications is null!");
 
-        switchHighContrast = findViewById(R.id.switchHighContrast); // Initialize new switch
-        if (switchHighContrast == null) Log.e(TAG, "switchHighContrast is null!");
+        // Removed: switchHighContrast initialization
+        // Removed: switchHighContrast = findViewById(R.id.switchHighContrast);
+
+        // Removed: switchScreenReaderHints and switchSimplifiedMode initialization
 
         fontSizePreview = findViewById(R.id.fontSizePreview);
         if (fontSizePreview == null) Log.e(TAG, "fontSizePreview is null!");
@@ -113,7 +119,7 @@ public class SettingsActivity extends BaseActivity { // This line has been chang
         if (btnLogout == null) Log.e(TAG, "btnLogout is null!");
 
 
-        // Load and apply font size settings
+        // Load and apply settings
         int fontSize = sharedPreferences.getInt("fontSize", 14);
         if (fontSizeSeekBar != null) {
             fontSizeSeekBar.setProgress(fontSize);
@@ -122,9 +128,10 @@ public class SettingsActivity extends BaseActivity { // This line has been chang
         applyFontSizeToAllTextViews(fontSize);
 
         updateNotificationSwitchState();
-        boolean isHighContrast = sharedPreferences.getBoolean(PREF_HIGH_CONTRAST, false);
-        switchHighContrast.setChecked(isHighContrast);
+        // Removed: boolean isHighContrast = sharedPreferences.getBoolean(PREF_HIGH_CONTRAST, false);
+        // Removed: switchHighContrast.setChecked(isHighContrast);
 
+        // Removed: Restore and set up accessibility toggles for Screen Reader and Simplified Mode
 
         // Set up Listeners
         if (fontSizeSeekBar != null) {
@@ -171,15 +178,8 @@ public class SettingsActivity extends BaseActivity { // This line has been chang
             });
         }
 
-        // Set up listener for the new high contrast switch
-        if (switchHighContrast != null) {
-            switchHighContrast.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                sharedPreferences.edit().putBoolean(PREF_HIGH_CONTRAST, isChecked).apply();
-                logAnalyticsEvent("high_contrast_toggled", "SettingsActivity", "High contrast mode set to " + isChecked);
-                recreate(); // Recreate the activity to apply the new theme
-            });
-        }
-
+        // Removed: High Contrast listener
+        // Removed: if (switchHighContrast != null) { ... }
 
         if (txtLanguage != null) {
             txtLanguage.setOnClickListener(v -> showLanguageSelectionDialog());
@@ -232,16 +232,6 @@ public class SettingsActivity extends BaseActivity { // This line has been chang
 
         createNotificationChannel();
     }
-
-    // You can override onOptionsItemSelected to handle clicks if you prefer
-    // @Override
-    // public boolean onOptionsItemSelected(MenuItem item) {
-    //     if (item.getItemId() == android.R.id.home) {
-    //         onBackPressed();
-    //         return true;
-    //     }
-    //     return super.onOptionsItemSelected(item);
-    // }
 
     @Override
     protected void onResume() {
@@ -319,26 +309,29 @@ public class SettingsActivity extends BaseActivity { // This line has been chang
                 .setTitle("Select Language")
                 .setItems(languages, (dialog, which) -> {
                     String selectedLanguage = (which == 0) ? "en" : "tl";
-                    sharedPreferences.edit().putString("language", selectedLanguage).apply();
-                    setAppLanguage(selectedLanguage);
-                    Intent intent = getIntent();
-                    finish();
-                    startActivity(intent);
+
+                    // Use the LanguageManager to save the new language
+                    languageManager.setAppLanguage(selectedLanguage);
+
+                    // Call recreate() to reload the activity with the new language
+                    recreate();
+
                     Toast.makeText(this, "Language changed to " + languages[which], Toast.LENGTH_SHORT).show();
                     logAnalyticsEvent("language_changed", "SettingsActivity", "Language set to " + languages[which]);
                 })
                 .show();
     }
 
-    private void setAppLanguage(String languageCode) {
-        Locale locale = new Locale(languageCode);
-        Locale.setDefault(locale);
-        Resources resources = getResources();
-        Configuration config = resources.getConfiguration();
-        DisplayMetrics dm = resources.getDisplayMetrics();
-        config.setLocale(locale);
-        resources.updateConfiguration(config, dm);
-    }
+    // REMOVE THIS METHOD - Language change is now handled by LanguageManager
+    // private void setAppLanguage(String languageCode) {
+    //     Locale locale = new Locale(languageCode);
+    //     Locale.setDefault(locale);
+    //     Resources resources = getResources();
+    //     Configuration config = resources.getConfiguration();
+    //     DisplayMetrics dm = resources.getDisplayMetrics();
+    //     config.setLocale(locale);
+    //     resources.updateConfiguration(config, dm);
+    // }
 
     private void logAnalyticsEvent(String eventName, String screenName, String value) {
         Bundle bundle = new Bundle();

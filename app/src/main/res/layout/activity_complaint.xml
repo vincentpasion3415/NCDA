@@ -8,7 +8,6 @@
     android:fitsSystemWindows="true"
     tools:context=".ComplaintActivity">
 
-    <!-- The Toolbar is now set to a specific blue color -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/complaint_toolbar"
         android:layout_width="match_parent"
@@ -17,7 +16,7 @@
         app:titleTextColor="#FFFFFF"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:title="Submit a Complaint" />
+        app:title="@string/submit_a_complaint_title" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,13 +36,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top"
-                android:hint="Describe your complaint: Who was involved, What happened, Where/When it happened, How it affected you as a PWD, and any details."
+                android:hint="@string/complaint_details_hint"
                 android:inputType="textMultiLine"
                 android:background="@android:color/transparent"
                 android:padding="8dp"
                 android:paddingEnd="56dp"/>
-
-
 
             <ImageButton
                 android:id="@+id/voice_input_button"
@@ -52,7 +49,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Voice Input"
+                android:contentDescription="@string/voice_input_description"
                 android:src="@android:drawable/ic_btn_speak_now"
                 android:layout_margin="8dp"
                 app:tint="#000000" />
@@ -65,17 +62,16 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="8dp"
-            android:text="Listening"
+            android:text="@string/speech_status_listening"
             android:textColor="#212121"
             android:visibility="gone"
             tools:visibility="visible" />
 
-        <!-- The Submit button is now blue -->
         <Button
             android:id="@+id/submit_complaint_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit Complaint"
+            android:text="@string/submit_complaint"
             android:layout_marginTop="16dp"
             android:backgroundTint="#2196F3" />
     </LinearLayout>

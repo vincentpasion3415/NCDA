@@ -2,6 +2,7 @@ package com.example.ncda;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -457,12 +459,40 @@ public class RegisterActivity extends AppCompatActivity {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+        // Get the custom theme ID you defined in styles.xml
+        int themeResId = R.style.MyBlueDatePickerTheme;
+
+        // Use the constructor that accepts a theme ID
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                themeResId,
                 (view, selectedYear, selectedMonth, selectedDayOfMonth) -> {
                     Calendar selectedDate = Calendar.getInstance();
                     selectedDate.set(selectedYear, selectedMonth, selectedDayOfMonth);
                     dateField.setText(dateFormatter.format(selectedDate.getTime()));
-                }, year, month, day);
+                },
+                year,
+                month,
+                day
+        );
+
+        // Add the explicit buttons to ensure they exist
+        datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "CANCEL", (dialog, which) -> dialog.dismiss());
+        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", datePickerDialog);
+
+        // Apply the workaround to ensure the button colors are set manually
+        datePickerDialog.setOnShowListener(dialog -> {
+            Button positiveButton = datePickerDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+            Button negativeButton = datePickerDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+
+            if (positiveButton != null) {
+                positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+            }
+
+            if (negativeButton != null) {
+                negativeButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+            }
+        });
 
         datePickerDialog.show();
     }

@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="Profile"
+                android:text="@string/profile_title"
                 android:textColor="#FFFFFF"
                 android:textSize="25sp" />
 
@@ -34,7 +34,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Voice Command"
+                android:contentDescription="@string/voice_command"
                 android:src="@android:drawable/ic_btn_speak_now"
                 app:tint="#FFFFFF" />
 
@@ -59,14 +59,12 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="16dp">
 
-                <!-- This View acts as the darker circular background -->
                 <View
                     android:layout_width="140dp"
                     android:layout_height="140dp"
                     android:layout_gravity="center"
                     android:background="@drawable/circle_background" />
 
-                <!-- The profile image is placed on top of the background -->
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profileImageView"
                     style="@style/CircularImageViewStyle"
@@ -83,12 +81,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="24dp"
-                android:text="Profile Information"
+                android:text="@string/profile_information_title"
                 android:textColor="#212121"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <!-- Full Name Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,7 +104,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Full Name:"
+                        android:text="@string/full_name_label"
                         android:textColor="#212121"
                         android:textSize="16sp" />
 
@@ -116,7 +113,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:orientation="vertical">
-                        <!-- EditTexts and SpeechButtons for names -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -127,7 +123,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="First Name"
+                                android:hint="@string/first_name_hint"
                                 android:textColor="#212121"
                                 android:textSize="16sp"
                                 android:visibility="gone" />
@@ -137,7 +133,7 @@
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:background="?attr/selectableItemBackgroundBorderless"
-                                android:contentDescription="Speak for first name"
+                                android:contentDescription="@string/speak_first_name_hint"
                                 android:padding="8dp"
                                 android:src="@android:drawable/ic_btn_speak_now"
                                 app:tint="#212121"
@@ -154,7 +150,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Middle Name"
+                                android:hint="@string/middle_name_hint"
                                 android:textColor="#212121"
                                 android:textSize="16sp"
                                 android:visibility="gone" />
@@ -164,7 +160,7 @@
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:background="?attr/selectableItemBackgroundBorderless"
-                                android:contentDescription="Speak for middle name"
+                                android:contentDescription="@string/speak_middle_name_hint"
                                 android:padding="8dp"
                                 android:src="@android:drawable/ic_btn_speak_now"
                                 app:tint="#212121"
@@ -181,7 +177,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Last Name"
+                                android:hint="@string/last_name_hint"
                                 android:textColor="#212121"
                                 android:textSize="16sp"
                                 android:visibility="gone" />
@@ -191,7 +187,7 @@
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:background="?attr/selectableItemBackgroundBorderless"
-                                android:contentDescription="Speak for last name"
+                                android:contentDescription="@string/speak_last_name_hint"
                                 android:padding="8dp"
                                 android:src="@android:drawable/ic_btn_speak_now"
                                 app:tint="#212121"
@@ -209,7 +205,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Email Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -228,7 +223,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Email:"
+                        android:text="@string/email_label"
                         android:textColor="#212121"
                         android:textSize="16sp" />
 
@@ -243,7 +238,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Email"
+                            android:hint="@string/email_hint"
                             android:textColor="#212121"
                             android:textSize="16sp"
                             android:visibility="gone" />
@@ -253,7 +248,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="Speak for email"
+                            android:contentDescription="@string/speak_email_hint"
                             android:padding="8dp"
                             android:src="@android:drawable/ic_btn_speak_now"
                             app:tint="#212121"
@@ -271,7 +266,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Phone Number Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -290,7 +284,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Phone Number:"
+                        android:text="@string/phone_number_label"
                         android:textColor="#212121"
                         android:textSize="16sp" />
 
@@ -305,7 +299,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="11 digits max"
+                            android:hint="@string/phone_number_hint"
                             android:inputType="number"
                             android:maxLength="11"
                             android:textColor="#212121"
@@ -317,7 +311,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="Speak for phone number"
+                            android:contentDescription="@string/speak_phone_number_hint"
                             android:padding="8dp"
                             android:src="@android:drawable/ic_btn_speak_now"
                             app:tint="#212121"
@@ -334,7 +328,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Birth Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -353,7 +346,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Birth:"
+                        android:text="@string/birth_date_label"
                         android:textColor="#212121"
                         android:textSize="16sp" />
 
@@ -369,7 +362,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:focusable="false"
-                            android:hint="Birth"
+                            android:hint="@string/birth_date_hint"
                             android:textColor="#212121"
                             android:textSize="16sp"
                             android:visibility="gone" />
@@ -379,7 +372,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="Speak for birth"
+                            android:contentDescription="@string/speak_birth_date_hint"
                             android:padding="8dp"
                             android:src="@android:drawable/ic_btn_speak_now"
                             app:tint="#212121"
@@ -396,7 +389,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Gender Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -415,7 +407,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Gender:"
+                        android:text="@string/gender_label"
                         android:textColor="#212121"
                         android:textSize="16sp" />
 
@@ -437,7 +429,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="Speak for gender"
+                            android:contentDescription="@string/speak_gender_hint"
                             android:padding="8dp"
                             android:src="@android:drawable/ic_btn_speak_now"
                             app:tint="#212121"
@@ -454,7 +446,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- PWD ID Number Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -473,7 +464,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="PWD ID Number:"
+                        android:text="@string/pwd_id_label"
                         android:textColor="#212121"
                         android:textSize="16sp" />
 
@@ -488,7 +479,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="PWD ID Number"
+                            android:hint="@string/pwd_id_hint"
                             android:inputType="number"
                             android:textColor="#212121"
                             android:textSize="16sp"
@@ -499,7 +490,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="Speak for PWD ID number"
+                            android:contentDescription="@string/speak_pwd_id_hint"
                             android:padding="8dp"
                             android:src="@android:drawable/ic_btn_speak_now"
                             app:tint="#212121"
@@ -515,7 +506,6 @@
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-            <!-- Address Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -534,7 +524,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Address:"
+                        android:text="@string/address_label"
                         android:textColor="#212121"
                         android:textSize="16sp" />
 
@@ -549,7 +539,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Address"
+                            android:hint="@string/address_hint"
                             android:textColor="#212121"
                             android:textSize="16sp"
                             android:visibility="gone" />
@@ -559,7 +549,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="Speak for address"
+                            android:contentDescription="@string/speak_address_hint"
                             android:padding="8dp"
                             android:src="@android:drawable/ic_btn_speak_now"
                             app:tint="#212121"
@@ -589,7 +579,7 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="Edit"
+                    android:text="@string/edit_button"
                     android:backgroundTint="#2196F3"
                     android:textColor="#FFFFFF" />
 
@@ -599,7 +589,7 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Save"
+                    android:text="@string/save_button"
                     android:backgroundTint="#FFC107"
                     android:textColor="#FFFFFF"
                     android:visibility="gone" />

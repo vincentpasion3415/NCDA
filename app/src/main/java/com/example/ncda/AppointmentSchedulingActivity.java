@@ -56,7 +56,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class AppointmentSchedulingActivity extends AppCompatActivity {
+public class AppointmentSchedulingActivity extends BaseActivity { // Changed to extend BaseActivity
 
     private TextInputEditText editTextFirstName, editTextMiddleName, editTextLastName, editTextContactNumber, editTextPwdId, editTextNote;
     private Spinner spinnerAppointmentType, spinnerPreferredTime;
@@ -153,19 +153,15 @@ public class AppointmentSchedulingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
-        boolean darkMode = sharedPreferences.getBoolean("darkMode", false);
-        setAppTheme(darkMode);
+        super.onCreate(savedInstanceState);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_scheduling);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
-            // This code adds the back button and sets the title
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("Appointment");
@@ -182,9 +178,31 @@ public class AppointmentSchedulingActivity extends AppCompatActivity {
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         speechRecognizer.setRecognitionListener(speechRecognitionListener);
 
+        // ✅ Apply accessibility settings for this screen
+        SharedPreferences sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
+        applyAccessibilitySettings(sharedPreferences);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Bundle screenViewBundle = new Bundle();
+        screenViewBundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, "AppointmentScheduling");
+        screenViewBundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, "AppointmentSchedulingActivity");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, screenViewBundle);
+    }
+
+    // ✅ Not overriding, just a helper
+    protected void applyAccessibilitySettings(SharedPreferences sharedPreferences) {
         float fontSize = sharedPreferences.getInt("fontSize", 16);
         applyFontSizesToAllTextViews(fontSize);
+
+        boolean isSimplifiedMode = sharedPreferences.getBoolean("simplifiedMode", false);
+        if (isSimplifiedMode) {
+            // TODO: Apply simplified mode adjustments for this activity
+        }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -230,12 +248,14 @@ public class AppointmentSchedulingActivity extends AppCompatActivity {
     private void initializeSpinners() {
         ArrayAdapter<String> appointmentTypeAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item,
-                new String[]{"Choose Appointment Type",
+                new String[]{
+                        "Choose Appointment Type",
                         "Free Assistive Devices",
-                        "Medical Certificate Assistance / Referrals",
-                        "Livelihood & Employment Referrals",
-                        "PWD Rights Education & Seminars",
-                        "Help with Online QC E‑Services for PWDs"});
+                        "Financial Assistance",
+                        "Educational Support",
+                        "Job Assistance / Employment",
+                        "Medical Certificate Assistance"
+                });
         appointmentTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerAppointmentType.setAdapter(appointmentTypeAdapter);
 
@@ -244,6 +264,7 @@ public class AppointmentSchedulingActivity extends AppCompatActivity {
         timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPreferredTime.setAdapter(timeAdapter);
     }
+
 
     private void setupSpeechButtons() {
         setupSpeechButton(firstNameSpeechButton, editTextFirstName, "your first name", 1);
@@ -270,14 +291,6 @@ public class AppointmentSchedulingActivity extends AppCompatActivity {
         voiceCommandButton.setOnClickListener(v -> startGeneralVoiceCommandRecognition());
     }
 
-    private void setAppTheme(boolean isDarkMode) {
-        if (isDarkMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-    }
-
     private void applyFontSizesToAllTextViews(float fontSize) {
         applyFontSize(editTextFirstName, fontSize);
         applyFontSize(editTextMiddleName, fontSize);
@@ -289,15 +302,6 @@ public class AppointmentSchedulingActivity extends AppCompatActivity {
         applyFontSize(checkBoxConfirmation, fontSize);
         applyFontSize(buttonSubmit, fontSize);
         applyFontSize(speechStatusTextView, fontSize);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Bundle screenViewBundle = new Bundle();
-        screenViewBundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, "AppointmentScheduling");
-        screenViewBundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, "AppointmentSchedulingActivity");
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, screenViewBundle);
     }
 
     private void startGeneralVoiceCommandRecognition() {
@@ -357,59 +361,65 @@ public class AppointmentSchedulingActivity extends AppCompatActivity {
     }
 
     private void showCustomDatePickerDialog(EditText targetEditText, Calendar calendar) {
-        final DatePicker datePicker = new DatePicker(this);
+        // Start from today
+        Calendar today = Calendar.getInstance();
 
-        datePicker.setMinDate(System.currentTimeMillis());
-
+        // Limit to 60 days in advance
         Calendar maxDate = Calendar.getInstance();
-        maxDate.set(Calendar.DAY_OF_MONTH, maxDate.getActualMaximum(Calendar.DAY_OF_MONTH));
-        datePicker.setMaxDate(maxDate.getTimeInMillis());
+        maxDate.add(Calendar.DAY_OF_YEAR, 60);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            try {
-                Field daySpinner = datePicker.getClass().getDeclaredField("mDaySpinner");
-                daySpinner.setAccessible(true);
-                Field monthSpinner = datePicker.getClass().getDeclaredField("mMonthSpinner");
-                monthSpinner.setAccessible(true);
-                Field yearSpinner = datePicker.getClass().getDeclaredField("mYearSpinner");
-                yearSpinner.setAccessible(true);
+        // Use a custom theme for the DatePickerDialog
+        // You must define this theme in your res/values/styles.xml or res/values/themes.xml
+        int themeResId = R.style.MyBlueDatePickerTheme;
 
-                if (yearSpinner != null) {
-                    yearSpinner.set(datePicker, null);
-                }
-
-                Field datePickerHeader = datePicker.getClass().getDeclaredField("mHeaderView");
-                datePickerHeader.setAccessible(true);
-                if (datePickerHeader != null) {
-                    datePickerHeader.set(datePicker, null);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        new AlertDialog.Builder(this)
-                .setView(datePicker)
-                .setPositiveButton("OK", (dialog, id) -> {
-                    int year = datePicker.getYear();
-                    int monthOfYear = datePicker.getMonth();
-                    int dayOfMonth = datePicker.getDayOfMonth();
-
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                themeResId, // <-- Apply the custom theme here
+                (view, year, monthOfYear, dayOfMonth) -> {
                     Calendar selectedDate = Calendar.getInstance();
                     selectedDate.set(year, monthOfYear, dayOfMonth);
 
                     int dayOfWeek = selectedDate.get(Calendar.DAY_OF_WEEK);
                     if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
-                        Toast.makeText(this, "Please select a weekday.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Please select a weekday (Mon–Fri).", Toast.LENGTH_LONG).show();
                     } else {
                         calendar.set(year, monthOfYear, dayOfMonth);
-                        targetEditText.setText(dateFormatter.format(calendar.getTime()));
+                        // User-friendly date format for display
+                        SimpleDateFormat displayFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+                        targetEditText.setText(displayFormat.format(calendar.getTime()));
                     }
-                })
-                .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
-                .create()
-                .show();
+                },
+                today.get(Calendar.YEAR),
+                today.get(Calendar.MONTH),
+                today.get(Calendar.DAY_OF_MONTH)
+        );
+
+        // Set limits
+        datePickerDialog.getDatePicker().setMinDate(today.getTimeInMillis());
+        datePickerDialog.getDatePicker().setMaxDate(maxDate.getTimeInMillis());
+
+        // This is a common fix for buttons not showing on smaller screens.
+        // It ensures the buttons are always visible, even if the content is long.
+        datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "CANCEL", (dialog, which) -> dialog.dismiss());
+        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", datePickerDialog);
+
+        // 🎨 Apply a workaround to ensure the button colors are set manually.
+        datePickerDialog.setOnShowListener(dialog -> {
+            Button positiveButton = datePickerDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+            Button negativeButton = datePickerDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+
+            if (positiveButton != null) {
+                positiveButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+            }
+
+            if (negativeButton != null) {
+                negativeButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+            }
+        });
+
+        datePickerDialog.show();
     }
+
 
     public void applyFontSize(TextView textView, float fontSize) {
         if (textView != null) {
@@ -549,12 +559,16 @@ public class AppointmentSchedulingActivity extends AppCompatActivity {
             isValid = false;
         } else {
             try {
-                Date preferredDate = dateFormatter.parse(preferredDateStr);
+                // Use the same date format as the display format (MMM dd, yyyy)
+                SimpleDateFormat displayFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+                Date preferredDate = displayFormat.parse(preferredDateStr);
                 if (preferredDate.before(new Date())) {
+                    // This check is good for ensuring a future date is selected
                     editTextPreferredDate.setError("Please select a future date.");
                     isValid = false;
                 }
             } catch (ParseException e) {
+                // This error will no longer occur with the correct date format
                 editTextPreferredDate.setError("Invalid date format.");
                 isValid = false;
             }

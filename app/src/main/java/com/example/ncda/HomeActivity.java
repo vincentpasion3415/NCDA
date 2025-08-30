@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -32,6 +33,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
+import android.content.Context; // Make sure this import is present
 
 public class HomeActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -42,11 +44,25 @@ public class HomeActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SPEECH_INPUT = 100;
 
     private ImageButton settingsButton;
-    // New button variable
-    private ImageButton complainButton;
+    // Removed the complainButton variable
+    // private ImageButton complainButton;
+
+    // IMPORTANT: Move the languageManager to a static context if possible, or initialize it within the method
+    // private LanguageManager languageManager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void attachBaseContext(Context newBase) {
+        // Correct way to set language before onCreate
+        LanguageManager languageManager = new LanguageManager(newBase);
+        String savedLanguage = languageManager.getAppLanguage();
+        super.attachBaseContext(languageManager.setAppLanguage(savedLanguage));
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        // You can now remove the language setup from onCreate
+        // It's handled correctly in attachBaseContext
+
         super.onCreate(savedInstanceState);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         FirebaseApp.initializeApp(this);
@@ -138,18 +154,6 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             Log.e("HomeActivity", "Settings Button (R.id.settingsButton) not found in layout!");
         }
-
-        // New: Handle the click for the complain button
-        //complainButton = findViewById(R.id.complainButton);
-        if (complainButton != null) {
-            complainButton.setOnClickListener(v -> {
-                startActivity(new Intent(HomeActivity.this, ComplaintActivity.class));
-                Log.d("HomeActivity", "Complaint button clicked. Launching ComplaintActivity.");
-                mFirebaseAnalytics.logEvent("complaint_button_clicked", null);
-            });
-        } else {
-            Log.e("HomeActivity", "Complaint Button (R.id.complainButton) not found in layout!");
-        }
     }
 
     private void checkUserApprovalStatus(FirebaseUser user) {
@@ -214,9 +218,6 @@ public class HomeActivity extends AppCompatActivity {
                 if (result != null && !result.isEmpty()) {
                     String spokenText = result.get(0).toLowerCase();
 
-                    // Removed Log.d statement
-                    // Log.d("VoiceCommand", "Recognized text: " + spokenText);
-
                     Bundle voiceBundle = new Bundle();
                     voiceBundle.putString("recognized_command", spokenText);
                     mFirebaseAnalytics.logEvent("voice_command_recognized", voiceBundle);
@@ -255,12 +256,10 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(HomeActivity.this, NCDAReferralFormActivity.class));
                     } else if (spokenText.contains("complaint") || spokenText.contains("report") || spokenText.contains("complain") ||
                             spokenText.contains("feedback") || spokenText.contains("submit complaint") || spokenText.contains("reklamo") || spokenText.contains("mag reklamo")) {
-                        // New: Voice command for complaint
-                        startActivity(new Intent(HomeActivity.this, ComplaintActivity.class));
+                        Toast.makeText(this, "Complaint command is not currently supported.", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "Command not recognized.", Toast.LENGTH_SHORT).show();
                     }
-
                 } else {
                     Toast.makeText(this, "No speech recognized.", Toast.LENGTH_SHORT).show();
                 }
@@ -275,7 +274,7 @@ public class HomeActivity extends AppCompatActivity {
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
-    private void redirectToLogin()  {
+    private void redirectToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

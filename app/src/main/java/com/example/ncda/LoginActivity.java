@@ -177,6 +177,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // NEW METHOD: This will handle the navigation based on the user's status
+    // NEW METHOD: This will handle the navigation based on the user's status
     private void checkApplicationStatusAndRedirect(FirebaseUser user) {
         db.collection("registrationApplications").document(user.getUid())
                 .get()
@@ -192,14 +193,16 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(this, "Your registration was rejected. Please contact support.", Toast.LENGTH_LONG).show();
                             mAuth.signOut();
                         } else {
-                            Intent intent = new Intent(LoginActivity.this, PendingApprovalActivity.class);
+                            // CHANGE THIS LINE
+                            Intent intent = new Intent(LoginActivity.this, RegistrationPendingActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                             finish();
                         }
                     } else {
                         Log.e(TAG, "User document not found in registrationApplications collection.");
-                        Intent intent = new Intent(LoginActivity.this, PendingApprovalActivity.class);
+                        // CHANGE THIS LINE AS WELL
+                        Intent intent = new Intent(LoginActivity.this, RegistrationPendingActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();

@@ -2,6 +2,7 @@ package com.example.ncda;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +20,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -32,7 +33,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class ComplaintActivity extends AppCompatActivity {
+public class ComplaintActivity extends BaseActivity { // Changed to extend BaseActivity
 
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static final String TAG = "ComplaintActivity";
@@ -55,12 +56,15 @@ public class ComplaintActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // The theme and font size logic is now handled in BaseActivity, so we remove it here.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complaint);
 
         // Make sure you have a TextView with this ID in your activity_complaint.xml
         speechStatusTextView = findViewById(R.id.speech_status_text_view);
-        speechStatusTextView.setVisibility(View.GONE);
+        if (speechStatusTextView != null) {
+            speechStatusTextView.setVisibility(View.GONE);
+        }
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -100,6 +104,26 @@ public class ComplaintActivity extends AppCompatActivity {
                 fetchAndSubmitComplaint(complaint);
             }
         });
+    }
+
+    /**
+     * Overrides the method from BaseActivity to apply the accessibility settings.
+     * This method is called automatically by BaseActivity's onCreate.
+     */
+
+    protected void applyAccessibilitySettings(SharedPreferences sharedPreferences) {
+        float fontSize = sharedPreferences.getInt("fontSize", 16);
+        applyFontSize(complaintDetailsEditText, fontSize);
+        applyFontSize(submitComplaintButton, fontSize);
+        if (speechStatusTextView != null) {
+            applyFontSize(speechStatusTextView, fontSize);
+        }
+    }
+
+    private void applyFontSize(TextView textView, float fontSize) {
+        if (textView != null) {
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+        }
     }
 
     @Override

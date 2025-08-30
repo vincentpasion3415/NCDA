@@ -119,5 +119,10 @@
             android:label="Referral Details"
             android:parentActivityName=".SubmissionHistoryActivity" />
 
+        <activity
+            android:name=".RegistrationPendingActivity"
+            android:exported="false"
+            android:label="Registration Pending" />
+
     </application>
 </manifest>

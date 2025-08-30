@@ -35,8 +35,9 @@ public class ReferralAdapter extends RecyclerView.Adapter<ReferralAdapter.Servic
         GovernmentService service = serviceList.get(position);
 
         holder.nameTextView.setText(service.getName());
+        holder.acronymTextView.setText("(" + service.getAcronym() + ")");
 
-        String hotline = service.getHotline(); // Corrected method call
+        String hotline = service.getHotline();
         if (hotline != null && !hotline.isEmpty()) {
             holder.hotlineButton.setVisibility(View.VISIBLE);
             holder.hotlineButton.setOnClickListener(v -> {
@@ -84,6 +85,7 @@ public class ReferralAdapter extends RecyclerView.Adapter<ReferralAdapter.Servic
 
     static class ServiceViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView;
+        TextView acronymTextView;
         Button hotlineButton;
         Button emailButton;
         Button websiteButton;
@@ -91,9 +93,12 @@ public class ReferralAdapter extends RecyclerView.Adapter<ReferralAdapter.Servic
         ServiceViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.service_name);
-            hotlineButton = itemView.findViewById(R.id.service_hotline_button);
-            emailButton = itemView.findViewById(R.id.service_email_button);
-            websiteButton = itemView.findViewById(R.id.service_website_button);
+            acronymTextView = itemView.findViewById(R.id.service_acronym);
+
+            // These are the corrected IDs to match your XML layout
+            hotlineButton = itemView.findViewById(R.id.btn_call_hotline);
+            emailButton = itemView.findViewById(R.id.btn_send_email);
+            websiteButton = itemView.findViewById(R.id.btn_visit_website);
         }
     }
 }

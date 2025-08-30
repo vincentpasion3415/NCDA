@@ -126,7 +126,8 @@
             android:layout_marginTop="16dp"
             app:passwordToggleEnabled="true"
             android:textColorHint="?attr/colorOnSurfaceVariant"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:passwordToggleTint="@android:color/black">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password"

@@ -127,7 +127,8 @@
                     android:hint="Password"
                     app:passwordToggleEnabled="true"
                     android:textColorHint="?attr/colorOnSurfaceVariant"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:passwordToggleTint="@android:color/black">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password"
                         android:layout_width="match_parent"
@@ -160,7 +161,8 @@
                     android:hint="Repeat Password"
                     app:passwordToggleEnabled="true"
                     android:textColorHint="?attr/colorOnSurfaceVariant"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:passwordToggleTint="@android:color/black">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/repeatPassword"
                         android:layout_width="match_parent"
@@ -371,6 +373,7 @@
                     android:layout_height="wrap_content"
                     android:text="Male"
                     android:layout_marginEnd="16dp"
+                    style="@style/CustomRadioButtonStyle"
                     android:textColor="?attr/colorOnSurface"/>
                 <RadioButton
                     android:id="@+id/radioFemale"
@@ -378,12 +381,14 @@
                     android:layout_height="wrap_content"
                     android:text="Female"
                     android:layout_marginEnd="16dp"
+                    style="@style/CustomRadioButtonStyle"
                     android:textColor="?attr/colorOnSurface"/>
                 <RadioButton
                     android:id="@+id/radioOther"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Other/Prefer not to say"
+                    style="@style/CustomRadioButtonStyle"
                     android:textColor="?attr/colorOnSurface"/>
             </RadioGroup>
 
@@ -534,15 +539,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="8dp">
-                <CheckBox android:id="@+id/cb_visual" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Visual Impairment" android:textColor="?attr/colorOnSurface"/>
-                <CheckBox android:id="@+id/cb_hearing" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Hearing Impairment" android:textColor="?attr/colorOnSurface"/>
-                <CheckBox android:id="@+id/cb_speech" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Speech Impairment" android:textColor="?attr/colorOnSurface"/>
-                <CheckBox android:id="@+id/cb_physical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Physical Disability" android:textColor="?attr/colorOnSurface"/>
-                <CheckBox android:id="@+id/cb_intellectual" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Intellectual Disability" android:textColor="?attr/colorOnSurface"/>
-                <CheckBox android:id="@+id/cb_psychosocial" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Psychosocial Disability" android:textColor="?attr/colorOnSurface"/>
-                <CheckBox android:id="@+id/cb_learning" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Learning Disability" android:textColor="?attr/colorOnSurface"/>
-                <CheckBox android:id="@+id/cb_developmental" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Developmental Disability (e.g., ASD)" android:textColor="?attr/colorOnSurface"/>
-                <CheckBox android:id="@+id/cb_multiple" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Multiple Disabilities" android:textColor="?attr/colorOnSurface"/>
+                <CheckBox android:id="@+id/cb_visual" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Visual Impairment" style="@style/CustomCheckboxStyle" android:textColor="?attr/colorOnSurface"/>
+                <CheckBox android:id="@+id/cb_hearing" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Hearing Impairment" style="@style/CustomCheckboxStyle" android:textColor="?attr/colorOnSurface"/>
+                <CheckBox android:id="@+id/cb_speech" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Speech Impairment" style="@style/CustomCheckboxStyle" android:textColor="?attr/colorOnSurface"/>
+                <CheckBox android:id="@+id/cb_physical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Physical Disability" style="@style/CustomCheckboxStyle" android:textColor="?attr/colorOnSurface"/>
+                <CheckBox android:id="@+id/cb_intellectual" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Intellectual Disability" style="@style/CustomCheckboxStyle" android:textColor="?attr/colorOnSurface"/>
+                <CheckBox android:id="@+id/cb_psychosocial" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Psychosocial Disability" style="@style/CustomCheckboxStyle" android:textColor="?attr/colorOnSurface"/>
+                <CheckBox android:id="@+id/cb_learning" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Learning Disability" style="@style/CustomCheckboxStyle" android:textColor="?attr/colorOnSurface"/>
+                <CheckBox android:id="@+id/cb_developmental" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Developmental Disability (e.g., ASD)" style="@style/CustomCheckboxStyle" android:textColor="?attr/colorOnSurface"/>
+                <CheckBox android:id="@+id/cb_multiple" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Multiple Disabilities" style="@style/CustomCheckboxStyle" android:textColor="?attr/colorOnSurface"/>
+            >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -750,14 +756,16 @@
                 android:layout_height="wrap_content"
                 android:textColor="?attr/colorOnSurface"
                 android:layout_marginBottom="8dp"
-                android:text="@string/privacy_consent_text"/>
+                android:text="@string/privacy_consent_text"
+                style="@style/CustomCheckboxStyle" />
             <CheckBox
                 android:id="@+id/truthfulnessDeclarationCheckbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="I declare that all information provided is true and correct."
                 android:textColor="?attr/colorOnSurface"
-                android:layout_marginBottom="24dp"/>
+                android:layout_marginBottom="24dp"
+                style="@style/CustomCheckboxStyle" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonRegister"

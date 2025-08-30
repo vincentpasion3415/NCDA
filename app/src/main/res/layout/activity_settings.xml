@@ -7,7 +7,6 @@
     android:background="?attr/colorSurface"
     android:fitsSystemWindows="true">
 
-    <!-- The Toolbar background is now set to use the primary color from the theme. -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/settingsToolbar"
         android:layout_width="match_parent"
@@ -41,13 +40,21 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Accessibility Options"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorPrimary"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Font Size"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnSurface"
                 android:layout_marginBottom="8dp" />
 
-            <!-- The SeekBar now uses theme-based tints. -->
             <SeekBar
                 android:id="@+id/fontSizeSeekBar"
                 android:layout_width="match_parent"
@@ -68,7 +75,6 @@
                 android:textColor="?attr/colorOnSurface"
                 android:layout_marginBottom="24dp" />
 
-            <!-- Notifications Switch -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,20 +89,17 @@
                     android:layout_weight="1"
                     android:text="Enable Notifications"
                     android:textSize="16sp"
-                    android:textColor="?attr/colorOnSurface"
-                    />
+                    android:textColor="?attr/colorOnSurface" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switchNotifications"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="48dp"
+                    android:minWidth="56dp"
                     app:thumbTint="?attr/colorPrimary"
-                    app:trackTint="?attr/colorPrimaryVariant"
-                    />
+                    app:trackTint="?attr/colorPrimaryVariant" />
             </LinearLayout>
 
-            <!-- High Contrast Switch is now using theme attributes. -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -105,23 +108,7 @@
                 android:paddingVertical="12dp"
                 android:layout_marginBottom="8dp">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="High Contrast Mode"
-                    android:textSize="16sp"
-                    android:textColor="?attr/colorOnSurface"
-                    />
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switchHighContrast"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="48dp"
-                    app:thumbTint="?attr/colorPrimary"
-                    app:trackTint="?attr/colorPrimaryVariant"
-                    />
             </LinearLayout>
 
             <View
@@ -147,8 +134,7 @@
                     android:layout_weight="1"
                     android:text="Language"
                     android:textSize="16sp"
-                    android:textColor="?attr/colorOnSurface"
-                    />
+                    android:textColor="?attr/colorOnSurface" />
             </LinearLayout>
 
             <LinearLayout
@@ -167,8 +153,7 @@
                     android:layout_weight="1"
                     android:text="About NCDA App"
                     android:textSize="16sp"
-                    android:textColor="?attr/colorOnSurface"
-                    />
+                    android:textColor="?attr/colorOnSurface" />
             </LinearLayout>
 
             <LinearLayout
@@ -187,8 +172,7 @@
                     android:layout_weight="1"
                     android:text="Send Feedback"
                     android:textSize="16sp"
-                    android:textColor="?attr/colorOnSurface"
-                    />
+                    android:textColor="?attr/colorOnSurface" />
             </LinearLayout>
 
             <View
@@ -214,24 +198,24 @@
                     android:layout_weight="1"
                     android:text="Clear Cache"
                     android:textSize="16sp"
-                    android:textColor="?attr/colorError"
-                    />
+                    android:textColor="?attr/colorOnSurface" />
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/colorOnSurface"
+                android:layout_marginVertical="16dp"
+                android:alpha="0.1" />
+
+            <Button
                 android:id="@+id/btnLogout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Logout"
-                android:layout_marginTop="32dp"
-                android:paddingHorizontal="32dp"
-                android:paddingVertical="12dp"
-                android:textSize="18sp"
-                android:backgroundTint="?attr/colorError"
-                app:cornerRadius="12dp"
-                android:elevation="4dp"
-                android:stateListAnimator="@null"
-                android:layout_gravity="center_horizontal"/>
+                android:textColor="@android:color/white"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:layout_marginTop="16dp" />
 
         </LinearLayout>
     </ScrollView>

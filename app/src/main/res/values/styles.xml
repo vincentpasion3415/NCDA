@@ -5,28 +5,53 @@
         <item name="android:scaleType">centerCrop</item>
     </style>
     <style name="RatingBarYellow" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressTint">#FFD700</item> <!-- Gold/Yellow color -->
-        <item name="android:progressBackgroundTint">#E0E0E0</item> <!-- Grey background for unrated stars -->
+        <item name="android:progressTint">#FFD700</item>
+        <item name="android:progressBackgroundTint">#E0E0E0</item>
     </style>
 
-    <!-- Base application theme. -->
+    <style name="CustomRadioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:buttonTint">@android:color/black</item>
+    </style>
+
+    <style name="CustomCheckboxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:buttonTint">@android:color/black</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">#2196F3</item>
         <item name="colorPrimaryDark">#1976D2</item>
         <item name="colorAccent">#FFC107</item>
         <item name="android:windowBackground">#F5F5F5</item>
+        <item name="android:radioButtonStyle">@style/CustomRadioButtonStyle</item>
     </style>
 
-    <!-- High contrast theme for accessibility. -->
     <style name="HighContrastTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- High contrast colors -->
-        <item name="colorPrimary">#000000</item> <!-- Black primary color -->
+        <item name="colorPrimary">#000000</item>
         <item name="colorPrimaryDark">#000000</item>
-        <item name="colorAccent">#FFFF00</item> <!-- Bright yellow accent color -->
-        <item name="android:textColorPrimary">#FFFFFF</item> <!-- White text on black -->
+        <item name="colorAccent">#FFFF00</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
         <item name="android:textColorSecondary">#EEEEEE</item>
-        <item name="android:windowBackground">#000000</item> <!-- Black background -->
+        <item name="android:windowBackground">#000000</item>
+    </style>
+
+    <style name="MyBlueDatePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/DialogButtonTextColor</item>
+        <item name="buttonBarNegativeButtonStyle">@style/DialogButtonTextColor</item>
+    </style>
+
+    <style name="MyDatePickerStyle" parent="android:Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">@color/colorPrimary</item>
+        <item name="android:dayOfWeekTextAppearance">@style/DayOfWeekTextAppearance</item>
+    </style>
+
+    <style name="DayOfWeekTextAppearance" parent="android:TextAppearance.Material.Subhead">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="DialogButtonTextColor" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
 </resources>
